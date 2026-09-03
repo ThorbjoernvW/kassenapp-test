@@ -14,7 +14,7 @@
       <div class="logo-box">KA</div>
       <strong id="mobileAppTitle">KassenApp</strong>
     </div>
-    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Menü öffnen">☰</button>
+    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="appSidebar">☰</button>
   </div>
 
   <aside class="app-sidebar" id="appSidebar">
@@ -293,6 +293,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.20</strong></span>
             </div>
             <div class="header-actions">
               <button id="installPwaBtn" class="secondary-btn" type="button" hidden>App installieren</button>
