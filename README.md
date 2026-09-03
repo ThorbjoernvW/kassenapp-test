@@ -50,3 +50,15 @@ Die Vibrations-API wird nicht von allen Browsern unterstützt. Wenn sie fehlt, l
 - Auf Handy und Tablet öffnet ein Tap auf die Artikelkarte in Einstellungen direkt den Bearbeiten-Dialog.
 - Größere Touch-Ziele und Safe-Area-Unterstützung für mobile/PWA-Nutzung.
 - Service-Worker-Cache auf V0.17 aktualisiert.
+
+## V0.18
+- Automatische Update-Prüfung beim Online-Start der App.
+- Erneute Update-Prüfung beim Zurückkehren in die App bzw. wenn das Gerät wieder online kommt (mit kurzer Drosselung).
+- Service-Worker-Registrierung umgeht den HTTP-Cache bei Update-Prüfungen; vorhandene lokale Kassen-, Artikel- und Verkaufsdaten bleiben unverändert.
+- Handy-Querformat als kompakte Zwei-Spalten-Kasse (ca. 60/40) ohne Scrollen der gesamten Seite.
+- Mobile Kopfzeile wird in der Kassen-Queransicht ausgeblendet; der Burger bleibt als schwebender 44px-Menübutton oben rechts erreichbar.
+- Artikelbereich und Warenkorb scrollen bei Bedarf jeweils intern.
+- Drei Artikelspalten im Handy-Querformat für bessere Flächennutzung.
+- Tastenfeld im Querformat auf vier Spalten verdichtet, damit Rückgeld und Verkaufsabschluss sichtbar bleiben.
+- Safe Areas werden auch in der Queransicht berücksichtigt.
+- Service-Worker-Cache auf V0.18 aktualisiert.

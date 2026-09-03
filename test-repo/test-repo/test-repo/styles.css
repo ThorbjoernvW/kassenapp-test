@@ -2641,3 +2641,24 @@ body { min-width: 0; }
   #cashView.active .payment-box { padding: 10px; }
   #cashView.active .cash-keypad button { min-height: 42px; }
 }
+
+
+/* =========================================================
+   KassenApp V0.15
+   Schnellwahl: Haptik + mobile Touch-Zustaende
+   ========================================================= */
+.quick-money button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .quick-money button:hover,
+  .quick-money button:focus:not(:focus-visible) {
+    background: #fff;
+  }
+
+  .quick-money button:active {
+    background: var(--green-100);
+  }
+}
