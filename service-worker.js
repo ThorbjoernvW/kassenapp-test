@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kassenapp-v0-20';
+const CACHE_NAME = 'kassenapp-v0-21';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css',
-  './app.js',
+  './styles.css?v=0.21',
+  './app.js?v=0.21',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'
@@ -30,9 +30,15 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Versionsprüfung darf niemals aus dem App-Cache beantwortet werden.
+  if (url.pathname.endsWith('/version.json')) {
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
+
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-store' })
         .then(response => {
           if (response && response.ok) {
             const copy = response.clone();

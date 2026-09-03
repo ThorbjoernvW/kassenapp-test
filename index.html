@@ -293,7 +293,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.20</strong></span>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.21</strong></span>
             </div>
             <div class="header-actions">
               <button id="installPwaBtn" class="secondary-btn" type="button" hidden>App installieren</button>
@@ -398,23 +398,101 @@
       </div>
     </form>
   </dialog>
-<script src="app.js"></script>
+<div id="globalUpdateNotice" class="global-update-notice" hidden role="status" aria-live="polite">
+  <div>
+    <strong id="globalUpdateTitle">Neue Version verfügbar</strong>
+    <span id="globalUpdateText">Ein Update der KassenApp ist bereit.</span>
+  </div>
+  <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
+</div>
+<script src="app.js?v=0.21"></script>
 <script>
   (() => {
+    const CURRENT_VERSION = "V0.21";
     const installBtn = document.getElementById("installPwaBtn");
     const updateBtn = document.getElementById("updatePwaBtn");
     const checkBtn = document.getElementById("checkUpdateBtn");
     const statusTitle = document.getElementById("pwaStatusTitle");
     const statusText = document.getElementById("pwaStatusText");
+    const globalNotice = document.getElementById("globalUpdateNotice");
+    const globalTitle = document.getElementById("globalUpdateTitle");
+    const globalText = document.getElementById("globalUpdateText");
+    const globalBtn = document.getElementById("globalUpdateBtn");
     let deferredInstallPrompt = null;
     let waitingWorker = null;
+    let registrationRef = null;
     let refreshing = false;
+    let serverVersion = null;
+    let lastAutomaticUpdateCheck = 0;
 
     const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 
     function setStatus(title, text) {
       if (statusTitle) statusTitle.textContent = title;
       if (statusText) statusText.textContent = text;
+    }
+
+    function revealUpdate(version = serverVersion) {
+      const label = version && version !== CURRENT_VERSION ? version : "eine neue Version";
+      if (globalTitle) globalTitle.textContent = version && version !== CURRENT_VERSION ? `Neue Version ${version} verfügbar` : "Neue Version verfügbar";
+      if (globalText) globalText.textContent = waitingWorker ? "Das Update ist geladen und kann jetzt installiert werden." : `Die KassenApp hat ${label} gefunden und lädt das Update.`;
+      if (globalNotice) globalNotice.hidden = false;
+      if (updateBtn) updateBtn.hidden = false;
+      setStatus("Neue Version verfügbar", waitingWorker ? "Die neue Version ist geladen und kann jetzt installiert werden." : "Eine neue Version wurde gefunden und wird vorbereitet.");
+    }
+
+    function showUpdate(worker) {
+      waitingWorker = worker;
+      revealUpdate(serverVersion);
+      if (globalText) globalText.textContent = "Das Update ist geladen und kann jetzt installiert werden.";
+    }
+
+    async function activateWaitingUpdate() {
+      if (!registrationRef) return;
+      if (!waitingWorker && registrationRef.waiting) waitingWorker = registrationRef.waiting;
+      if (!waitingWorker) {
+        try {
+          await registrationRef.update();
+          if (registrationRef.waiting) waitingWorker = registrationRef.waiting;
+        } catch {}
+      }
+      if (waitingWorker) waitingWorker.postMessage({ type: "SKIP_WAITING" });
+      else setStatus("Update wird vorbereitet …", "Bitte einen Moment warten. Die neue Version wird geladen.");
+    }
+
+    async function readServerVersion() {
+      if (!navigator.onLine) return null;
+      try {
+        const response = await fetch(`./version.json?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" }
+        });
+        if (!response.ok) return null;
+        const payload = await response.json();
+        return typeof payload.version === "string" ? payload.version : null;
+      } catch {
+        return null;
+      }
+    }
+
+    async function automaticUpdateCheck(force = false) {
+      if (!navigator.onLine || !registrationRef) return;
+      const now = Date.now();
+      if (!force && now - lastAutomaticUpdateCheck < 30000) return;
+      lastAutomaticUpdateCheck = now;
+
+      const remote = await readServerVersion();
+      if (remote) {
+        serverVersion = remote;
+        if (remote !== CURRENT_VERSION) revealUpdate(remote);
+      }
+
+      try {
+        await registrationRef.update();
+        if (registrationRef.waiting) showUpdate(registrationRef.waiting);
+      } catch (error) {
+        console.debug("Automatische Update-Prüfung nicht möglich:", error);
+      }
     }
 
     window.addEventListener("beforeinstallprompt", (event) => {
@@ -447,12 +525,6 @@
       return;
     }
 
-    function showUpdate(worker) {
-      waitingWorker = worker;
-      if (updateBtn) updateBtn.hidden = false;
-      setStatus("Neue Version verfügbar", "Die neue Version ist geladen und kann jetzt installiert werden.");
-    }
-
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (refreshing) return;
       refreshing = true;
@@ -461,7 +533,9 @@
 
     window.addEventListener("load", async () => {
       try {
-        const registration = await navigator.serviceWorker.register("./service-worker.js", { updateViaCache: "none" });
+        const registration = await navigator.serviceWorker.register("./service-worker.js?v=0.21", { updateViaCache: "none" });
+        registrationRef = registration;
+
         if (registration.waiting) showUpdate(registration.waiting);
         else if (standalone) setStatus("App installiert", navigator.onLine ? "Online und offline bereit." : "Offline gestartet – Kasse ist weiter nutzbar.");
         else setStatus("Offline bereit", navigator.onLine ? "Die App-Dateien werden für Offline-Nutzung gespeichert." : "Offline gestartet – Kasse ist weiter nutzbar.");
@@ -469,44 +543,28 @@
         registration.addEventListener("updatefound", () => {
           const worker = registration.installing;
           if (!worker) return;
+          revealUpdate(serverVersion);
           worker.addEventListener("statechange", () => {
             if (worker.state === "installed" && navigator.serviceWorker.controller) showUpdate(worker);
           });
         });
 
-        let lastAutomaticUpdateCheck = 0;
-        const automaticUpdateCheck = async () => {
-          if (!navigator.onLine) return;
-          const now = Date.now();
-          if (now - lastAutomaticUpdateCheck < 60000) return;
-          lastAutomaticUpdateCheck = now;
-          try {
-            await registration.update();
-            if (registration.waiting) showUpdate(registration.waiting);
-          } catch (error) {
-            console.debug("Automatische Update-Prüfung nicht möglich:", error);
-          }
-        };
-
-        // Beim Online-Start wird immer nach einer neuen GitHub-Pages-Version gefragt.
-        await automaticUpdateCheck();
-        window.addEventListener("online", automaticUpdateCheck);
-        window.addEventListener("pageshow", automaticUpdateCheck);
+        await automaticUpdateCheck(true);
+        window.addEventListener("online", () => automaticUpdateCheck(true));
+        window.addEventListener("pageshow", () => automaticUpdateCheck(false));
         document.addEventListener("visibilitychange", () => {
-          if (document.visibilityState === "visible") automaticUpdateCheck();
+          if (document.visibilityState === "visible") automaticUpdateCheck(false);
         });
 
         if (checkBtn) checkBtn.addEventListener("click", async () => {
           setStatus("Update wird geprüft …", "GitHub Pages wird nach einer neuen Version gefragt.");
-          try {
-            await registration.update();
-            if (registration.waiting) showUpdate(registration.waiting);
-            else setTimeout(() => {
-              if (!waitingWorker) setStatus(standalone ? "App aktuell" : "Offline bereit", "Es wurde keine neuere Version gefunden.");
-            }, 900);
-          } catch {
-            setStatus("Update-Prüfung nicht möglich", navigator.onLine ? "Bitte später erneut versuchen." : "Ohne Internet kann nicht nach Updates gesucht werden.");
-          }
+          const before = waitingWorker;
+          await automaticUpdateCheck(true);
+          setTimeout(() => {
+            if (!waitingWorker && !before && (!serverVersion || serverVersion === CURRENT_VERSION)) {
+              setStatus(standalone ? "App aktuell" : "Offline bereit", "Es wurde keine neuere Version gefunden.");
+            }
+          }, 700);
         });
       } catch (error) {
         console.warn("Offline-Modus konnte nicht aktiviert werden:", error);
@@ -514,11 +572,12 @@
       }
     });
 
-    if (updateBtn) updateBtn.addEventListener("click", () => {
-      if (waitingWorker) waitingWorker.postMessage({ type: "SKIP_WAITING" });
-    });
+    if (updateBtn) updateBtn.addEventListener("click", activateWaitingUpdate);
+    if (globalBtn) globalBtn.addEventListener("click", activateWaitingUpdate);
 
-    window.addEventListener("online", () => setStatus(standalone ? "App installiert" : "Offline bereit", "Online – Updates können geprüft werden."));
+    window.addEventListener("online", () => {
+      if (!waitingWorker) setStatus(standalone ? "App installiert" : "Offline bereit", "Online – Updates können geprüft werden.");
+    });
     window.addEventListener("offline", () => setStatus(standalone ? "App installiert" : "Offline bereit", "Offline – die Kassenfunktionen bleiben verfügbar."));
   })();
 </script>

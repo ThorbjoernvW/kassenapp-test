@@ -1,15 +1,19 @@
-# KassenApp V0.20
+# KassenApp V0.21
 
-## Änderungen in V0.20
+## Änderungen in V0.21
 
-- Handy-Queransicht der Kasse repariert.
-- Die komplette Seite scrollt im Querformat nicht; Artikel und Warenkorb scrollen nur innerhalb ihrer Bereiche.
-- Der Warenkorb reserviert nicht mehr unnötig fast die gesamte rechte Spalte. Gesamt, Bezahlung, Rückgeld und „Verkauf abschließen“ bleiben dadurch sichtbar.
-- Schnellwahl und Tastenfeld wurden für geringe Displayhöhe kompakter angeordnet.
-- Der normale mobile Header bleibt in der Kassen-Queransicht ausgeblendet; der Burger bleibt schwebend erreichbar.
-- Die Optik der Artikelkacheln und insbesondere der Bilder wurde bewusst nicht verändert und bleibt auf dem Parkplatz.
+1. **Handy-Queransicht überarbeitet**
+   - Warenkorb erhält wieder eine komfortable Mindesthöhe.
+   - Bezahlbereich und Bedienelemente werden nicht mehr extrem zusammengestaucht.
+   - Die rechte Kassenspalte scrollt bei sehr geringer Displayhöhe intern; die komplette Seite bleibt fix.
+   - „Verkauf abschließen“ bleibt als große, sticky Schaltfläche am unteren Rand der Kassenspalte erreichbar.
 
-## Basis
+2. **Automatische Update-Erkennung robuster gemacht**
+   - Neue `version.json`, die bei Online-Start ohne Cache geprüft wird.
+   - Sichtbarer Update-Hinweis in der App, nicht nur in den Einstellungen.
+   - Versionsgebundene CSS-/JS-Dateien verhindern, dass alte Assets aus einem vorherigen Cache weiterverwendet werden.
+   - Service Worker und Navigation prüfen Aktualisierungen ohne HTTP-Cache.
 
-V0.20 basiert auf V0.19. Lokale Daten bleiben über den bestehenden localStorage-Schlüssel kompatibel.
+V0.21 basiert auf V0.20. Lokale Daten bleiben über den bestehenden localStorage-Schlüssel kompatibel.
 
+Hinweis: Um von einer älteren Version erstmals auf diese neue Update-Logik zu wechseln, kann einmalig ein manuelles Neuladen bzw. „Nach Update suchen“ nötig sein. Ab V0.21 übernimmt die App die Versionsprüfung selbst.
