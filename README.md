@@ -42,3 +42,11 @@ Die Vibrations-API wird nicht von allen Browsern unterstützt. Wenn sie fehlt, l
 ## V0.16
 - Haptisches Feedback für alle Tasten im Geld-Tastenfeld ergänzt.
 - Rücktaste und „Passend“ im Tastenfeld geben ebenfalls Feedback und verlieren nach dem Tippen den Fokus.
+
+## V0.17
+- Tablet-Kasse als feste Zwei-Spalten-Ansicht ohne Scrollen der gesamten Kassenseite.
+- Artikelbereich und Warenkorb scrollen bei Bedarf intern.
+- Lange Artikelnamen im Warenkorb werden vollständig und mehrzeilig angezeigt.
+- Auf Handy und Tablet öffnet ein Tap auf die Artikelkarte in Einstellungen direkt den Bearbeiten-Dialog.
+- Größere Touch-Ziele und Safe-Area-Unterstützung für mobile/PWA-Nutzung.
+- Service-Worker-Cache auf V0.17 aktualisiert.

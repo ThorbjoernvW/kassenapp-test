@@ -2662,3 +2662,123 @@ body { min-width: 0; }
     background: var(--green-100);
   }
 }
+
+/* =========================================================
+   KassenApp V0.17 – Tablet, Touch und Safe Areas
+   ========================================================= */
+
+/* Lange Artikelnamen im Warenkorb vollständig anzeigen. */
+.cart-main { min-width: 0; }
+.cart-name {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+/* Artikelzeilen in den Einstellungen sind auf Touch-Geräten als Ganzes klickbar. */
+.settings-row { cursor: pointer; }
+.settings-row button,
+.settings-row input,
+.settings-row label,
+.settings-row .drag-handle { cursor: default; }
+
+/* Tablet: die Kasse bleibt in zwei Spalten und die Seite selbst scrollt nicht.
+   Nur Artikelliste und Warenkorb dürfen innerhalb ihrer Bereiche scrollen. */
+@media (min-width: 761px) and (max-width: 1180px) {
+  body:has(#cashView.active) {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body:has(#cashView.active) .shell {
+    height: 100dvh;
+    box-sizing: border-box;
+    padding: 12px;
+  }
+
+  #cashView.active,
+  #cashView.active .cash-grid { height: 100%; min-height: 0; }
+
+  #cashView.active .cash-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  #cashView.active .products-panel,
+  #cashView.active .checkout-panel {
+    height: 100%;
+    min-height: 0;
+    padding: 14px;
+    overflow: hidden;
+  }
+
+  #cashView.active .products-panel {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  #cashView.active .checkout-panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #cashView.active .cart-list {
+    flex: 1 1 auto;
+    min-height: 54px;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  #cashView.active .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  #cashView.active .product-btn { min-height: 82px; padding: 10px; }
+  #cashView.active .category-divider { margin: 14px 0 2px; }
+  #cashView.active .drinks-block { margin-top: 12px; }
+  #cashView.active .payment-box { padding: 11px; }
+  #cashView.active .quick-money { gap: 7px; }
+  #cashView.active .cash-keypad button { min-height: 44px; }
+}
+
+/* Bei sehr schmalen Tablets bleibt die rechte Kassenspalte nutzbar. */
+@media (min-width: 761px) and (max-width: 850px) {
+  #cashView.active .cash-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(270px, .92fr);
+  }
+  #cashView.active .panel-header p { font-size: .82rem; }
+  #cashView.active .checkout-panel .panel-header { gap: 8px; }
+  #cashView.active .payment-mode-switch { gap: 4px; }
+  #cashView.active .payment-mode-btn { padding-inline: 8px; }
+}
+
+/* Touch-Ziele und Safe Areas für Handy/PWA. */
+@media (pointer: coarse) {
+  .settings-row { -webkit-tap-highlight-color: rgba(20, 86, 64, .08); }
+  .settings-row button,
+  .settings-row .toggle-wrap,
+  .settings-row .drag-handle { min-width: 44px; min-height: 44px; }
+}
+
+@media (max-width: 760px) {
+  body {
+    padding-top: calc(64px + env(safe-area-inset-top));
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+  .mobile-topbar {
+    height: calc(64px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    padding-left: calc(14px + env(safe-area-inset-left));
+    padding-right: calc(14px + env(safe-area-inset-right));
+  }
+  .shell {
+    padding-left: calc(12px + env(safe-area-inset-left));
+    padding-right: calc(12px + env(safe-area-inset-right));
+  }
+  .settings-row { cursor: pointer; }
+}
