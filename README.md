@@ -62,3 +62,8 @@ Die Vibrations-API wird nicht von allen Browsern unterstützt. Wenn sie fehlt, l
 - Tastenfeld im Querformat auf vier Spalten verdichtet, damit Rückgeld und Verkaufsabschluss sichtbar bleiben.
 - Safe Areas werden auch in der Queransicht berücksichtigt.
 - Service-Worker-Cache auf V0.18 aktualisiert.
+## V0.18.1 Hotfix
+
+- Der Burger-Button funktioniert jetzt als Umschalter: Ist das Menü geöffnet, schließt ein erneuter Tipp auf den Burger das Menü wieder.
+- Der Hotfix zählt nicht als eine der geplanten Funktionsverbesserungen der nächsten Version.
+

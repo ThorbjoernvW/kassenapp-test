@@ -953,15 +953,23 @@ function openMobileMenu() {
   document.getElementById("appSidebar").classList.add("mobile-open");
   document.getElementById("sidebarBackdrop").classList.add("open");
   document.body.classList.add("menu-open");
+  document.getElementById("mobileMenuBtn").setAttribute("aria-label", "Menü schließen");
 }
 
 function closeMobileMenu() {
   document.getElementById("appSidebar").classList.remove("mobile-open");
   document.getElementById("sidebarBackdrop").classList.remove("open");
   document.body.classList.remove("menu-open");
+  document.getElementById("mobileMenuBtn").setAttribute("aria-label", "Menü öffnen");
 }
 
-document.getElementById("mobileMenuBtn").addEventListener("click", openMobileMenu);
+function toggleMobileMenu() {
+  const isOpen = document.getElementById("appSidebar").classList.contains("mobile-open");
+  if (isOpen) closeMobileMenu();
+  else openMobileMenu();
+}
+
+document.getElementById("mobileMenuBtn").addEventListener("click", toggleMobileMenu);
 document.getElementById("closeMobileMenuBtn").addEventListener("click", closeMobileMenu);
 document.getElementById("sidebarBackdrop").addEventListener("click", closeMobileMenu);
 document.querySelectorAll(".app-sidebar .nav-btn").forEach(btn => btn.addEventListener("click", closeMobileMenu));

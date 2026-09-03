@@ -600,16 +600,6 @@ function renderSettings() {
     row.querySelector("[data-edit]").addEventListener("click", () => openProductDialog(p.id));
     row.querySelector("[data-delete]").addEventListener("click", () => deleteProduct(p.id));
 
-    // V0.17: Auf Handy/Tablet öffnet ein Tap auf die Artikelkarte direkt den Editor.
-    // Interaktive Bedienelemente behalten ihre eigene Funktion.
-    row.addEventListener("click", (e) => {
-      if (e.target.closest("button, input, label, .drag-handle")) return;
-      if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1180) {
-        haptic(10);
-        openProductDialog(p.id);
-      }
-    });
-
     row.addEventListener("dragstart", (e) => {
       row.classList.add("dragging");
       e.dataTransfer.effectAllowed = "move";
@@ -975,34 +965,25 @@ document.querySelectorAll("[data-money]").forEach(btn =>
   btn.addEventListener("click", () => {
     document.getElementById("givenInput").value = btn.dataset.money;
     updateChange();
-    haptic(16);
-    btn.blur();
   })
 );
-document.getElementById("exactBtn").addEventListener("click", (event) => {
+document.getElementById("exactBtn").addEventListener("click", () => {
   document.getElementById("givenInput").value = cartTotal().toFixed(2).replace(".", ",");
   updateChange();
-  haptic(18);
-  event.currentTarget.blur();
 });
 document.querySelectorAll("[data-keypad]").forEach(btn =>
   btn.addEventListener("click", () => {
     handleKeypadPress(btn.dataset.keypad);
-    haptic(14);
     btn.blur();
   })
 );
-document.getElementById("keypadBackspaceBtn").addEventListener("click", (event) => {
+document.getElementById("keypadBackspaceBtn").addEventListener("click", () => {
   keypadSequence = keypadSequence.slice(0, -1);
   syncKeypadInput();
-  haptic(14);
-  event.currentTarget.blur();
 });
-document.getElementById("keypadExactBtn").addEventListener("click", (event) => {
+document.getElementById("keypadExactBtn").addEventListener("click", () => {
   keypadSequence = amountToKeypadSequence(cartTotal());
   syncKeypadInput();
-  haptic(18);
-  event.currentTarget.blur();
 });
 document.getElementById("clearCartBtn").addEventListener("click", () => clearCart(true));
 document.getElementById("completeSaleBtn").addEventListener("click", completeSale);
