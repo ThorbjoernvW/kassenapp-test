@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kassenapp-v0-22';
+const CACHE_NAME = 'kassenapp-v0-22-0-1';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=0.21',
-  './app.js?v=0.21',
+  './styles.css?v=0.22.0.1',
+  './app.js?v=0.22.0.1',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'

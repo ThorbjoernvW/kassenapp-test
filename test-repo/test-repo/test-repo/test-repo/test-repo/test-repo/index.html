@@ -460,7 +460,7 @@
 
     window.addEventListener("load", async () => {
       try {
-        const registration = await navigator.serviceWorker.register("./service-worker.js");
+        const registration = await navigator.serviceWorker.register("./service-worker.js", { updateViaCache: "none" });
         if (registration.waiting) showUpdate(registration.waiting);
         else if (standalone) setStatus("App installiert", navigator.onLine ? "Online und offline bereit." : "Offline gestartet – Kasse ist weiter nutzbar.");
         else setStatus("Offline bereit", navigator.onLine ? "Die App-Dateien werden für Offline-Nutzung gespeichert." : "Offline gestartet – Kasse ist weiter nutzbar.");
@@ -471,6 +471,28 @@
           worker.addEventListener("statechange", () => {
             if (worker.state === "installed" && navigator.serviceWorker.controller) showUpdate(worker);
           });
+        });
+
+        let lastAutomaticUpdateCheck = 0;
+        const automaticUpdateCheck = async () => {
+          if (!navigator.onLine) return;
+          const now = Date.now();
+          if (now - lastAutomaticUpdateCheck < 60000) return;
+          lastAutomaticUpdateCheck = now;
+          try {
+            await registration.update();
+            if (registration.waiting) showUpdate(registration.waiting);
+          } catch (error) {
+            console.debug("Automatische Update-Prüfung nicht möglich:", error);
+          }
+        };
+
+        // Beim Online-Start wird immer nach einer neuen GitHub-Pages-Version gefragt.
+        await automaticUpdateCheck();
+        window.addEventListener("online", automaticUpdateCheck);
+        window.addEventListener("pageshow", automaticUpdateCheck);
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "visible") automaticUpdateCheck();
         });
 
         if (checkBtn) checkBtn.addEventListener("click", async () => {

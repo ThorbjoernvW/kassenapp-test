@@ -24,3 +24,10 @@ Hinweis: Um von einer älteren Version erstmals auf diese neue Update-Logik zu w
 - Eine einzige autoritative Landscape-Regel nutzt die volle Viewport-Höhe.
 - Rechte Kassenspalte als festes Grid: Warenkorb flexibel scrollbar, Zahlung und Abschluss bleiben groß erreichbar.
 - Artikelkachel-/Bildoptik bewusst unverändert; bleibt auf dem Parkplatz.
+
+
+## V0.22.0.1 – Hotfix Versionserkennung
+- Versionsvergleich normalisiert `V`-Präfixe und vergleicht numerische Versionssegmente.
+- Update-Hinweis erscheint nur, wenn die Server-Version wirklich neuer ist.
+- Einstellungen zeigen installierte Version, verfügbare Version und Status.
+- Service-Worker-App-Shell auf die aktuelle Unterversion synchronisiert.
