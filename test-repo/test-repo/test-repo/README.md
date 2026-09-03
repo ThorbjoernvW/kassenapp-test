@@ -1,6 +1,6 @@
-# KassenApp V0.15
+# KassenApp V0.14
 
-## Neu in V0.15
+## Neu in V0.14
 
 - **Haptische Rückmeldung** auf unterstützten Geräten:
   - kurzer Impuls beim Hinzufügen, Ändern oder Entfernen eines Artikels
@@ -31,9 +31,3 @@ Alle Dateien und den Ordner `icons` in das Repository hochladen. Für Offline/PW
 ## Hinweis zur Haptik
 
 Die Vibrations-API wird nicht von allen Browsern unterstützt. Wenn sie fehlt, läuft die App ohne Einschränkung weiter.
-
-
-## V0.15
-- Haptisches Feedback fuer die Schnellwahl-Betraege und „Passend“.
-- Schnellwahl-Tasten verlieren nach dem Tippen auf Touchgeraeten den grünen Zustand wieder.
-- Service-Worker-Cache auf V0.15 angehoben.
