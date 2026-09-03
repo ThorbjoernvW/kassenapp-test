@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kassenapp-v0-15';
+const CACHE_NAME = 'kassenapp-v0-14';
 const APP_SHELL = [
   './',
   './index.html',
