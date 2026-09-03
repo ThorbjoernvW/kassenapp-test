@@ -1,3 +1,5 @@
+const APP_VERSION = "V0.18.3";
+
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
 
@@ -937,6 +939,8 @@ function escapeHtml(value) {
 }
 
 function renderAll() {
+  const versionLabel = document.getElementById("appVersionLabel");
+  if (versionLabel) versionLabel.textContent = APP_VERSION;
   renderAppName();
   renderProducts();
   renderCart();
@@ -949,19 +953,36 @@ document.querySelectorAll(".nav-btn").forEach(btn =>
   btn.addEventListener("click", () => switchView(btn.dataset.view))
 );
 
+function setMobileMenuState(open) {
+  const sidebar = document.getElementById("appSidebar");
+  const backdrop = document.getElementById("sidebarBackdrop");
+  const button = document.getElementById("mobileMenuBtn");
+
+  sidebar.classList.toggle("mobile-open", open);
+  backdrop.classList.toggle("open", open);
+  document.body.classList.toggle("menu-open", open);
+
+  button.setAttribute("aria-expanded", String(open));
+  button.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+  button.textContent = open ? "×" : "☰";
+}
+
 function openMobileMenu() {
-  document.getElementById("appSidebar").classList.add("mobile-open");
-  document.getElementById("sidebarBackdrop").classList.add("open");
-  document.body.classList.add("menu-open");
+  setMobileMenuState(true);
 }
 
 function closeMobileMenu() {
-  document.getElementById("appSidebar").classList.remove("mobile-open");
-  document.getElementById("sidebarBackdrop").classList.remove("open");
-  document.body.classList.remove("menu-open");
+  setMobileMenuState(false);
 }
 
-document.getElementById("mobileMenuBtn").addEventListener("click", openMobileMenu);
+function toggleMobileMenu(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  const isOpen = document.getElementById("appSidebar").classList.contains("mobile-open");
+  setMobileMenuState(!isOpen);
+}
+
+document.getElementById("mobileMenuBtn").addEventListener("click", toggleMobileMenu);
 document.getElementById("closeMobileMenuBtn").addEventListener("click", closeMobileMenu);
 document.getElementById("sidebarBackdrop").addEventListener("click", closeMobileMenu);
 document.querySelectorAll(".app-sidebar .nav-btn").forEach(btn => btn.addEventListener("click", closeMobileMenu));

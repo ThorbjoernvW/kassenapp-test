@@ -2960,3 +2960,82 @@ body { min-width: 0; }
   #cashView.active .cash-keypad [data-keypad="0"] { grid-column: 1 / span 2; grid-row: 4; }
   #cashView.active .cash-keypad .keypad-exact { grid-column: 3 / span 2; grid-row: 4; }
 }
+
+
+/* =========================================================
+   KassenApp V0.18.2 – Burger-Menü Hotfix
+   Der schwebende Menüknopf bleibt im Querformat zuverlässig
+   antippbar, auch wenn das Menü bereits geöffnet ist.
+   ========================================================= */
+@media (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
+  body:has(#cashView.active) .mobile-topbar {
+    display: flex;
+    position: fixed;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 56px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+    z-index: 110;
+  }
+
+  body:has(#cashView.active) .mobile-menu-btn {
+    z-index: 111;
+    pointer-events: auto;
+  }
+
+  body:has(#cashView.active) .sidebar-backdrop {
+    z-index: 80;
+  }
+
+  body:has(#cashView.active) .app-sidebar {
+    z-index: 100;
+  }
+}
+
+
+/* =========================================================
+   KassenApp V0.18.3 – Mobile Burger-Hotfix + Versionsanzeige
+   Der normale Handy-Header bleibt beim geöffneten Menü bewusst
+   oberhalb des Backdrops. Dadurch ist derselbe Burger/X-Button
+   auch im Hochformat jederzeit erneut antippbar.
+   ========================================================= */
+.app-version-line {
+  display: block;
+  margin-top: 5px;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.app-version-line strong { color: var(--green-800); }
+
+@media (max-width: 760px) {
+  .mobile-topbar {
+    z-index: 130;
+  }
+
+  .mobile-menu-btn {
+    position: relative;
+    z-index: 131;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .app-sidebar {
+    z-index: 120;
+  }
+
+  .sidebar-backdrop {
+    z-index: 110;
+  }
+}
+
+/* In der speziellen Kassen-Queransicht bleiben die dortigen
+   Positionen erhalten, aber mit derselben eindeutigen Ebenenfolge. */
+@media (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
+  body:has(#cashView.active) .mobile-topbar { z-index: 130; }
+  body:has(#cashView.active) .mobile-menu-btn { z-index: 131; }
+  body:has(#cashView.active) .app-sidebar { z-index: 120; }
+  body:has(#cashView.active) .sidebar-backdrop { z-index: 110; }
+}

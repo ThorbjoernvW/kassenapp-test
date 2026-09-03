@@ -67,3 +67,17 @@ Die Vibrations-API wird nicht von allen Browsern unterstützt. Wenn sie fehlt, l
 - Der Burger-Button funktioniert jetzt als Umschalter: Ist das Menü geöffnet, schließt ein erneuter Tipp auf den Burger das Menü wieder.
 - Der Hotfix zählt nicht als eine der geplanten Funktionsverbesserungen der nächsten Version.
 
+
+
+## V0.18.2 Hotfix
+- Burger-Menü lässt sich durch erneutes Tippen auf denselben Button zuverlässig schließen.
+- Im Handy-Querformat bleibt der schwebende Burger/X-Button oberhalb von Menü und Backdrop antippbar.
+- Der Button zeigt im geöffneten Zustand ein × und setzt `aria-expanded`.
+
+
+## V0.18.3 Hotfix
+- Burger-Menü-Hotfix gilt jetzt für die normale Handyansicht (Hochformat und allgemein mobil), nicht nur für die Kassen-Queransicht.
+- Der Burger/X-Button bleibt beim geöffneten Menü oberhalb des Backdrops erreichbar und schließt das Menü bei erneutem Tippen.
+- In Einstellungen → Handy & App wird die installierte App-Version angezeigt.
+- Service-Worker-Cache auf V0.18.3 aktualisiert.
+- Dieser Hotfix zählt nicht als eine der zwei geplanten Verbesserungen der nächsten regulären Version.
