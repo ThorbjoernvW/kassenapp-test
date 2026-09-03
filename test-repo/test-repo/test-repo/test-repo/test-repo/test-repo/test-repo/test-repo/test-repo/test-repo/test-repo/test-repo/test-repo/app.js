@@ -1,5 +1,3 @@
-const APP_VERSION = "V0.18.3";
-
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
 
@@ -602,16 +600,6 @@ function renderSettings() {
     row.querySelector("[data-edit]").addEventListener("click", () => openProductDialog(p.id));
     row.querySelector("[data-delete]").addEventListener("click", () => deleteProduct(p.id));
 
-    // V0.17: Auf Handy/Tablet öffnet ein Tap auf die Artikelkarte direkt den Editor.
-    // Interaktive Bedienelemente behalten ihre eigene Funktion.
-    row.addEventListener("click", (e) => {
-      if (e.target.closest("button, input, label, .drag-handle")) return;
-      if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1180) {
-        haptic(10);
-        openProductDialog(p.id);
-      }
-    });
-
     row.addEventListener("dragstart", (e) => {
       row.classList.add("dragging");
       e.dataTransfer.effectAllowed = "move";
@@ -939,8 +927,6 @@ function escapeHtml(value) {
 }
 
 function renderAll() {
-  const versionLabel = document.getElementById("appVersionLabel");
-  if (versionLabel) versionLabel.textContent = APP_VERSION;
   renderAppName();
   renderProducts();
   renderCart();
@@ -953,36 +939,19 @@ document.querySelectorAll(".nav-btn").forEach(btn =>
   btn.addEventListener("click", () => switchView(btn.dataset.view))
 );
 
-function setMobileMenuState(open) {
-  const sidebar = document.getElementById("appSidebar");
-  const backdrop = document.getElementById("sidebarBackdrop");
-  const button = document.getElementById("mobileMenuBtn");
-
-  sidebar.classList.toggle("mobile-open", open);
-  backdrop.classList.toggle("open", open);
-  document.body.classList.toggle("menu-open", open);
-
-  button.setAttribute("aria-expanded", String(open));
-  button.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
-  button.textContent = open ? "×" : "☰";
-}
-
 function openMobileMenu() {
-  setMobileMenuState(true);
+  document.getElementById("appSidebar").classList.add("mobile-open");
+  document.getElementById("sidebarBackdrop").classList.add("open");
+  document.body.classList.add("menu-open");
 }
 
 function closeMobileMenu() {
-  setMobileMenuState(false);
+  document.getElementById("appSidebar").classList.remove("mobile-open");
+  document.getElementById("sidebarBackdrop").classList.remove("open");
+  document.body.classList.remove("menu-open");
 }
 
-function toggleMobileMenu(event) {
-  event?.preventDefault();
-  event?.stopPropagation();
-  const isOpen = document.getElementById("appSidebar").classList.contains("mobile-open");
-  setMobileMenuState(!isOpen);
-}
-
-document.getElementById("mobileMenuBtn").addEventListener("click", toggleMobileMenu);
+document.getElementById("mobileMenuBtn").addEventListener("click", openMobileMenu);
 document.getElementById("closeMobileMenuBtn").addEventListener("click", closeMobileMenu);
 document.getElementById("sidebarBackdrop").addEventListener("click", closeMobileMenu);
 document.querySelectorAll(".app-sidebar .nav-btn").forEach(btn => btn.addEventListener("click", closeMobileMenu));
@@ -996,34 +965,25 @@ document.querySelectorAll("[data-money]").forEach(btn =>
   btn.addEventListener("click", () => {
     document.getElementById("givenInput").value = btn.dataset.money;
     updateChange();
-    haptic(16);
-    btn.blur();
   })
 );
-document.getElementById("exactBtn").addEventListener("click", (event) => {
+document.getElementById("exactBtn").addEventListener("click", () => {
   document.getElementById("givenInput").value = cartTotal().toFixed(2).replace(".", ",");
   updateChange();
-  haptic(18);
-  event.currentTarget.blur();
 });
 document.querySelectorAll("[data-keypad]").forEach(btn =>
   btn.addEventListener("click", () => {
     handleKeypadPress(btn.dataset.keypad);
-    haptic(14);
     btn.blur();
   })
 );
-document.getElementById("keypadBackspaceBtn").addEventListener("click", (event) => {
+document.getElementById("keypadBackspaceBtn").addEventListener("click", () => {
   keypadSequence = keypadSequence.slice(0, -1);
   syncKeypadInput();
-  haptic(14);
-  event.currentTarget.blur();
 });
-document.getElementById("keypadExactBtn").addEventListener("click", (event) => {
+document.getElementById("keypadExactBtn").addEventListener("click", () => {
   keypadSequence = amountToKeypadSequence(cartTotal());
   syncKeypadInput();
-  haptic(18);
-  event.currentTarget.blur();
 });
 document.getElementById("clearCartBtn").addEventListener("click", () => clearCart(true));
 document.getElementById("completeSaleBtn").addEventListener("click", completeSale);

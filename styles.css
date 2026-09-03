@@ -20,7 +20,7 @@
 body {
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--bg);
+  
   color: var(--ink);
 }
 
@@ -29,13 +29,13 @@ button, input, select { font: inherit; }
 button { cursor: pointer; }
 
 .topbar {
-  min-height: 76px;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding: 12px 28px;
-  background: var(--green-900);
+  
   color: #fff;
   position: sticky;
   top: 0;
@@ -85,7 +85,7 @@ button { cursor: pointer; }
   background: rgba(255,255,255,.12);
 }
 
-.shell { max-width: 1480px; margin: 0 auto; padding: 24px; }
+.shell {  margin: 0 auto; padding: 24px; }
 
 .view { display: none; }
 .view.active { display: block; }
@@ -94,7 +94,7 @@ button { cursor: pointer; }
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  
 }
 
 .cash-grid {
@@ -129,48 +129,48 @@ p, .muted { color: var(--muted); }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  
 }
 
 .product-btn {
-  border: 1px solid var(--line);
-  background: #fff;
-  min-height: 118px;
+  
+  
+  
   border-radius: 16px;
-  padding: 16px;
+  
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 5px 14px rgba(20, 55, 44, 0.04);
+  
   transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
 
 .product-btn:hover {
-  transform: translateY(-1px);
-  border-color: #9eb8ab;
+  
+  
   background: #fbfdfc;
 }
 
 .product-icon { font-size: 1.45rem; min-height: 26px; }
-.product-name { font-weight: 800; margin-top: 10px; }
-.product-price { color: var(--green-700); font-weight: 800; margin-top: 4px; }
+.product-name { font-weight: 800;  }
+.product-price {  font-weight: 800; margin-top: 4px; }
 
 .cart-list {
   margin: 18px 0;
   display: grid;
-  gap: 10px;
-  max-height: 340px;
+  
+  
   overflow: auto;
 }
 
 .cart-row {
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
+  
+  
+  
+  
+  
+  
   align-items: center;
 }
 
@@ -180,7 +180,7 @@ p, .muted { color: var(--muted); }
 .qty-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  
 }
 
 .qty-controls button, .quick-money button, .icon-btn {
@@ -324,8 +324,8 @@ input, select {
 .stat-card > strong { display: block; margin-top: 8px; font-size: 1.35rem; }
 
 .item-stats {
-  display: flex;
-  gap: 8px;
+  
+  
   flex-wrap: wrap;
   margin-top: 8px;
 }
@@ -387,17 +387,17 @@ tbody tr:hover { background: #fcfdfc; }
 .settings-list {
   padding: 0 22px 20px;
   display: grid;
-  gap: 10px;
+  
 }
 
 .settings-row {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1.4fr) 120px 110px 100px auto;
+  
   gap: 10px;
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 11px;
+  
 }
 
 .order-controls { display: flex; gap: 5px; }
@@ -538,7 +538,7 @@ body {
   min-height: 142px;
   border: 1px solid rgba(30,72,58,.12);
   padding: 0;
-  background: #fff;
+  
   box-shadow: 0 10px 25px rgba(32,68,55,.07);
 }
 
@@ -641,8 +641,8 @@ body {
 
 .cart-row:hover { background: #fbfcfa; }
 
-.cart-main { min-width: 0; }
-.cart-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+
 .cart-unit { color: var(--muted); font-size: .82rem; margin-top: 2px; }
 .cart-line-total { text-align: right; }
 
@@ -797,7 +797,7 @@ body {
 .settings-list { gap: 8px; }
 
 .settings-row {
-  grid-template-columns: minmax(0, 1fr) auto;
+  
   padding: 12px 14px;
   transition: opacity .15s ease, background .15s ease;
 }
@@ -1094,9 +1094,7 @@ body {
 .clickable-sale-row {
   cursor: pointer;
 }
-.clickable-sale-row:hover td {
-  background: #edf6f1 !important;
-}
+
 .clickable-sale-row:active td {
   background: #e4f0e9 !important;
 }
@@ -1274,9 +1272,7 @@ body {
 .sidebar-foot span { font-size: .74rem; color: rgba(255,255,255,.6); }
 .sidebar-foot strong { font-size: .86rem; color: #aee1c7; }
 
-.shell {
-  max-width: 1540px;
-}
+
 
 /* KASSE fixes: positions always top + product area scrolls if viewport gets tight */
 @media (min-width: 681px) {
@@ -1422,9 +1418,9 @@ body {
 .top-product-grid {
   padding: 4px 20px 20px;
   display: grid;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  
   gap: 12px;
-  overflow-x: auto;
+  
 }
 
 .top-product-card {
@@ -1519,7 +1515,7 @@ body {
 }
 .compact-sales-table {
   width: 100%;
-  min-width: 650px;
+  
   border-collapse: collapse;
 }
 .compact-sales-table th {
@@ -1544,7 +1540,7 @@ body {
 .sale-time { width: 95px; white-space: nowrap; }
 .sale-items-cell {
   min-width: 260px;
-  max-width: 600px;
+  
 }
 .sale-amount {
   width: 120px;
@@ -2750,21 +2746,6 @@ body { min-width: 0; }
   .settings-row { cursor: pointer; }
 }
 
-/* =========================================================
-   KassenApp V0.18 – Handy-Querformat + schwebendes Menü
-   ========================================================= */
-
-/* Auf kleinen Handys im Querformat zählt jeder Höhen-Pixel:
-   Die mobile Kopfzeile verschwindet, nur der Burger bleibt schwebend sichtbar. */
-
-
-
-/* =========================================================
-   KassenApp V0.18.2 – Burger-Menü Hotfix
-   Der schwebende Menüknopf bleibt im Querformat zuverlässig
-   antippbar, auch wenn das Menü bereits geöffnet ist.
-   ========================================================= */
-
 
 
 /* =========================================================
@@ -2801,21 +2782,6 @@ body { min-width: 0; }
     z-index: 110;
   }
 }
-
-/* In der speziellen Kassen-Queransicht bleiben die dortigen
-   Positionen erhalten, aber mit derselben eindeutigen Ebenenfolge. */
-
-
-
-/* =========================================================
-   KassenApp V0.20 – Reparierte Handy-Queransicht
-   Ziel: kein Seiten-Scrollen, Abschluss bleibt erreichbar.
-   Die Artikelkachel-/Bildoptik wird hier bewusst NICHT verändert.
-   ========================================================= */
-
-
-/* Extrem niedrige Browserfenster: noch etwas kompakter, ohne die
-   Artikelkacheln/Bilder gestalterisch neu anzufassen. */
 
 
 

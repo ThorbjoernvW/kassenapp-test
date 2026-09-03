@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=0.22.1" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -293,7 +293,9 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.22</strong></span>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.22.1</strong><br>
+              <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
+              <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
             <div class="header-actions">
               <button id="installPwaBtn" class="secondary-btn" type="button" hidden>App installieren</button>
@@ -405,10 +407,10 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.22"></script>
+<script src="app.js?v=0.22.1"></script>
 <script>
   (() => {
-    const CURRENT_VERSION = "V0.22";
+    const CURRENT_VERSION = "V0.22.1";
     const installBtn = document.getElementById("installPwaBtn");
     const updateBtn = document.getElementById("updatePwaBtn");
     const checkBtn = document.getElementById("checkUpdateBtn");
@@ -424,6 +426,34 @@
     let refreshing = false;
     let serverVersion = null;
     let lastAutomaticUpdateCheck = 0;
+    const availableVersionLabel = document.getElementById("availableVersionLabel");
+    const versionStatusLabel = document.getElementById("versionStatusLabel");
+
+    function versionParts(value) {
+      return String(value || "").trim().replace(/^v/i, "").split(".").map(part => {
+        const match = part.match(/^\d+/);
+        return match ? Number(match[0]) : 0;
+      });
+    }
+
+    function compareVersions(a, b) {
+      const left = versionParts(a);
+      const right = versionParts(b);
+      const length = Math.max(left.length, right.length);
+      for (let i = 0; i < length; i += 1) {
+        const diff = (left[i] || 0) - (right[i] || 0);
+        if (diff !== 0) return diff > 0 ? 1 : -1;
+      }
+      return 0;
+    }
+
+    function setVersionState(remote = null) {
+      if (availableVersionLabel) availableVersionLabel.textContent = remote ? `V${String(remote).replace(/^v/i, "")}` : "–";
+      if (!versionStatusLabel) return;
+      if (!remote) versionStatusLabel.textContent = navigator.onLine ? "Prüfung nicht möglich" : "Offline";
+      else if (compareVersions(remote, CURRENT_VERSION) > 0) versionStatusLabel.textContent = "Update verfügbar";
+      else versionStatusLabel.textContent = "App ist aktuell ✓";
+    }
 
     const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 
@@ -484,12 +514,19 @@
       const remote = await readServerVersion();
       if (remote) {
         serverVersion = remote;
-        if (remote !== CURRENT_VERSION) revealUpdate(remote);
+        setVersionState(remote);
+        if (compareVersions(remote, CURRENT_VERSION) > 0) revealUpdate(remote);
+        else {
+          if (globalNotice) globalNotice.hidden = true;
+          if (updateBtn) updateBtn.hidden = true;
+        }
+      } else {
+        setVersionState(null);
       }
 
       try {
         await registrationRef.update();
-        if (registrationRef.waiting) showUpdate(registrationRef.waiting);
+        if (registrationRef.waiting && serverVersion && compareVersions(serverVersion, CURRENT_VERSION) > 0) showUpdate(registrationRef.waiting);
       } catch (error) {
         console.debug("Automatische Update-Prüfung nicht möglich:", error);
       }
@@ -533,19 +570,17 @@
 
     window.addEventListener("load", async () => {
       try {
-        const registration = await navigator.serviceWorker.register("./service-worker.js?v=0.22", { updateViaCache: "none" });
+        const registration = await navigator.serviceWorker.register("./service-worker.js?v=0.22.1", { updateViaCache: "none" });
         registrationRef = registration;
 
-        if (registration.waiting) showUpdate(registration.waiting);
-        else if (standalone) setStatus("App installiert", navigator.onLine ? "Online und offline bereit." : "Offline gestartet – Kasse ist weiter nutzbar.");
+        if (standalone) setStatus("App installiert", navigator.onLine ? "Online und offline bereit." : "Offline gestartet – Kasse ist weiter nutzbar.");
         else setStatus("Offline bereit", navigator.onLine ? "Die App-Dateien werden für Offline-Nutzung gespeichert." : "Offline gestartet – Kasse ist weiter nutzbar.");
 
         registration.addEventListener("updatefound", () => {
           const worker = registration.installing;
           if (!worker) return;
-          revealUpdate(serverVersion);
           worker.addEventListener("statechange", () => {
-            if (worker.state === "installed" && navigator.serviceWorker.controller) showUpdate(worker);
+            if (worker.state === "installed" && navigator.serviceWorker.controller && serverVersion && compareVersions(serverVersion, CURRENT_VERSION) > 0) showUpdate(worker);
           });
         });
 
@@ -561,7 +596,7 @@
           const before = waitingWorker;
           await automaticUpdateCheck(true);
           setTimeout(() => {
-            if (!waitingWorker && !before && (!serverVersion || serverVersion === CURRENT_VERSION)) {
+            if (!waitingWorker && !before && (!serverVersion || compareVersions(serverVersion, CURRENT_VERSION) <= 0)) {
               setStatus(standalone ? "App aktuell" : "Offline bereit", "Es wurde keine neuere Version gefunden.");
             }
           }, 700);
