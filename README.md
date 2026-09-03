@@ -1,6 +1,6 @@
-# KassenApp V0.21
+# KassenApp V0.22
 
-## Änderungen in V0.21
+## Änderungen in V0.22
 
 1. **Handy-Queransicht überarbeitet**
    - Warenkorb erhält wieder eine komfortable Mindesthöhe.
@@ -14,6 +14,13 @@
    - Versionsgebundene CSS-/JS-Dateien verhindern, dass alte Assets aus einem vorherigen Cache weiterverwendet werden.
    - Service Worker und Navigation prüfen Aktualisierungen ohne HTTP-Cache.
 
-V0.21 basiert auf V0.20. Lokale Daten bleiben über den bestehenden localStorage-Schlüssel kompatibel.
+V0.22 basiert auf V0.20. Lokale Daten bleiben über den bestehenden localStorage-Schlüssel kompatibel.
 
-Hinweis: Um von einer älteren Version erstmals auf diese neue Update-Logik zu wechseln, kann einmalig ein manuelles Neuladen bzw. „Nach Update suchen“ nötig sein. Ab V0.21 übernimmt die App die Versionsprüfung selbst.
+Hinweis: Um von einer älteren Version erstmals auf diese neue Update-Logik zu wechseln, kann einmalig ein manuelles Neuladen bzw. „Nach Update suchen“ nötig sein. Ab V0.22 übernimmt die App die Versionsprüfung selbst.
+
+
+## V0.22
+- Handy-Queransicht technisch bereinigt: alte, überlappende Landscape-Media-Queries entfernt.
+- Eine einzige autoritative Landscape-Regel nutzt die volle Viewport-Höhe.
+- Rechte Kassenspalte als festes Grid: Warenkorb flexibel scrollbar, Zahlung und Abschluss bleiben groß erreichbar.
+- Artikelkachel-/Bildoptik bewusst unverändert; bleibt auf dem Parkplatz.

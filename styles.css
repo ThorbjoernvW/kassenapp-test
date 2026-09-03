@@ -2607,40 +2607,7 @@ body { min-width: 0; }
 
 /* Handy/kleines Tablet quer: Artikel und Abschluss nebeneinander, damit wenig
    vertikale Bildschirmhöhe besser genutzt wird. */
-@media (max-width: 980px) and (orientation: landscape) and (max-height: 600px) {
-  .shell { padding: 10px; }
 
-  #cashView.active .cash-grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr);
-    gap: 10px;
-  }
-
-  #cashView.active .products-panel,
-  #cashView.active .checkout-panel {
-    padding: 12px;
-  }
-
-  #cashView.active .products-panel .panel-header p,
-  #cashView.active .keypad-hint {
-    display: none;
-  }
-
-  #cashView.active .category-block { margin-top: 12px; }
-  #cashView.active .section-title-row { margin-bottom: 7px; }
-  #cashView.active .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
-  #cashView.active .product-btn { min-height: 78px; padding: 10px; border-radius: 12px; }
-
-  #cashView.active .checkout-panel {
-    position: static;
-    max-height: calc(100vh - 84px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  #cashView.active .cart-list { max-height: 115px; overflow-y: auto; }
-  #cashView.active .payment-box { padding: 10px; }
-  #cashView.active .cash-keypad button { min-height: 42px; }
-}
 
 
 /* =========================================================
@@ -2789,177 +2756,7 @@ body { min-width: 0; }
 
 /* Auf kleinen Handys im Querformat zählt jeder Höhen-Pixel:
    Die mobile Kopfzeile verschwindet, nur der Burger bleibt schwebend sichtbar. */
-@media (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
-  body:has(#cashView.active) {
-    height: 100dvh;
-    overflow: hidden;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
 
-  body:has(#cashView.active) .mobile-topbar {
-    display: block;
-    inset: 0;
-    width: 0;
-    height: 0;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    pointer-events: none;
-  }
-
-  body:has(#cashView.active) .mobile-brand {
-    display: none;
-  }
-
-  body:has(#cashView.active) .mobile-menu-btn {
-    position: fixed;
-    z-index: 85;
-    top: max(8px, env(safe-area-inset-top));
-    right: max(8px, env(safe-area-inset-right));
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(255,255,255,.28);
-    border-radius: 12px;
-    background: rgba(7,62,46,.94);
-    color: #fff;
-    box-shadow: 0 5px 16px rgba(3,35,25,.2);
-    pointer-events: auto;
-  }
-
-  body:has(#cashView.active) .app-sidebar {
-    inset: max(60px, calc(env(safe-area-inset-top) + 56px)) max(8px, env(safe-area-inset-right)) auto auto;
-    max-height: calc(100dvh - 68px - env(safe-area-inset-top));
-  }
-
-  body:has(#cashView.active) .shell {
-    height: 100dvh;
-    min-height: 0;
-    padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  #cashView.active,
-  #cashView.active .cash-grid {
-    height: 100%;
-    min-height: 0;
-  }
-
-  #cashView.active .cash-grid {
-    grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr);
-    gap: 8px;
-    align-items: stretch;
-  }
-
-  #cashView.active .products-panel,
-  #cashView.active .checkout-panel {
-    height: 100%;
-    min-height: 0;
-    padding: 10px;
-    border-radius: 14px;
-  }
-
-  #cashView.active .products-panel {
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
-  }
-
-  #cashView.active .products-panel .panel-header {
-    padding-right: 48px;
-  }
-
-  #cashView.active .products-panel .panel-header h1 {
-    font-size: 1.15rem;
-  }
-
-  #cashView.active .products-panel .panel-header p,
-  #cashView.active .checkout-panel .panel-header p,
-  #cashView.active .keypad-hint {
-    display: none;
-  }
-
-  #cashView.active .category-block { margin-top: 7px; }
-  #cashView.active .category-divider { margin: 8px 0 0; }
-  #cashView.active .drinks-block { margin-top: 7px; }
-  #cashView.active .section-title-row { margin-bottom: 5px; }
-  #cashView.active .section-title-row h2 { font-size: .92rem; }
-
-  #cashView.active .product-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  #cashView.active .product-btn {
-    min-height: 66px;
-    padding: 8px;
-    border-radius: 11px;
-  }
-
-  #cashView.active .checkout-panel {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding-right: 54px; /* Platz für den schwebenden Burger */
-  }
-
-  #cashView.active .checkout-panel .panel-header {
-    flex: 0 0 auto;
-    margin-bottom: 5px;
-  }
-
-  #cashView.active .checkout-panel .panel-header h2 { font-size: 1rem; }
-
-  #cashView.active .cart-list {
-    flex: 1 1 auto;
-    min-height: 48px;
-    max-height: none;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    margin-bottom: 5px;
-  }
-
-  #cashView.active .cart-row { padding-block: 5px; }
-  #cashView.active .totals { margin-top: 0; padding-block: 5px; }
-  #cashView.active .payment-box { padding: 7px; margin-top: 5px; }
-  #cashView.active .payment-heading { gap: 5px; }
-  #cashView.active .money-input-wrap { margin-top: 5px; }
-  #cashView.active .quick-money { gap: 5px; margin-top: 5px; }
-  #cashView.active .quick-money button { min-height: 40px; padding: 5px; }
-  #cashView.active .change-card { margin-top: 5px; padding: 6px 8px; }
-  #cashView.active .complete-btn { min-height: 44px; margin-top: 6px; }
-  #cashView.active .message { min-height: 0; margin-top: 3px; }
-
-  /* Querformat-Tastenfeld: vier Spalten statt drei, dadurch deutlich niedriger. */
-  #cashView.active .cash-keypad {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 5px;
-    margin: 5px 0 4px;
-  }
-
-  #cashView.active .cash-keypad button {
-    min-height: 38px;
-    border-radius: 9px;
-  }
-
-  #cashView.active .cash-keypad [data-keypad="7"] { grid-column: 1; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="8"] { grid-column: 2; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="9"] { grid-column: 3; grid-row: 1; }
-  #cashView.active .cash-keypad .keypad-backspace { grid-column: 4; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="4"] { grid-column: 1; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="5"] { grid-column: 2; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="6"] { grid-column: 3; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="00"] { grid-column: 4; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="1"] { grid-column: 1; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="2"] { grid-column: 2; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="3"] { grid-column: 3; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad=","] { grid-column: 4; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="0"] { grid-column: 1 / span 2; grid-row: 4; }
-  #cashView.active .cash-keypad .keypad-exact { grid-column: 3 / span 2; grid-row: 4; }
-}
 
 
 /* =========================================================
@@ -2967,33 +2764,7 @@ body { min-width: 0; }
    Der schwebende Menüknopf bleibt im Querformat zuverlässig
    antippbar, auch wenn das Menü bereits geöffnet ist.
    ========================================================= */
-@media (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
-  body:has(#cashView.active) .mobile-topbar {
-    display: flex;
-    position: fixed;
-    inset: 0 0 auto 0;
-    width: 100%;
-    height: 56px;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    pointer-events: none;
-    z-index: 110;
-  }
 
-  body:has(#cashView.active) .mobile-menu-btn {
-    z-index: 111;
-    pointer-events: auto;
-  }
-
-  body:has(#cashView.active) .sidebar-backdrop {
-    z-index: 80;
-  }
-
-  body:has(#cashView.active) .app-sidebar {
-    z-index: 100;
-  }
-}
 
 
 /* =========================================================
@@ -3033,12 +2804,7 @@ body { min-width: 0; }
 
 /* In der speziellen Kassen-Queransicht bleiben die dortigen
    Positionen erhalten, aber mit derselben eindeutigen Ebenenfolge. */
-@media (max-width: 760px) and (orientation: landscape) and (max-height: 600px) {
-  body:has(#cashView.active) .mobile-topbar { z-index: 130; }
-  body:has(#cashView.active) .mobile-menu-btn { z-index: 131; }
-  body:has(#cashView.active) .app-sidebar { z-index: 120; }
-  body:has(#cashView.active) .sidebar-backdrop { z-index: 110; }
-}
+
 
 
 /* =========================================================
@@ -3046,260 +2812,11 @@ body { min-width: 0; }
    Ziel: kein Seiten-Scrollen, Abschluss bleibt erreichbar.
    Die Artikelkachel-/Bildoptik wird hier bewusst NICHT verändert.
    ========================================================= */
-@media (orientation: landscape) and (max-width: 980px) and (max-height: 620px) {
-  body:has(#cashView.active) {
-    height: 100dvh;
-    min-height: 0;
-    overflow: hidden;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
 
-  body:has(#cashView.active) .mobile-topbar {
-    display: flex;
-    position: fixed;
-    inset: 0 0 auto 0;
-    width: 100%;
-    height: 0;
-    min-height: 0;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    pointer-events: none;
-    z-index: 130;
-  }
-
-  body:has(#cashView.active) .mobile-brand { display: none; }
-
-  body:has(#cashView.active) .mobile-menu-btn {
-    position: fixed;
-    top: max(7px, env(safe-area-inset-top));
-    right: max(7px, env(safe-area-inset-right));
-    width: 44px;
-    height: 44px;
-    z-index: 131;
-    pointer-events: auto;
-  }
-
-  body:has(#cashView.active) .shell {
-    height: 100dvh;
-    min-height: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-    padding: max(6px, env(safe-area-inset-top)) max(7px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(7px, env(safe-area-inset-left));
-  }
-
-  #cashView.active,
-  #cashView.active .cash-grid {
-    height: 100%;
-    min-height: 0;
-  }
-
-  #cashView.active .cash-grid {
-    grid-template-columns: minmax(0, 58fr) minmax(300px, 42fr);
-    gap: 8px;
-    align-items: stretch;
-  }
-
-  #cashView.active .products-panel,
-  #cashView.active .checkout-panel {
-    height: 100%;
-    min-height: 0;
-    box-sizing: border-box;
-    padding: 10px;
-    border-radius: 14px;
-  }
-
-  /* Links darf nur die Artikelseite innerhalb ihres Panels scrollen. */
-  #cashView.active .products-panel {
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  #cashView.active .products-panel .panel-header {
-    margin-bottom: 3px;
-    padding-right: 0;
-  }
-
-  #cashView.active .products-panel .panel-header h1 {
-    font-size: 1.08rem;
-    line-height: 1.1;
-  }
-
-  #cashView.active .products-panel .panel-header p,
-  #cashView.active .checkout-panel .panel-header p,
-  #cashView.active .keypad-hint { display: none; }
-
-  #cashView.active .category-block { margin-top: 7px; }
-  #cashView.active .category-divider { margin: 8px 0 0; }
-  #cashView.active .drinks-block { margin-top: 7px; }
-  #cashView.active .section-title-row { margin-bottom: 5px; }
-  #cashView.active .section-title-row h2 { font-size: .9rem; }
-
-  #cashView.active .product-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  /* Rechts bleibt der eigentliche Kassenabschluss immer sichtbar. */
-  #cashView.active .checkout-panel {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding-right: 56px; /* freier Bereich für den Burger */
-  }
-
-  #cashView.active .checkout-panel .panel-header {
-    flex: 0 0 auto;
-    min-height: 32px;
-    margin-bottom: 2px;
-    gap: 6px;
-  }
-
-  #cashView.active .checkout-panel .panel-header h2 {
-    font-size: .98rem;
-    line-height: 1.1;
-  }
-
-  #cashView.active .checkout-panel .text-btn {
-    min-height: 34px;
-    padding: 4px 8px;
-  }
-
-  /* Der alte flex:1-Warenkorb war die Ursache dafür, dass die
-     Bezahlsektion aus dem sichtbaren Bereich gedrückt wurde. */
-  #cashView.active .cart-list {
-    flex: 0 1 auto;
-    min-height: 44px;
-    max-height: clamp(54px, 24dvh, 105px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    margin: 0 0 3px;
-  }
-
-  #cashView.active .cart-row { padding-block: 4px; }
-  #cashView.active .qty-controls button,
-  #cashView.active .delete-cart-item {
-    min-width: 36px;
-    min-height: 36px;
-  }
-
-  #cashView.active .totals {
-    flex: 0 0 auto;
-    margin-top: 0;
-    padding: 4px 0;
-  }
-
-  #cashView.active .total-row strong { font-size: 1.2rem; }
-
-  #cashView.active .payment-box {
-    flex: 0 0 auto;
-    min-height: 0;
-    padding: 6px;
-    margin-top: 3px;
-  }
-
-  #cashView.active .payment-heading {
-    gap: 4px;
-    align-items: center;
-  }
-
-  #cashView.active .payment-heading > label { font-size: .9rem; }
-
-  #cashView.active .payment-mode-switch {
-    gap: 3px;
-    padding: 2px;
-  }
-
-  #cashView.active .payment-mode-btn {
-    min-height: 34px;
-    padding: 4px 7px;
-    font-size: .78rem;
-  }
-
-  #cashView.active .money-input-wrap {
-    margin-top: 4px;
-    min-height: 36px;
-  }
-
-  #cashView.active .money-input {
-    min-height: 36px;
-    padding-block: 4px;
-  }
-
-  #cashView.active .quick-money {
-    gap: 4px;
-    margin-top: 4px;
-  }
-
-  #cashView.active .quick-money button {
-    min-height: 36px;
-    padding: 4px;
-  }
-
-  #cashView.active .change-card {
-    margin-top: 4px;
-    padding: 5px 7px;
-  }
-
-  #cashView.active .change-card strong { font-size: 1.05rem; }
-
-  #cashView.active .complete-btn {
-    flex: 0 0 auto;
-    min-height: 42px;
-    margin-top: 4px;
-    padding-block: 6px;
-  }
-
-  #cashView.active .message {
-    flex: 0 0 auto;
-    min-height: 0;
-    margin-top: 2px;
-  }
-
-  /* Niedriges 4-Spalten-Tastenfeld im Querformat. */
-  #cashView.active .cash-keypad {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 4px;
-    margin: 4px 0 2px;
-  }
-
-  #cashView.active .cash-keypad button {
-    min-height: 34px;
-    padding: 3px;
-    border-radius: 8px;
-  }
-
-  #cashView.active .cash-keypad [data-keypad="7"] { grid-column: 1; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="8"] { grid-column: 2; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="9"] { grid-column: 3; grid-row: 1; }
-  #cashView.active .cash-keypad .keypad-backspace { grid-column: 4; grid-row: 1; }
-  #cashView.active .cash-keypad [data-keypad="4"] { grid-column: 1; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="5"] { grid-column: 2; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="6"] { grid-column: 3; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="00"] { grid-column: 4; grid-row: 2; }
-  #cashView.active .cash-keypad [data-keypad="1"] { grid-column: 1; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="2"] { grid-column: 2; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="3"] { grid-column: 3; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad=","] { grid-column: 4; grid-row: 3; }
-  #cashView.active .cash-keypad [data-keypad="0"] { grid-column: 1 / span 2; grid-row: 4; }
-  #cashView.active .cash-keypad .keypad-exact { grid-column: 3 / span 2; grid-row: 4; }
-}
 
 /* Extrem niedrige Browserfenster: noch etwas kompakter, ohne die
    Artikelkacheln/Bilder gestalterisch neu anzufassen. */
-@media (orientation: landscape) and (max-width: 980px) and (max-height: 430px) {
-  #cashView.active .products-panel,
-  #cashView.active .checkout-panel { padding: 7px; }
-  #cashView.active .checkout-panel { padding-right: 54px; }
-  #cashView.active .cart-list { max-height: 64px; min-height: 34px; }
-  #cashView.active .payment-mode-btn,
-  #cashView.active .quick-money button,
-  #cashView.active .cash-keypad button { min-height: 31px; }
-  #cashView.active .money-input-wrap,
-  #cashView.active .money-input { min-height: 32px; }
-  #cashView.active .complete-btn { min-height: 38px; }
-}
+
 
 
 /* =========================================================
@@ -3330,78 +2847,9 @@ body { min-width: 0; }
 .global-update-notice span { font-size: .86rem; color: var(--text-soft, #66736d); }
 .global-update-notice .primary-btn { flex: 0 0 auto; min-height: 42px; width: auto; margin: 0; padding-inline: 16px; }
 
-@media (orientation: landscape) and (max-width: 980px) and (max-height: 620px) {
-  #cashView.active .cash-grid {
-    grid-template-columns: minmax(0, 54fr) minmax(345px, 46fr);
-  }
 
-  #cashView.active .checkout-panel {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 12px 56px 12px 12px;
-    scrollbar-gutter: stable;
-  }
 
-  #cashView.active .checkout-panel .panel-header {
-    min-height: 40px;
-    margin-bottom: 6px;
-  }
 
-  #cashView.active .cart-list {
-    flex: 0 0 auto;
-    min-height: 112px;
-    max-height: 34dvh;
-    overflow-y: auto;
-    margin-bottom: 7px;
-  }
-
-  #cashView.active .cart-row { padding-block: 6px; }
-
-  #cashView.active .totals {
-    padding: 7px 0;
-  }
-
-  #cashView.active .payment-box {
-    flex: 0 0 auto;
-    min-height: 152px;
-    padding: 9px;
-    margin-top: 5px;
-  }
-
-  #cashView.active .payment-heading { gap: 7px; }
-  #cashView.active .payment-mode-btn { min-height: 40px; padding: 6px 9px; }
-  #cashView.active .money-input-wrap,
-  #cashView.active .money-input { min-height: 42px; }
-  #cashView.active .quick-money button { min-height: 42px; }
-  #cashView.active .change-card { margin-top: 7px; padding: 8px 9px; }
-
-  #cashView.active .cash-keypad { gap: 5px; margin-top: 7px; }
-  #cashView.active .cash-keypad button { min-height: 40px; padding: 5px; }
-
-  #cashView.active .complete-btn {
-    position: sticky;
-    bottom: 0;
-    z-index: 4;
-    flex: 0 0 auto;
-    min-height: 48px;
-    margin-top: 8px;
-    box-shadow: 0 -7px 14px rgba(255,255,255,.92);
-  }
-
-  #cashView.active .message { padding-bottom: 2px; }
-}
-
-@media (orientation: landscape) and (max-width: 980px) and (max-height: 430px) {
-  #cashView.active .checkout-panel { padding: 9px 54px 9px 9px; }
-  #cashView.active .cart-list { min-height: 96px; max-height: 32dvh; }
-  #cashView.active .payment-box { min-height: 142px; }
-  #cashView.active .payment-mode-btn,
-  #cashView.active .quick-money button,
-  #cashView.active .cash-keypad button { min-height: 38px; }
-  #cashView.active .complete-btn { min-height: 46px; }
-}
 
 @media (max-width: 560px) {
   .global-update-notice {
@@ -3409,4 +2857,197 @@ body { min-width: 0; }
     flex-direction: column;
   }
   .global-update-notice .primary-btn { width: 100%; }
+}
+
+
+/* =========================================================
+   KassenApp V0.22 – EINZIGE Handy-Queransicht
+   Absichtlich nur über Querformat + geringe Viewport-Höhe + Touch erkannt.
+   Keine weiteren Landscape-Overrides unterhalb dieses Blocks anlegen.
+   ========================================================= */
+@media (orientation: landscape) and (max-height: 650px) and (pointer: coarse) {
+  html, body { height: 100%; }
+
+  body:has(#cashView.active) {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 !important;
+  }
+
+  body:has(#cashView.active) .mobile-topbar {
+    display: flex;
+    position: fixed;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+    z-index: 130;
+  }
+
+  body:has(#cashView.active) .mobile-brand { display: none; }
+
+  body:has(#cashView.active) .mobile-menu-btn {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    right: max(8px, env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
+    z-index: 131;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  body:has(#cashView.active) .app-sidebar {
+    top: max(60px, calc(env(safe-area-inset-top) + 56px));
+    right: max(8px, env(safe-area-inset-right));
+    bottom: auto;
+    left: auto;
+    max-height: calc(100dvh - 68px - env(safe-area-inset-top));
+    z-index: 120;
+  }
+
+  body:has(#cashView.active) .sidebar-backdrop { z-index: 110; }
+
+  body:has(#cashView.active) .shell {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
+    padding: max(6px, env(safe-area-inset-top)) max(7px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(7px, env(safe-area-inset-left));
+    overflow: hidden;
+  }
+
+  #cashView.active,
+  #cashView.active .cash-grid {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  #cashView.active .cash-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 56fr) minmax(330px, 44fr);
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  #cashView.active .products-panel,
+  #cashView.active .checkout-panel {
+    height: 100%;
+    min-height: 0;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  #cashView.active .products-panel {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  #cashView.active .products-panel .panel-header { margin-bottom: 2px; }
+  #cashView.active .products-panel .panel-header h1 { font-size: 1.08rem; line-height: 1.1; }
+  #cashView.active .products-panel .panel-header p,
+  #cashView.active .checkout-panel .panel-header p,
+  #cashView.active .keypad-hint { display: none; }
+  #cashView.active .category-block { margin-top: 7px; }
+  #cashView.active .category-divider { margin: 8px 0 0; }
+  #cashView.active .drinks-block { margin-top: 7px; }
+  #cashView.active .section-title-row { margin-bottom: 5px; }
+  #cashView.active .section-title-row h2 { font-size: .9rem; }
+  #cashView.active .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  #cashView.active .product-btn { min-height: 70px; padding: 8px; border-radius: 11px; }
+
+  /* Rechte Seite belegt garantiert die volle Viewport-Höhe.
+     Nur der Warenkorb wächst/schrumpft; Abschluss und Zahlung bleiben stabil. */
+  #cashView.active .checkout-panel {
+    position: static;
+    display: grid;
+    grid-template-rows: auto minmax(82px, 1fr) auto auto auto;
+    overflow: hidden;
+    padding-right: 56px;
+  }
+
+  #cashView.active .checkout-panel .panel-header {
+    min-height: 38px;
+    margin: 0 0 5px;
+    gap: 6px;
+  }
+  #cashView.active .checkout-panel .panel-header h2 { font-size: 1rem; }
+  #cashView.active .checkout-panel .text-btn { min-height: 36px; padding: 5px 9px; }
+
+  #cashView.active .cart-list {
+    min-height: 82px;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 0 0 5px;
+    align-content: start;
+  }
+  #cashView.active .cart-row { padding-block: 5px; }
+  #cashView.active .qty-controls button,
+  #cashView.active .delete-cart-item { min-width: 38px; min-height: 38px; }
+
+  #cashView.active .totals { margin: 0; padding: 5px 0; }
+  #cashView.active .total-row strong { font-size: 1.2rem; }
+
+  #cashView.active .payment-box {
+    min-height: 0;
+    margin: 3px 0 0;
+    padding: 7px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #cashView.active .payment-heading { gap: 5px; }
+  #cashView.active .payment-heading > label { font-size: .9rem; }
+  #cashView.active .payment-mode-switch { gap: 3px; padding: 2px; }
+  #cashView.active .payment-mode-btn { min-height: 36px; padding: 4px 7px; font-size: .8rem; }
+  #cashView.active .money-input-wrap { min-height: 38px; margin-top: 4px; }
+  #cashView.active .money-input { min-height: 38px; padding-block: 4px; }
+  #cashView.active .quick-money { gap: 4px; margin-top: 4px; }
+  #cashView.active .quick-money button { min-height: 38px; padding: 4px; }
+  #cashView.active .change-card { margin-top: 4px; padding: 6px 8px; }
+  #cashView.active .change-card strong { font-size: 1.05rem; }
+
+  #cashView.active .complete-btn {
+    position: static;
+    min-height: 50px;
+    margin: 6px 0 0;
+    padding: 8px 10px;
+    font-size: 1rem;
+  }
+  #cashView.active .message { min-height: 0; margin-top: 2px; }
+
+  #cashView.active .cash-keypad {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    margin: 5px 0 2px;
+  }
+  #cashView.active .cash-keypad button { min-height: 36px; padding: 4px; border-radius: 8px; }
+  #cashView.active .cash-keypad [data-keypad="7"] { grid-column: 1; grid-row: 1; }
+  #cashView.active .cash-keypad [data-keypad="8"] { grid-column: 2; grid-row: 1; }
+  #cashView.active .cash-keypad [data-keypad="9"] { grid-column: 3; grid-row: 1; }
+  #cashView.active .cash-keypad .keypad-backspace { grid-column: 4; grid-row: 1; }
+  #cashView.active .cash-keypad [data-keypad="4"] { grid-column: 1; grid-row: 2; }
+  #cashView.active .cash-keypad [data-keypad="5"] { grid-column: 2; grid-row: 2; }
+  #cashView.active .cash-keypad [data-keypad="6"] { grid-column: 3; grid-row: 2; }
+  #cashView.active .cash-keypad [data-keypad="00"] { grid-column: 4; grid-row: 2; }
+  #cashView.active .cash-keypad [data-keypad="1"] { grid-column: 1; grid-row: 3; }
+  #cashView.active .cash-keypad [data-keypad="2"] { grid-column: 2; grid-row: 3; }
+  #cashView.active .cash-keypad [data-keypad="3"] { grid-column: 3; grid-row: 3; }
+  #cashView.active .cash-keypad [data-keypad=","] { grid-column: 4; grid-row: 3; }
+  #cashView.active .cash-keypad [data-keypad="0"] { grid-column: 1 / span 2; grid-row: 4; }
+  #cashView.active .cash-keypad .keypad-exact { grid-column: 3 / span 2; grid-row: 4; }
 }
