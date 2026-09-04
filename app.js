@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.2";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.3";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -37,6 +37,7 @@ function loadState() {
       imageData: p.imageData || "",
       imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
       imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
+      imageZoom: Number.isFinite(Number(p.imageZoom)) ? Math.min(2.5, Math.max(1, Number(p.imageZoom))) : 1,
       color: p.color || defaultColors[i % defaultColors.length]
     }));
     parsed.paymentMode = parsed.paymentMode === "keypad" ? "keypad" : "quick";
@@ -127,7 +128,10 @@ function productButton(product) {
 
   let media = "";
   if (hasImage) {
-    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${Number(product.imagePositionX ?? 50)}% ${Number(product.imagePositionY ?? 50)}%" /></div>`;
+    const imageX = Number(product.imagePositionX ?? 50);
+    const imageY = Number(product.imagePositionY ?? 50);
+    const imageZoom = Math.min(2.5, Math.max(1, Number(product.imageZoom ?? 1)));
+    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${imageX}% ${imageY}%; transform:scale(${imageZoom}); transform-origin:${imageX}% ${imageY}%" /></div>`;
   } else if (hasIcon) {
     media = `<div class="product-media icon">${escapeHtml(product.icon)}</div>`;
   }
@@ -688,6 +692,40 @@ function moveProduct(id, delta) {
 let pendingProductImageData = null;
 let pendingProductImagePositionX = 50;
 let pendingProductImagePositionY = 50;
+let pendingProductImageZoom = 1;
+const imagePreviewPointers = new Map();
+let imagePreviewDragStart = null;
+let imagePreviewPinchStart = null;
+
+function clampImageSetting(value, min, max) {
+  return Math.min(max, Math.max(min, Number(value)));
+}
+
+function applyImageTransform(img) {
+  if (!img) return;
+  img.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
+  img.style.transform = `scale(${pendingProductImageZoom})`;
+  img.style.transformOrigin = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
+}
+
+function syncImageEditorUi() {
+  const xInput = document.getElementById("productImagePositionX");
+  const yInput = document.getElementById("productImagePositionY");
+  const zoomInput = document.getElementById("productImageZoom");
+  const xValue = document.getElementById("productImagePositionXValue");
+  const yValue = document.getElementById("productImagePositionYValue");
+  const zoomValue = document.getElementById("productImageZoomValue");
+
+  if (xInput) xInput.value = String(Math.round(pendingProductImagePositionX));
+  if (yInput) yInput.value = String(Math.round(pendingProductImagePositionY));
+  if (zoomInput) zoomInput.value = String(Math.round(pendingProductImageZoom * 100));
+  if (xValue) xValue.textContent = `${Math.round(pendingProductImagePositionX)}%`;
+  if (yValue) yValue.textContent = `${Math.round(pendingProductImagePositionY)}%`;
+  if (zoomValue) zoomValue.textContent = `${Math.round(pendingProductImageZoom * 100)}%`;
+
+  applyImageTransform(document.getElementById("productImagePreview"));
+  applyImageTransform(document.getElementById("productTileImagePreview"));
+}
 
 function updateProductImagePreview(dataUrl) {
   const preview = document.getElementById("productImagePreview");
@@ -695,24 +733,14 @@ function updateProductImagePreview(dataUrl) {
   const controls = document.getElementById("imagePositionControls");
   const text = document.getElementById("imageDropText");
   const removeBtn = document.getElementById("removeProductImageBtn");
-  const xInput = document.getElementById("productImagePositionX");
-  const yInput = document.getElementById("productImagePositionY");
-  const xValue = document.getElementById("productImagePositionXValue");
-  const yValue = document.getElementById("productImagePositionYValue");
 
-  if (xInput) xInput.value = String(pendingProductImagePositionX);
-  if (yInput) yInput.value = String(pendingProductImagePositionY);
-  if (xValue) xValue.textContent = `${pendingProductImagePositionX}%`;
-  if (yValue) yValue.textContent = `${pendingProductImagePositionY}%`;
+  syncImageEditorUi();
 
   if (dataUrl) {
     preview.src = dataUrl;
-    preview.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
     preview.hidden = false;
-    if (tilePreview) {
-      tilePreview.src = dataUrl;
-      tilePreview.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
-    }
+    if (tilePreview) tilePreview.src = dataUrl;
+    syncImageEditorUi();
     if (controls) controls.hidden = false;
     text.textContent = "Anderes Bild auswählen";
     removeBtn.style.visibility = "visible";
@@ -729,9 +757,96 @@ function updateProductImagePreview(dataUrl) {
 function updatePendingImagePosition() {
   const xInput = document.getElementById("productImagePositionX");
   const yInput = document.getElementById("productImagePositionY");
-  pendingProductImagePositionX = Math.min(100, Math.max(0, Number(xInput?.value ?? 50)));
-  pendingProductImagePositionY = Math.min(100, Math.max(0, Number(yInput?.value ?? 50)));
-  updateProductImagePreview(pendingProductImageData);
+  const zoomInput = document.getElementById("productImageZoom");
+  pendingProductImagePositionX = clampImageSetting(xInput?.value ?? 50, 0, 100);
+  pendingProductImagePositionY = clampImageSetting(yInput?.value ?? 50, 0, 100);
+  pendingProductImageZoom = clampImageSetting(Number(zoomInput?.value ?? 100) / 100, 1, 2.5);
+  syncImageEditorUi();
+}
+
+function resetPendingImageTransform() {
+  pendingProductImagePositionX = 50;
+  pendingProductImagePositionY = 50;
+  pendingProductImageZoom = 1;
+  syncImageEditorUi();
+}
+
+function pointerDistance(a, b) {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function setupTouchImageEditor() {
+  const preview = document.querySelector(".image-position-preview");
+  if (!preview || preview.dataset.touchEditorReady === "1") return;
+  preview.dataset.touchEditorReady = "1";
+
+  preview.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse") return;
+    preview.setPointerCapture?.(event.pointerId);
+    imagePreviewPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+    if (imagePreviewPointers.size === 1) {
+      imagePreviewDragStart = {
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        imageX: pendingProductImagePositionX,
+        imageY: pendingProductImagePositionY
+      };
+      imagePreviewPinchStart = null;
+    } else if (imagePreviewPointers.size === 2) {
+      const [a, b] = [...imagePreviewPointers.values()];
+      imagePreviewPinchStart = { distance: pointerDistance(a, b), zoom: pendingProductImageZoom };
+      imagePreviewDragStart = null;
+    }
+    event.preventDefault();
+  });
+
+  preview.addEventListener("pointermove", (event) => {
+    if (!imagePreviewPointers.has(event.pointerId)) return;
+    imagePreviewPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+    if (imagePreviewPointers.size >= 2 && imagePreviewPinchStart) {
+      const [a, b] = [...imagePreviewPointers.values()];
+      const distance = Math.max(1, pointerDistance(a, b));
+      pendingProductImageZoom = clampImageSetting(imagePreviewPinchStart.zoom * (distance / Math.max(1, imagePreviewPinchStart.distance)), 1, 2.5);
+      syncImageEditorUi();
+      event.preventDefault();
+      return;
+    }
+
+    if (imagePreviewPointers.size === 1 && imagePreviewDragStart?.pointerId === event.pointerId) {
+      const rect = preview.getBoundingClientRect();
+      const dx = event.clientX - imagePreviewDragStart.x;
+      const dy = event.clientY - imagePreviewDragStart.y;
+      const zoomDamping = Math.max(1, pendingProductImageZoom);
+      pendingProductImagePositionX = clampImageSetting(imagePreviewDragStart.imageX - (dx / Math.max(1, rect.width)) * 100 / zoomDamping, 0, 100);
+      pendingProductImagePositionY = clampImageSetting(imagePreviewDragStart.imageY - (dy / Math.max(1, rect.height)) * 100 / zoomDamping, 0, 100);
+      syncImageEditorUi();
+      event.preventDefault();
+    }
+  });
+
+  const endPointer = (event) => {
+    imagePreviewPointers.delete(event.pointerId);
+    if (imagePreviewPointers.size === 1) {
+      const [pointerId, point] = [...imagePreviewPointers.entries()][0];
+      imagePreviewDragStart = {
+        pointerId,
+        x: point.x,
+        y: point.y,
+        imageX: pendingProductImagePositionX,
+        imageY: pendingProductImagePositionY
+      };
+      imagePreviewPinchStart = null;
+    } else if (imagePreviewPointers.size === 0) {
+      imagePreviewDragStart = null;
+      imagePreviewPinchStart = null;
+    }
+  };
+
+  preview.addEventListener("pointerup", endPointer);
+  preview.addEventListener("pointercancel", endPointer);
 }
 
 function compressImage(file, maxWidth = 640, maxHeight = 420, quality = 0.78) {
@@ -775,7 +890,9 @@ function openProductDialog(id = null) {
   pendingProductImageData = p?.imageData || "";
   pendingProductImagePositionX = Number.isFinite(Number(p?.imagePositionX)) ? Number(p.imagePositionX) : 50;
   pendingProductImagePositionY = Number.isFinite(Number(p?.imagePositionY)) ? Number(p.imagePositionY) : 50;
+  pendingProductImageZoom = Number.isFinite(Number(p?.imageZoom)) ? clampImageSetting(Number(p.imageZoom), 1, 2.5) : 1;
   updateProductImagePreview(pendingProductImageData);
+  setupTouchImageEditor();
   dialog.showModal();
 }
 
@@ -824,6 +941,7 @@ function saveProductFromForm(e) {
     const imageData = pendingProductImageData || "";
     const imagePositionX = imageData ? pendingProductImagePositionX : 50;
     const imagePositionY = imageData ? pendingProductImagePositionY : 50;
+    const imageZoom = imageData ? pendingProductImageZoom : 1;
 
     if (!name) {
       showProductFormMessage("Bitte gib einen Artikelnamen ein.");
@@ -843,7 +961,7 @@ function saveProductFromForm(e) {
         showProductFormMessage("Der Artikel wurde nicht gefunden.");
         return;
       }
-      Object.assign(product, { name, category, price, color, icon, active, imageData, imagePositionX, imagePositionY });
+      Object.assign(product, { name, category, price, color, icon, active, imageData, imagePositionX, imagePositionY, imageZoom });
     } else {
       state.products.push({
         id: createProductId(),
@@ -856,6 +974,7 @@ function saveProductFromForm(e) {
         imageData,
         imagePositionX,
         imagePositionY,
+        imageZoom,
         order: state.products.length + 1
       });
     }
@@ -940,6 +1059,7 @@ function restoreData(file) {
         imageData: p.imageData || "",
         imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
         imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
+        imageZoom: Number.isFinite(Number(p.imageZoom)) ? Math.min(2.5, Math.max(1, Number(p.imageZoom))) : 1,
         color: p.color || defaultColors[i % defaultColors.length]
       }));
       state = parsed;
@@ -1141,6 +1261,7 @@ document.getElementById("productImageInput").addEventListener("change", async (e
     pendingProductImageData = await compressImage(file);
     pendingProductImagePositionX = 50;
     pendingProductImagePositionY = 50;
+    pendingProductImageZoom = 1;
     updateProductImagePreview(pendingProductImageData);
   } catch {
     alert("Das Bild konnte nicht verarbeitet werden.");
@@ -1151,12 +1272,16 @@ document.getElementById("removeProductImageBtn").addEventListener("click", () =>
   pendingProductImageData = "";
   pendingProductImagePositionX = 50;
   pendingProductImagePositionY = 50;
+  pendingProductImageZoom = 1;
   document.getElementById("productImageInput").value = "";
   updateProductImagePreview("");
 });
 
 document.getElementById("productImagePositionX").addEventListener("input", updatePendingImagePosition);
 document.getElementById("productImagePositionY").addEventListener("input", updatePendingImagePosition);
+document.getElementById("productImageZoom").addEventListener("input", updatePendingImagePosition);
+document.getElementById("resetProductImageTransformBtn").addEventListener("click", resetPendingImageTransform);
+setupTouchImageEditor();
 
 document.getElementById("appNameInput").addEventListener("change", (e) => {
   state.appName = e.target.value.trim() || "KassenApp";
