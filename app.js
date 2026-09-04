@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.3";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.3.1";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -128,10 +128,12 @@ function productButton(product) {
 
   let media = "";
   if (hasImage) {
-    const imageX = Number(product.imagePositionX ?? 50);
-    const imageY = Number(product.imagePositionY ?? 50);
-    const imageZoom = Math.min(2.5, Math.max(1, Number(product.imageZoom ?? 1)));
-    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${imageX}% ${imageY}%; transform:scale(${imageZoom}); transform-origin:${imageX}% ${imageY}%" /></div>`;
+    const t = imageTransformValues(
+      Number(product.imagePositionX ?? 50),
+      Number(product.imagePositionY ?? 50),
+      Number(product.imageZoom ?? 1)
+    );
+    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${t.x}% ${t.y}%; transform:translate(${t.translateX}%, ${t.translateY}%) scale(${t.zoom}); transform-origin:50% 50%" /></div>`;
   } else if (hasIcon) {
     media = `<div class="product-media icon">${escapeHtml(product.icon)}</div>`;
   }
@@ -701,11 +703,30 @@ function clampImageSetting(value, min, max) {
   return Math.min(max, Math.max(min, Number(value)));
 }
 
+function imageTransformValues(imageX = 50, imageY = 50, imageZoom = 1) {
+  const x = clampImageSetting(imageX, 0, 100);
+  const y = clampImageSetting(imageY, 0, 100);
+  const zoom = clampImageSetting(imageZoom, 1, 2.5);
+
+  // object-position nutzt den natuerlichen Beschnitt von object-fit: cover.
+  // Bei Zoom kommt zusaetzlich ein normalisierter Pan hinzu. So verwenden
+  // Editor-Vorschau und echte Kachel exakt dieselbe Transformationslogik.
+  const panFactor = Math.max(0, zoom - 1);
+  const translateX = ((50 - x) / 50) * panFactor * 18;
+  const translateY = ((50 - y) / 50) * panFactor * 18;
+  return { x, y, zoom, translateX, translateY };
+}
+
 function applyImageTransform(img) {
   if (!img) return;
-  img.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
-  img.style.transform = `scale(${pendingProductImageZoom})`;
-  img.style.transformOrigin = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
+  const t = imageTransformValues(
+    pendingProductImagePositionX,
+    pendingProductImagePositionY,
+    pendingProductImageZoom
+  );
+  img.style.objectPosition = `${t.x}% ${t.y}%`;
+  img.style.transform = `translate(${t.translateX}%, ${t.translateY}%) scale(${t.zoom})`;
+  img.style.transformOrigin = `50% 50%`;
 }
 
 function syncImageEditorUi() {
