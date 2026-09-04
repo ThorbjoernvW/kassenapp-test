@@ -1,4 +1,4 @@
-const APP_VERSION = "V0.18.3";
+const APP_VERSION = "V0.20";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";

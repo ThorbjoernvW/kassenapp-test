@@ -1,33 +1,23 @@
-# KassenApp V0.22
+# KassenApp V0.22.2
 
-## Änderungen in V0.22
+Themenblock V0.22: Optische Überarbeitung  
+Unterthema V0.22.2: **Artikelkacheln – Grundlayout**
 
-1. **Handy-Queransicht überarbeitet**
-   - Warenkorb erhält wieder eine komfortable Mindesthöhe.
-   - Bezahlbereich und Bedienelemente werden nicht mehr extrem zusammengestaucht.
-   - Die rechte Kassenspalte scrollt bei sehr geringer Displayhöhe intern; die komplette Seite bleibt fix.
-   - „Verkauf abschließen“ bleibt als große, sticky Schaltfläche am unteren Rand der Kassenspalte erreichbar.
+## Änderungen in V0.22.2
 
-2. **Automatische Update-Erkennung robuster gemacht**
-   - Neue `version.json`, die bei Online-Start ohne Cache geprüft wird.
-   - Sichtbarer Update-Hinweis in der App, nicht nur in den Einstellungen.
-   - Versionsgebundene CSS-/JS-Dateien verhindern, dass alte Assets aus einem vorherigen Cache weiterverwendet werden.
-   - Service Worker und Navigation prüfen Aktualisierungen ohne HTTP-Cache.
+- Artikelkacheln nutzen die gewählte Artikelfarbe jetzt gezielter als Akzent statt als dominante Vollfläche.
+- Artikelname und Preis haben eine klarere visuelle Hierarchie.
+- Lange Artikelnamen dürfen sauber umbrechen und bleiben vollständig lesbar.
+- Kacheln ohne Bild oder Emoji wirken nicht mehr wie Karten mit fehlendem Inhalt.
+- Emoji-Kacheln sind kompakter und konsistenter ausgerichtet.
+- Größen und Abstände wurden für Desktop, Tablet, Handy hoch und Handy quer abgestimmt.
 
-V0.22 basiert auf V0.20. Lokale Daten bleiben über den bestehenden localStorage-Schlüssel kompatibel.
+## Bewusst nicht geändert
 
-Hinweis: Um von einer älteren Version erstmals auf diese neue Update-Logik zu wechseln, kann einmalig ein manuelles Neuladen bzw. „Nach Update suchen“ nötig sein. Ab V0.22 übernimmt die App die Versionsprüfung selbst.
+- Darstellung und Zuschnitt hochgeladener Artikelbilder. Das ist das eigene Thema V0.22.3.
+- Warenkorb, Bezahlbereich, Verkäufe und Einstellungen.
 
+## Versionsstand
 
-## V0.22
-- Handy-Queransicht technisch bereinigt: alte, überlappende Landscape-Media-Queries entfernt.
-- Eine einzige autoritative Landscape-Regel nutzt die volle Viewport-Höhe.
-- Rechte Kassenspalte als festes Grid: Warenkorb flexibel scrollbar, Zahlung und Abschluss bleiben groß erreichbar.
-- Artikelkachel-/Bildoptik bewusst unverändert; bleibt auf dem Parkplatz.
-
-
-## V0.22.0.1 – Hotfix Versionserkennung
-- Versionsvergleich normalisiert `V`-Präfixe und vergleicht numerische Versionssegmente.
-- Update-Hinweis erscheint nur, wenn die Server-Version wirklich neuer ist.
-- Einstellungen zeigen installierte Version, verfügbare Version und Status.
-- Service-Worker-App-Shell auf die aktuelle Unterversion synchronisiert.
+- App-Version: V0.22.2
+- Service-Worker-Cache: kassenapp-v0-22-2
