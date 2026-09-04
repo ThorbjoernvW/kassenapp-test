@@ -20,7 +20,7 @@
 body {
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--bg);
+  
   color: var(--ink);
 }
 
@@ -29,13 +29,13 @@ button, input, select { font: inherit; }
 button { cursor: pointer; }
 
 .topbar {
-  min-height: 76px;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding: 12px 28px;
-  background: var(--green-900);
+  
   color: #fff;
   position: sticky;
   top: 0;
@@ -85,7 +85,7 @@ button { cursor: pointer; }
   background: rgba(255,255,255,.12);
 }
 
-.shell { max-width: 1480px; margin: 0 auto; padding: 24px; }
+.shell {  margin: 0 auto; padding: 24px; }
 
 .view { display: none; }
 .view.active { display: block; }
@@ -94,7 +94,7 @@ button { cursor: pointer; }
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  
 }
 
 .cash-grid {
@@ -129,48 +129,48 @@ p, .muted { color: var(--muted); }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  
 }
 
 .product-btn {
-  border: 1px solid var(--line);
-  background: #fff;
-  min-height: 118px;
+  
+  
+  
   border-radius: 16px;
-  padding: 16px;
+  
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 5px 14px rgba(20, 55, 44, 0.04);
+  
   transition: transform .12s ease, border-color .12s ease, background .12s ease;
 }
 
 .product-btn:hover {
-  transform: translateY(-1px);
-  border-color: #9eb8ab;
+  
+  
   background: #fbfdfc;
 }
 
 .product-icon { font-size: 1.45rem; min-height: 26px; }
-.product-name { font-weight: 800; margin-top: 10px; }
-.product-price { color: var(--green-700); font-weight: 800; margin-top: 4px; }
+.product-name { font-weight: 800;  }
+.product-price {  font-weight: 800; margin-top: 4px; }
 
 .cart-list {
   margin: 18px 0;
   display: grid;
-  gap: 10px;
-  max-height: 340px;
+  
+  
   overflow: auto;
 }
 
 .cart-row {
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
+  
+  
+  
+  
+  
+  
   align-items: center;
 }
 
@@ -180,7 +180,7 @@ p, .muted { color: var(--muted); }
 .qty-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  
 }
 
 .qty-controls button, .quick-money button, .icon-btn {
@@ -324,8 +324,8 @@ input, select {
 .stat-card > strong { display: block; margin-top: 8px; font-size: 1.35rem; }
 
 .item-stats {
-  display: flex;
-  gap: 8px;
+  
+  
   flex-wrap: wrap;
   margin-top: 8px;
 }
@@ -387,17 +387,17 @@ tbody tr:hover { background: #fcfdfc; }
 .settings-list {
   padding: 0 22px 20px;
   display: grid;
-  gap: 10px;
+  
 }
 
 .settings-row {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1.4fr) 120px 110px 100px auto;
+  
   gap: 10px;
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 11px;
+  
 }
 
 .order-controls { display: flex; gap: 5px; }
@@ -538,7 +538,7 @@ body {
   min-height: 142px;
   border: 1px solid rgba(30,72,58,.12);
   padding: 0;
-  background: #fff;
+  
   box-shadow: 0 10px 25px rgba(32,68,55,.07);
 }
 
@@ -641,8 +641,8 @@ body {
 
 .cart-row:hover { background: #fbfcfa; }
 
-.cart-main { min-width: 0; }
-.cart-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+
 .cart-unit { color: var(--muted); font-size: .82rem; margin-top: 2px; }
 .cart-line-total { text-align: right; }
 
@@ -797,7 +797,7 @@ body {
 .settings-list { gap: 8px; }
 
 .settings-row {
-  grid-template-columns: minmax(0, 1fr) auto;
+  
   padding: 12px 14px;
   transition: opacity .15s ease, background .15s ease;
 }
@@ -1094,9 +1094,7 @@ body {
 .clickable-sale-row {
   cursor: pointer;
 }
-.clickable-sale-row:hover td {
-  background: #edf6f1 !important;
-}
+
 .clickable-sale-row:active td {
   background: #e4f0e9 !important;
 }
@@ -1274,9 +1272,7 @@ body {
 .sidebar-foot span { font-size: .74rem; color: rgba(255,255,255,.6); }
 .sidebar-foot strong { font-size: .86rem; color: #aee1c7; }
 
-.shell {
-  max-width: 1540px;
-}
+
 
 /* KASSE fixes: positions always top + product area scrolls if viewport gets tight */
 @media (min-width: 681px) {
@@ -1422,9 +1418,9 @@ body {
 .top-product-grid {
   padding: 4px 20px 20px;
   display: grid;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  
   gap: 12px;
-  overflow-x: auto;
+  
 }
 
 .top-product-card {
@@ -1519,7 +1515,7 @@ body {
 }
 .compact-sales-table {
   width: 100%;
-  min-width: 650px;
+  
   border-collapse: collapse;
 }
 .compact-sales-table th {
@@ -1544,7 +1540,7 @@ body {
 .sale-time { width: 95px; white-space: nowrap; }
 .sale-items-cell {
   min-width: 260px;
-  max-width: 600px;
+  
 }
 .sale-amount {
   width: 120px;
@@ -2750,21 +2746,6 @@ body { min-width: 0; }
   .settings-row { cursor: pointer; }
 }
 
-/* =========================================================
-   KassenApp V0.18 – Handy-Querformat + schwebendes Menü
-   ========================================================= */
-
-/* Auf kleinen Handys im Querformat zählt jeder Höhen-Pixel:
-   Die mobile Kopfzeile verschwindet, nur der Burger bleibt schwebend sichtbar. */
-
-
-
-/* =========================================================
-   KassenApp V0.18.2 – Burger-Menü Hotfix
-   Der schwebende Menüknopf bleibt im Querformat zuverlässig
-   antippbar, auch wenn das Menü bereits geöffnet ist.
-   ========================================================= */
-
 
 
 /* =========================================================
@@ -2801,21 +2782,6 @@ body { min-width: 0; }
     z-index: 110;
   }
 }
-
-/* In der speziellen Kassen-Queransicht bleiben die dortigen
-   Positionen erhalten, aber mit derselben eindeutigen Ebenenfolge. */
-
-
-
-/* =========================================================
-   KassenApp V0.20 – Reparierte Handy-Queransicht
-   Ziel: kein Seiten-Scrollen, Abschluss bleibt erreichbar.
-   Die Artikelkachel-/Bildoptik wird hier bewusst NICHT verändert.
-   ========================================================= */
-
-
-/* Extrem niedrige Browserfenster: noch etwas kompakter, ohne die
-   Artikelkacheln/Bilder gestalterisch neu anzufassen. */
 
 
 
@@ -3050,4 +3016,182 @@ body { min-width: 0; }
   #cashView.active .cash-keypad [data-keypad=","] { grid-column: 4; grid-row: 3; }
   #cashView.active .cash-keypad [data-keypad="0"] { grid-column: 1 / span 2; grid-row: 4; }
   #cashView.active .cash-keypad .keypad-exact { grid-column: 3 / span 2; grid-row: 4; }
+}
+
+/* =========================================================
+   KassenApp V0.22.2 – Artikelkacheln: Grundlayout
+   Thema dieser Version: nur Aufbau, Typografie und Farbnutzung
+   der Artikelkacheln. Die Bilddarstellung bleibt unverändert.
+   ========================================================= */
+.product-btn {
+  min-height: 142px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--product-color, #d5e8de) 38%, #16382d);
+  border-radius: 16px;
+  background: #fff !important;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--product-color, #d5e8de) 16%, #ffffff) 0%,
+      color-mix(in srgb, var(--product-color, #d5e8de) 8%, #ffffff) 100%) !important;
+  box-shadow: 0 7px 18px rgba(22, 56, 45, .08);
+  color: var(--text);
+  isolation: isolate;
+}
+
+.product-btn::before {
+  inset: 0 auto 0 0;
+  width: 6px;
+  border-radius: 16px 0 0 16px;
+  background: var(--product-color, #d5e8de);
+}
+
+.product-btn::after { display: none; }
+
+.product-btn:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--product-color, #d5e8de) 58%, #16382d);
+  box-shadow: 0 11px 24px rgba(22, 56, 45, .12);
+}
+
+.product-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px 14px 17px;
+}
+
+.product-name {
+  margin: 0;
+  min-width: 0;
+  font-size: 1.02rem;
+  font-weight: 850;
+  line-height: 1.18;
+  letter-spacing: -.01em;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.product-price {
+  width: fit-content;
+  margin: auto 0 0;
+  padding: 5px 9px;
+  border: 1px solid rgba(22, 56, 45, .10);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .72);
+  color: var(--green-950);
+  font-size: 1.02rem;
+  font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.product-media.icon {
+  height: 70px;
+  min-height: 70px;
+  place-items: start;
+  padding: 16px 14px 0 17px;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.product-btn.no-media .product-copy {
+  min-height: 140px;
+  padding: 16px 14px 14px 17px;
+}
+
+.product-btn.no-media .product-name {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+/* Tablet: gleiche Kachellogik, nur kompakter. */
+@media (min-width: 761px) and (max-width: 1180px) {
+  #cashView.active .product-btn {
+    min-height: 92px;
+    padding: 0;
+    border-radius: 14px;
+  }
+
+  #cashView.active .product-btn::before { border-radius: 14px 0 0 14px; }
+  #cashView.active .product-copy { padding: 10px 11px 11px 14px; gap: 6px; }
+  #cashView.active .product-name { font-size: .94rem; }
+  #cashView.active .product-price { padding: 4px 7px; font-size: .94rem; }
+  #cashView.active .product-media.icon {
+    height: 52px;
+    min-height: 52px;
+    padding: 12px 11px 0 14px;
+    font-size: 1.7rem;
+  }
+  #cashView.active .product-btn.no-media .product-copy {
+    min-height: 90px;
+    padding: 12px 11px 11px 14px;
+  }
+}
+
+/* Handy hoch: gut lesbar, ohne unnötig hohe Kacheln. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #cashView.active .product-btn {
+    min-height: 116px;
+    padding: 0;
+    border-radius: 14px;
+  }
+
+  #cashView.active .product-btn::before { border-radius: 14px 0 0 14px; }
+  #cashView.active .product-copy { padding: 11px 11px 12px 14px; gap: 7px; }
+  #cashView.active .product-name { font-size: .98rem; }
+  #cashView.active .product-price { padding: 5px 8px; font-size: .96rem; }
+  #cashView.active .product-media.icon {
+    height: 58px;
+    min-height: 58px;
+    padding: 13px 11px 0 14px;
+    font-size: 1.8rem;
+  }
+  #cashView.active .product-btn.no-media .product-copy {
+    min-height: 114px;
+    padding: 14px 11px 12px 14px;
+  }
+}
+
+/* Handy quer: das kompakte Landscape-Raster aus V0.22 bleibt erhalten. */
+@media (orientation: landscape) and (max-height: 650px) and (pointer: coarse) {
+  #cashView.active .product-btn {
+    min-height: 74px;
+    padding: 0;
+    border-radius: 11px;
+  }
+
+  #cashView.active .product-btn::before {
+    width: 5px;
+    border-radius: 11px 0 0 11px;
+  }
+
+  #cashView.active .product-copy {
+    padding: 7px 8px 8px 11px;
+    gap: 4px;
+  }
+
+  #cashView.active .product-name {
+    font-size: .82rem;
+    line-height: 1.12;
+  }
+
+  #cashView.active .product-price {
+    padding: 3px 6px;
+    font-size: .8rem;
+  }
+
+  #cashView.active .product-media.icon {
+    height: 34px;
+    min-height: 34px;
+    padding: 8px 8px 0 11px;
+    font-size: 1.35rem;
+  }
+
+  #cashView.active .product-btn.no-media .product-copy {
+    min-height: 72px;
+    padding: 8px 8px 8px 11px;
+  }
 }

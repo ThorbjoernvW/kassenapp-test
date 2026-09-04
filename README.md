@@ -1,14 +1,23 @@
-# KassenApp V0.22.1
+# KassenApp V0.22.2
 
-## Schwerpunkt: CSS-Basis bereinigt
+Themenblock V0.22: Optische Überarbeitung  
+Unterthema V0.22.2: **Artikelkacheln – Grundlayout**
 
-Diese Unterversion baut auf V0.22.0.1 auf und ist bewusst ein Refactoring ohne geplante sichtbare Designänderung.
+## Änderungen in V0.22.2
 
-- Wiederholte CSS-Eigenschaften innerhalb identischer Selektoren und Media-Query-Kontexte wurden entfernt, wenn eine spätere Regel sie ohnehin vollständig überschreibt.
-- Leere historische Landscape-Kommentarblöcke wurden entfernt.
-- Die autoritative Handy-Queransicht aus V0.22 bleibt unverändert erhalten.
-- Produktkacheln und Bilddarstellung werden noch nicht neu gestaltet; das folgt in V0.22.2/V0.22.3.
-- Version und Service-Worker-Cache wurden auf V0.22.1 angehoben.
+- Artikelkacheln nutzen die gewählte Artikelfarbe jetzt gezielter als Akzent statt als dominante Vollfläche.
+- Artikelname und Preis haben eine klarere visuelle Hierarchie.
+- Lange Artikelnamen dürfen sauber umbrechen und bleiben vollständig lesbar.
+- Kacheln ohne Bild oder Emoji wirken nicht mehr wie Karten mit fehlendem Inhalt.
+- Emoji-Kacheln sind kompakter und konsistenter ausgerichtet.
+- Größen und Abstände wurden für Desktop, Tablet, Handy hoch und Handy quer abgestimmt.
 
-## Daten
-Die lokale Datenhaltung bleibt unverändert. Der bestehende localStorage-Schlüssel wird weiterhin verwendet.
+## Bewusst nicht geändert
+
+- Darstellung und Zuschnitt hochgeladener Artikelbilder. Das ist das eigene Thema V0.22.3.
+- Warenkorb, Bezahlbereich, Verkäufe und Einstellungen.
+
+## Versionsstand
+
+- App-Version: V0.22.2
+- Service-Worker-Cache: kassenapp-v0-22-2
