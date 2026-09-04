@@ -1,41 +1,54 @@
-# KassenApp V0.22.3.1
+# KassenApp V0.22.3.2
 
 Themenblock V0.22: **Optische Überarbeitung**  
-Unterthema V0.22.3: **Artikelbilder**  
-Hotfix V0.22.3.1: **Installierte Versionsanzeige**
+Unterthema V0.22.3: **Artikelbilder / Kacheloptik**
 
-## Behoben
+## Geändert
 
-- Unter **Einstellungen → Handy & App** wird nach einem Update jetzt zuverlässig die tatsächlich geladene App-Version angezeigt.
-- Die Versionsanzeige und `app.js` beziehen ihre installierte Versionsnummer jetzt aus derselben zentralen Versionsangabe im HTML. Dadurch können diese beiden Anzeigen nicht mehr versehentlich unterschiedliche Versionsstände verwenden.
-- `version.json` und der Service-Worker-Cache wurden auf V0.22.3.1 angehoben.
-
-## Ursache
-
-In V0.22.3 war die sichtbare Version im HTML bereits V0.22.3, während `app.js` intern noch `V0.22.2` enthielt. Beim Rendern der Einstellungen hat `app.js` deshalb die korrekte Anzeige wieder mit der alten Versionsnummer überschrieben.
+- Die farbige Textfläche auf Bildkacheln ist deutlich kompakter und verdeckt weniger vom Artikelbild.
+- Das Artikelbild füllt weiterhin die komplette Kachel; der linke Farbbalken bleibt sichtbar.
+- Pro Artikel lässt sich in **Einstellungen → Artikel bearbeiten** jetzt der sichtbare Bildausschnitt einstellen.
+- Dafür gibt es zwei Regler: **horizontal (links/rechts)** und **vertikal (oben/unten)**.
+- Eine Vorschau zeigt während des Verschiebens direkt, welcher Bildbereich später in der Kachel sichtbar ist.
+- Die Position wird pro Artikel lokal gespeichert und bleibt auch nach Neustart sowie Backup/Restore erhalten.
+- Bestehende Artikelbilder starten automatisch mit der bisherigen Zentrierung **50% / 50%**.
 
 ## Bewusst nicht geändert
 
-- Größe/Form der farbigen Textfläche auf Artikelbildern.
-- Auswahl des sichtbaren Bildausschnitts.
-- Sonstige Artikelkachel-Optik.
-
-Diese Punkte bleiben für die weitere Arbeit an V0.22.3 vorgesehen.
+- Warenkorb und Bezahlbereich.
+- Verkäufe.
+- Grundlayout von Artikeln ohne Bild.
+- Upload-Komprimierung der Bilder.
 
 ## Testplan
 
-1. V0.22.3.1 auf `develop` bereitstellen und die Testseite aktualisieren.
-2. **Einstellungen → Handy & App** öffnen.
-3. Prüfen: **Installierte Version: V0.22.3.1**.
-4. Prüfen: **Verfügbare Version: V0.22.3.1** (sobald die Serverprüfung abgeschlossen ist).
-5. Prüfen: Status **App ist aktuell ✓**.
-6. Seite vollständig schließen und erneut öffnen; die installierte Version muss weiterhin V0.22.3.1 anzeigen.
-7. Optional im PWA-Modus denselben Test wiederholen.
+### Muss funktionieren
+1. **Einstellungen** öffnen und einen Artikel mit Bild bearbeiten.
+2. Horizontal-Regler ganz nach links und rechts bewegen; die Vorschau muss direkt folgen.
+3. Vertikal-Regler ganz nach oben und unten bewegen; die Vorschau muss direkt folgen.
+4. Eine gewünschte Position einstellen, **Speichern** und zur Kasse wechseln.
+5. Prüfen, ob die Kachel exakt denselben Bildausschnitt zeigt.
+6. Seite neu laden und prüfen, ob die Position erhalten bleibt.
+7. Artikel erneut bearbeiten und prüfen, ob die gespeicherten Prozentwerte wieder geladen werden.
+
+### Regressionstest
+1. Einen Artikel ohne Bild bearbeiten und speichern.
+2. Ein neues Bild hochladen; die Position muss zunächst bei 50% / 50% starten.
+3. Bild entfernen; der Artikel muss wieder auf das normale Kachellayout zurückfallen.
+4. Backup erstellen und wieder einlesen; die Bildposition muss erhalten bleiben.
+5. Artikelkachel antippen; Artikel muss normal dem Warenkorb hinzugefügt werden.
+
+### Gerätecheck
+- Laptop/Desktop: Kacheln und Bildposition prüfen.
+- Handy hochkant: kompakte Textfläche und Bildausschnitt prüfen.
+- Handy quer: Textfläche darf das Bild nicht übermäßig verdecken.
+- Tablet: Bildausschnitt und Lesbarkeit prüfen.
 
 ## Geänderte Dateien
 
-- `index.html`
 - `app.js`
+- `styles.css`
+- `index.html`
 - `version.json`
 - `service-worker.js`
 - `README.md`

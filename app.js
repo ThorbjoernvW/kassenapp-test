@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.1";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.2";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -35,6 +35,8 @@ function loadState() {
     parsed.products = parsed.products.map((p, i) => ({
       ...p,
       imageData: p.imageData || "",
+      imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
+      imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
       color: p.color || defaultColors[i % defaultColors.length]
     }));
     parsed.paymentMode = parsed.paymentMode === "keypad" ? "keypad" : "quick";
@@ -125,7 +127,7 @@ function productButton(product) {
 
   let media = "";
   if (hasImage) {
-    media = `<div class="product-media image"><img src="${product.imageData}" alt="" /></div>`;
+    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${Number(product.imagePositionX ?? 50)}% ${Number(product.imagePositionY ?? 50)}%" /></div>`;
   } else if (hasIcon) {
     media = `<div class="product-media icon">${escapeHtml(product.icon)}</div>`;
   }
@@ -684,22 +686,52 @@ function moveProduct(id, delta) {
 }
 
 let pendingProductImageData = null;
+let pendingProductImagePositionX = 50;
+let pendingProductImagePositionY = 50;
 
 function updateProductImagePreview(dataUrl) {
   const preview = document.getElementById("productImagePreview");
+  const tilePreview = document.getElementById("productTileImagePreview");
+  const controls = document.getElementById("imagePositionControls");
   const text = document.getElementById("imageDropText");
   const removeBtn = document.getElementById("removeProductImageBtn");
+  const xInput = document.getElementById("productImagePositionX");
+  const yInput = document.getElementById("productImagePositionY");
+  const xValue = document.getElementById("productImagePositionXValue");
+  const yValue = document.getElementById("productImagePositionYValue");
+
+  if (xInput) xInput.value = String(pendingProductImagePositionX);
+  if (yInput) yInput.value = String(pendingProductImagePositionY);
+  if (xValue) xValue.textContent = `${pendingProductImagePositionX}%`;
+  if (yValue) yValue.textContent = `${pendingProductImagePositionY}%`;
+
   if (dataUrl) {
     preview.src = dataUrl;
+    preview.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
     preview.hidden = false;
+    if (tilePreview) {
+      tilePreview.src = dataUrl;
+      tilePreview.style.objectPosition = `${pendingProductImagePositionX}% ${pendingProductImagePositionY}%`;
+    }
+    if (controls) controls.hidden = false;
     text.textContent = "Anderes Bild auswählen";
     removeBtn.style.visibility = "visible";
   } else {
     preview.removeAttribute("src");
     preview.hidden = true;
+    if (tilePreview) tilePreview.removeAttribute("src");
+    if (controls) controls.hidden = true;
     text.textContent = "Bild auswählen";
     removeBtn.style.visibility = "hidden";
   }
+}
+
+function updatePendingImagePosition() {
+  const xInput = document.getElementById("productImagePositionX");
+  const yInput = document.getElementById("productImagePositionY");
+  pendingProductImagePositionX = Math.min(100, Math.max(0, Number(xInput?.value ?? 50)));
+  pendingProductImagePositionY = Math.min(100, Math.max(0, Number(yInput?.value ?? 50)));
+  updateProductImagePreview(pendingProductImageData);
 }
 
 function compressImage(file, maxWidth = 640, maxHeight = 420, quality = 0.78) {
@@ -741,6 +773,8 @@ function openProductDialog(id = null) {
   document.getElementById("productActiveInput").checked = p ? p.active : true;
   document.getElementById("productImageInput").value = "";
   pendingProductImageData = p?.imageData || "";
+  pendingProductImagePositionX = Number.isFinite(Number(p?.imagePositionX)) ? Number(p.imagePositionX) : 50;
+  pendingProductImagePositionY = Number.isFinite(Number(p?.imagePositionY)) ? Number(p.imagePositionY) : 50;
   updateProductImagePreview(pendingProductImageData);
   dialog.showModal();
 }
@@ -788,6 +822,8 @@ function saveProductFromForm(e) {
     const icon = iconInput.value.trim();
     const active = activeInput.checked;
     const imageData = pendingProductImageData || "";
+    const imagePositionX = imageData ? pendingProductImagePositionX : 50;
+    const imagePositionY = imageData ? pendingProductImagePositionY : 50;
 
     if (!name) {
       showProductFormMessage("Bitte gib einen Artikelnamen ein.");
@@ -807,7 +843,7 @@ function saveProductFromForm(e) {
         showProductFormMessage("Der Artikel wurde nicht gefunden.");
         return;
       }
-      Object.assign(product, { name, category, price, color, icon, active, imageData });
+      Object.assign(product, { name, category, price, color, icon, active, imageData, imagePositionX, imagePositionY });
     } else {
       state.products.push({
         id: createProductId(),
@@ -818,6 +854,8 @@ function saveProductFromForm(e) {
         icon,
         active,
         imageData,
+        imagePositionX,
+        imagePositionY,
         order: state.products.length + 1
       });
     }
@@ -900,6 +938,8 @@ function restoreData(file) {
       parsed.products = parsed.products.map((p, i) => ({
         ...p,
         imageData: p.imageData || "",
+        imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
+        imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
         color: p.color || defaultColors[i % defaultColors.length]
       }));
       state = parsed;
@@ -1099,6 +1139,8 @@ document.getElementById("productImageInput").addEventListener("change", async (e
   }
   try {
     pendingProductImageData = await compressImage(file);
+    pendingProductImagePositionX = 50;
+    pendingProductImagePositionY = 50;
     updateProductImagePreview(pendingProductImageData);
   } catch {
     alert("Das Bild konnte nicht verarbeitet werden.");
@@ -1107,9 +1149,14 @@ document.getElementById("productImageInput").addEventListener("change", async (e
 
 document.getElementById("removeProductImageBtn").addEventListener("click", () => {
   pendingProductImageData = "";
+  pendingProductImagePositionX = 50;
+  pendingProductImagePositionY = 50;
   document.getElementById("productImageInput").value = "";
   updateProductImagePreview("");
 });
+
+document.getElementById("productImagePositionX").addEventListener("input", updatePendingImagePosition);
+document.getElementById("productImagePositionY").addEventListener("input", updatePendingImagePosition);
 
 document.getElementById("appNameInput").addEventListener("change", (e) => {
   state.appName = e.target.value.trim() || "KassenApp";
