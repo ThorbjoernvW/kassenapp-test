@@ -1,9 +1,14 @@
-# KassenApp V0.22.2
+# KassenApp V0.22.2.1.1
 
 Themenblock V0.22: Optische Überarbeitung  
-Unterthema V0.22.2: **Artikelkacheln – Grundlayout**
+Unterthema V0.22.2.1.1: **Artikelkacheln – Grundlayout**
 
-## Änderungen in V0.22.2
+## Hotfix in V0.22.2.1
+
+- Artikelkarten in Einstellungen öffnen den Editor jetzt auch per Mausklick auf Laptop/Desktop.
+- Buttons, Aktiv-Schalter und Drag-Handle lösen den Karten-Klick weiterhin nicht aus.
+
+## Basis aus V0.22.2.1
 
 - Artikelkacheln nutzen die gewählte Artikelfarbe jetzt gezielter als Akzent statt als dominante Vollfläche.
 - Artikelname und Preis haben eine klarere visuelle Hierarchie.
@@ -19,5 +24,5 @@ Unterthema V0.22.2: **Artikelkacheln – Grundlayout**
 
 ## Versionsstand
 
-- App-Version: V0.22.2
-- Service-Worker-Cache: kassenapp-v0-22-2
+- App-Version: V0.22.2.1.1
+- Service-Worker-Cache: kassenapp-v0-22-2-1

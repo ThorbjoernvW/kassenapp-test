@@ -602,14 +602,12 @@ function renderSettings() {
     row.querySelector("[data-edit]").addEventListener("click", () => openProductDialog(p.id));
     row.querySelector("[data-delete]").addEventListener("click", () => deleteProduct(p.id));
 
-    // V0.17: Auf Handy/Tablet öffnet ein Tap auf die Artikelkarte direkt den Editor.
+    // V0.22.2.1: Die Artikelkarte öffnet den Editor auf allen Geräten.
     // Interaktive Bedienelemente behalten ihre eigene Funktion.
     row.addEventListener("click", (e) => {
       if (e.target.closest("button, input, label, .drag-handle")) return;
-      if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1180) {
-        haptic(10);
-        openProductDialog(p.id);
-      }
+      haptic(10);
+      openProductDialog(p.id);
     });
 
     row.addEventListener("dragstart", (e) => {
