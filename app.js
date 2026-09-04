@@ -120,7 +120,7 @@ function productButton(product) {
   btn.type = "button";
   const hasImage = Boolean(product.imageData);
   const hasIcon = Boolean(product.icon && product.icon.trim());
-  btn.className = `product-btn ${product.category} ${(!hasImage && !hasIcon) ? "no-media" : ""}`;
+  btn.className = `product-btn ${product.category} ${hasImage ? "has-image" : ""} ${(!hasImage && hasIcon) ? "has-icon" : ""} ${(!hasImage && !hasIcon) ? "no-media" : ""}`;
   btn.style.setProperty("--product-color", product.color || (product.category === "food" ? "#f2c66d" : "#9fc8d8"));
 
   let media = "";
