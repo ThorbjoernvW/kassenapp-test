@@ -1,9 +1,0 @@
-{
-  "version": 1,
-  "presets": [
-    {
-      "name": "Beispiel-Preset",
-      "file": "beispiel.json"
-    }
-  ]
-}
