@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.1";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -842,6 +842,27 @@ function backupData() {
   downloadBlob(blob, `kassenapp_sicherung_${new Date().toISOString().slice(0,10)}.json`);
 }
 
+function exportProductPreset() {
+  const products = sortedProducts().map(product => ({
+    name: product.name,
+    category: product.category,
+    price: Number(product.price) || 0,
+    icon: product.icon || "",
+    active: product.active !== false,
+    order: Number(product.order) || 0,
+    color: product.color || "#d8eadf"
+  }));
+
+  const preset = {
+    format: "kassenapp-products",
+    version: 1,
+    products
+  };
+
+  const blob = new Blob([JSON.stringify(preset, null, 2)], { type: "application/json" });
+  downloadBlob(blob, `kassenapp_preset_${new Date().toISOString().slice(0,10)}.json`);
+}
+
 function restoreData(file) {
   const reader = new FileReader();
   reader.onload = () => {
@@ -1045,6 +1066,8 @@ document.getElementById("appNameInput").addEventListener("change", (e) => {
 });
 
 document.getElementById("backupBtn").addEventListener("click", backupData);
+const exportProductPresetBtn = document.getElementById("exportProductPresetBtn");
+if (exportProductPresetBtn) exportProductPresetBtn.addEventListener("click", exportProductPreset);
 document.getElementById("restoreInput").addEventListener("change", (e) => {
   const file = e.target.files?.[0];
   if (file) restoreData(file);

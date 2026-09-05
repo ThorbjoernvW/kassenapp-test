@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.22.4.1">
+<html lang="de" data-app-version="V0.23.1">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.22.4.1" />
+  <link rel="stylesheet" href="styles.css?v=0.23.1" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -293,7 +293,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.22.4.1</strong><br>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.23.1</strong><br>
               <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
               <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
@@ -309,6 +309,16 @@
           <p class="settings-drag-hint">Artikel per Drag&amp;Drop verschieben oder die Pfeile benutzen.</p>
         </div>
         <div id="settingsList" class="settings-list"></div>
+
+        <div class="backup-box">
+          <div>
+            <h3>Artikel-Preset erstellen</h3>
+            <p>Speichert nur die aktuelle Artikelliste im Preset-Format. Verkäufe und sonstige Einstellungen werden nicht exportiert.</p>
+          </div>
+          <div class="header-actions">
+            <button id="exportProductPresetBtn" class="secondary-btn" type="button">Artikelliste als Preset speichern</button>
+          </div>
+        </div>
 
         <div class="backup-box">
           <div>
@@ -392,7 +402,7 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.22.4.1"></script>
+<script src="app.js?v=0.23.1"></script>
 <script>
   (() => {
     const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";

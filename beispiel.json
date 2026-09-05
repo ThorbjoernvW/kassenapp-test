@@ -1,0 +1,33 @@
+{
+  "format": "kassenapp-products",
+  "version": 1,
+  "products": [
+    {
+      "name": "Bratwurst",
+      "category": "food",
+      "price": 3.5,
+      "icon": "🌭",
+      "active": true,
+      "order": 1,
+      "color": "#f2c66d"
+    },
+    {
+      "name": "Pommes",
+      "category": "food",
+      "price": 3,
+      "icon": "🍟",
+      "active": true,
+      "order": 2,
+      "color": "#e8a98d"
+    },
+    {
+      "name": "Cola",
+      "category": "drink",
+      "price": 2.5,
+      "icon": "🥤",
+      "active": true,
+      "order": 3,
+      "color": "#9fc8d8"
+    }
+  ]
+}

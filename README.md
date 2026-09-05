@@ -1,24 +1,45 @@
-# KassenApp V0.22.4.1
+# KassenApp V0.23.1
 
-Hotfix zum Warenkorb bei schmalen Bildschirmbreiten.
+Erster Baustein des Preset-Systems für Version 1.0: festes Dateiformat, GitHub-Ordnerstruktur und Export der aktuellen Artikelliste.
 
 ## Änderungen
-- Bei schmalem PC-/Tablet-Fenster steht der Artikelname im Warenkorb jetzt in einer eigenen Zeile über Menge, Positionssumme und Löschen.
-- Im Handy-Hochformat sitzt der Löschen-Button pro Position sauber in der zweiten Zeile rechts.
-- Keine Änderungen an Artikeln, Bezahlung, Verkäufen oder Einstellungen.
+- Neuer Ordner `presets/` als feste Ablage für Presets im Repository.
+- `presets/index.json` ist das Manifest der verfügbaren Presets.
+- `presets/beispiel.json` dient als Vorlage für eigene Presets.
+- In den Einstellungen gibt es jetzt **„Artikelliste als Preset speichern“**.
+- Der Export enthält ausschließlich Artikeldaten; Verkäufe, App-Einstellungen und sonstige lokale Daten werden nicht mitgespeichert.
+- Das Preset-Format ist `kassenapp-products`, Version `1`.
+- Die Preset-Auswahl und das Laden eines Presets folgen in V0.23.2 / V0.23.3.
+
+## Presets in GitHub ablegen
+1. Gewünschte Artikel in der KassenApp einrichten.
+2. Unter Einstellungen **„Artikelliste als Preset speichern“** wählen.
+3. Die erzeugte JSON-Datei in den Repository-Ordner `presets/` legen.
+4. In `presets/index.json` einen Eintrag mit Anzeigename und Dateiname ergänzen.
+
+Beispiel:
+
+```json
+{
+  "version": 1,
+  "presets": [
+    { "name": "Sommerfest", "file": "sommerfest.json" }
+  ]
+}
+```
 
 ## Test
 ### Muss funktionieren
-1. Am PC das Browserfenster schmal ziehen: lange Artikelnamen müssen oberhalb der Bedienelemente vollständig lesbar bleiben.
-2. Handy hochkant: mehrere Positionen hinzufügen und prüfen, dass das × jeder Position rechts in derselben Bedienzeile sitzt.
-3. Plus, Minus und Löschen betätigen.
+1. Einstellungen öffnen und **„Artikelliste als Preset speichern“** anklicken.
+2. Prüfen, dass eine `.json`-Datei heruntergeladen wird.
+3. Datei öffnen und prüfen: `format` = `kassenapp-products`, `version` = `1`, `products` enthält die aktuelle Artikelliste.
+4. Prüfen, dass die Datei **keine Verkäufe** (`sales`) enthält.
+5. `presets/index.json` und `presets/beispiel.json` im Repository prüfen.
 
 ### Regressionstest
-- Desktop breit: Warenkorb weiterhin normal bedienen.
-- Handy quer: Artikel oben, Warenkorb darunter; bestehendes V0.22.4-Layout bleibt erhalten.
-- Verkauf vollständig abschließen.
+- Normale Datensicherung weiterhin herunterladen und wieder einlesen.
+- Artikel hinzufügen/bearbeiten/löschen.
+- Verkauf durchführen und speichern.
 
 ### Gerätecheck
-- PC bei ca. 760–1050 px Fensterbreite.
-- Handy hochkant.
-- Handy quer.
+- Desktop und Handy: Export-Button in den Einstellungen muss vollständig erreichbar und anklickbar sein.
