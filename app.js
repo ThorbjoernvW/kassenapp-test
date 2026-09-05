@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.1";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.2";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -837,6 +837,86 @@ async function copySales() {
   }
 }
 
+let availablePresets = [];
+
+function renderPresetSelection() {
+  const select = document.getElementById("presetSelect");
+  const status = document.getElementById("presetStatus");
+  if (!select || !status) return;
+
+  select.innerHTML = "";
+
+  if (!availablePresets.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Keine Presets verfügbar";
+    select.appendChild(option);
+    select.disabled = true;
+    status.textContent = "In presets/index.json sind aktuell keine Presets eingetragen.";
+    return;
+  }
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Preset auswählen …";
+  select.appendChild(placeholder);
+
+  availablePresets.forEach((preset, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = preset.name;
+    select.appendChild(option);
+  });
+
+  select.disabled = false;
+  status.textContent = `${availablePresets.length} Preset${availablePresets.length === 1 ? "" : "s"} verfügbar.`;
+}
+
+function updatePresetSelectionStatus() {
+  const select = document.getElementById("presetSelect");
+  const status = document.getElementById("presetStatus");
+  if (!select || !status) return;
+
+  if (select.value === "") {
+    status.textContent = `${availablePresets.length} Preset${availablePresets.length === 1 ? "" : "s"} verfügbar.`;
+    return;
+  }
+
+  const preset = availablePresets[Number(select.value)];
+  if (!preset) return;
+  status.textContent = `Ausgewählt: ${preset.name} · Datei: ${preset.file}`;
+}
+
+async function loadPresetIndex() {
+  const select = document.getElementById("presetSelect");
+  const status = document.getElementById("presetStatus");
+  if (!select || !status) return;
+
+  select.disabled = true;
+  status.textContent = "Preset-Liste wird geladen …";
+
+  try {
+    const response = await fetch("./presets/index.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    if (!data || !Array.isArray(data.presets)) throw new Error("Ungültiger Preset-Index");
+
+    availablePresets = data.presets
+      .filter(preset => preset && typeof preset.name === "string" && typeof preset.file === "string")
+      .map(preset => ({ name: preset.name.trim(), file: preset.file.trim() }))
+      .filter(preset => preset.name && preset.file && !preset.file.includes("..") && !preset.file.startsWith("/"));
+
+    renderPresetSelection();
+  } catch (error) {
+    console.error("Preset-Liste konnte nicht geladen werden:", error);
+    availablePresets = [];
+    select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
+    select.disabled = true;
+    status.textContent = "Preset-Liste konnte nicht geladen werden. Die vorhandenen Artikel bleiben unverändert.";
+  }
+}
+
 function backupData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
   downloadBlob(blob, `kassenapp_sicherung_${new Date().toISOString().slice(0,10)}.json`);
@@ -1066,6 +1146,10 @@ document.getElementById("appNameInput").addEventListener("change", (e) => {
 });
 
 document.getElementById("backupBtn").addEventListener("click", backupData);
+const presetSelect = document.getElementById("presetSelect");
+if (presetSelect) presetSelect.addEventListener("change", updatePresetSelectionStatus);
+loadPresetIndex();
+
 const exportProductPresetBtn = document.getElementById("exportProductPresetBtn");
 if (exportProductPresetBtn) exportProductPresetBtn.addEventListener("click", exportProductPreset);
 document.getElementById("restoreInput").addEventListener("change", (e) => {

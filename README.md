@@ -1,45 +1,48 @@
-# KassenApp V0.23.1
+# KassenApp V0.23.2
 
-Erster Baustein des Preset-Systems für Version 1.0: festes Dateiformat, GitHub-Ordnerstruktur und Export der aktuellen Artikelliste.
+## Thema
+Preset-System – Auswahl vorhandener Presets in den Einstellungen.
 
-## Änderungen
-- Neuer Ordner `presets/` als feste Ablage für Presets im Repository.
-- `presets/index.json` ist das Manifest der verfügbaren Presets.
-- `presets/beispiel.json` dient als Vorlage für eigene Presets.
-- In den Einstellungen gibt es jetzt **„Artikelliste als Preset speichern“**.
-- Der Export enthält ausschließlich Artikeldaten; Verkäufe, App-Einstellungen und sonstige lokale Daten werden nicht mitgespeichert.
-- Das Preset-Format ist `kassenapp-products`, Version `1`.
-- Die Preset-Auswahl und das Laden eines Presets folgen in V0.23.2 / V0.23.3.
+## Neu in V0.23.2
+- Die App lädt `presets/index.json` beim Start ohne Browser-Cache.
+- In den Einstellungen gibt es jetzt eine Preset-Auswahl.
+- Alle gültigen Einträge aus dem Preset-Index werden im Dropdown angezeigt.
+- Nach der Auswahl zeigt die App Preset-Name und zugehörige Datei an.
+- Ein leerer oder nicht erreichbarer Preset-Index wird sauber abgefangen.
+- Die vorhandene Artikelliste wird in V0.23.2 noch nicht verändert.
 
-## Presets in GitHub ablegen
-1. Gewünschte Artikel in der KassenApp einrichten.
-2. Unter Einstellungen **„Artikelliste als Preset speichern“** wählen.
-3. Die erzeugte JSON-Datei in den Repository-Ordner `presets/` legen.
-4. In `presets/index.json` einen Eintrag mit Anzeigename und Dateiname ergänzen.
+Das tatsächliche Laden, Prüfen und Ersetzen der Artikelliste folgt getrennt in V0.23.3.
 
+## Preset-Index
 Beispiel:
 
 ```json
 {
   "version": 1,
   "presets": [
-    { "name": "Sommerfest", "file": "sommerfest.json" }
+    {
+      "name": "Sommerfest",
+      "file": "sommerfest.json"
+    }
   ]
 }
 ```
 
+Die referenzierten JSON-Dateien liegen ebenfalls im Ordner `presets/`.
+
 ## Test
 ### Muss funktionieren
-1. Einstellungen öffnen und **„Artikelliste als Preset speichern“** anklicken.
-2. Prüfen, dass eine `.json`-Datei heruntergeladen wird.
-3. Datei öffnen und prüfen: `format` = `kassenapp-products`, `version` = `1`, `products` enthält die aktuelle Artikelliste.
-4. Prüfen, dass die Datei **keine Verkäufe** (`sales`) enthält.
-5. `presets/index.json` und `presets/beispiel.json` im Repository prüfen.
+1. App öffnen und zu **Einstellungen** wechseln.
+2. Unter **Artikel-Preset auswählen** muss die Auswahl erscheinen.
+3. Das vorhandene Beispiel-Preset muss auswählbar sein.
+4. Nach Auswahl müssen Name und Dateiname angezeigt werden.
+5. Die aktuelle Artikelliste darf sich durch die Auswahl noch nicht verändern.
 
 ### Regressionstest
-- Normale Datensicherung weiterhin herunterladen und wieder einlesen.
-- Artikel hinzufügen/bearbeiten/löschen.
-- Verkauf durchführen und speichern.
+- Artikelliste als Preset exportieren.
+- Artikel anlegen/bearbeiten/löschen.
+- Normale Sicherung herunterladen und wieder einlesen.
+- Einen Verkauf durchführen.
 
-### Gerätecheck
-- Desktop und Handy: Export-Button in den Einstellungen muss vollständig erreichbar und anklickbar sein.
+### Fehlerfall
+`presets/index.json` testweise umbenennen oder ungültig machen. Die App muss eine verständliche Fehlermeldung anzeigen und die vorhandenen Artikel unverändert lassen.
