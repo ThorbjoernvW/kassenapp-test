@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.4";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.4";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";

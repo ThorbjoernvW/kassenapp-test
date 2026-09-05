@@ -1,26 +1,42 @@
-# KassenApp V0.22.3.4
+# KassenApp V0.22.4
 
 ## Thema
-Artikelfotos vollständig entfernt.
+Warenkorb – insbesondere die Bedienung auf dem Handy im Querformat.
 
-Die Foto-Idee wurde verworfen. Diese Version entfernt die gesamte Artikelfoto-Funktion aus der App und kehrt bei den Artikelkacheln zur Darstellung mit Artikelfarbe, optionalem Symbol, Artikelname und Preis zurück.
+Diese Version ändert nur den Kassen-/Warenkorbbereich. Auf kleinen Touch-Geräten im Querformat wird die Kasse nicht mehr in zwei Spalten gequetscht. Stattdessen stehen Artikel, Warenkorb und Bezahlung untereinander in voller Breite.
 
-## Entfernt
-- Upload und Speicherung von Artikelbildern
-- Bildkomprimierung im Browser
-- Bildvorschau im Artikel-Dialog
-- horizontale/vertikale Bildposition
-- Zoom und Touch-Gesten für Bilder
-- Bilddarstellung auf Kassenkacheln
-- Bilddarstellung in Einstellungen und Top-Artikel-Statistik
-- zugehörige CSS-Regeln und Event-Handler
-
-Beim Laden bestehender Daten und beim Import alter Sicherungen werden die früheren Bildfelder verworfen. Dadurch werden alte Base64-Bilder nach dem nächsten Speichern nicht weiter im App-Zustand geführt.
+## Änderungen
+- Handy quer: keine Zwei-Spalten-Kasse mehr
+- Artikelbereich steht oben in voller Breite
+- Warenkorb folgt direkt unter den Artikeln
+- Bezahlbereich und „Verkauf abschließen“ folgen unter dem Warenkorb
+- die Seite darf im Querformat scrollen, damit nichts künstlich in eine geringe Bildschirmhöhe gepresst wird
+- Warenkorbzeilen nutzen die volle Breite
+- lange Artikelnamen dürfen sauber umbrechen
+- Menge, Plus/Minus und Löschen bleiben mit 44-px-Touchflächen gut bedienbar
+- das kompakte 4-Spalten-Tastenfeld bleibt im Querformat erhalten
+- Tablet und Desktop behalten ihr zweispaltiges Layout
 
 ## Testplan
-1. Einstellungen öffnen und einen Artikel bearbeiten: Es darf keine Bild-Upload- oder Bildausschnitt-Funktion mehr geben.
-2. Artikel mit Symbol und Artikel ohne Symbol prüfen. Beide Kacheltypen müssen normal dargestellt und antippbar sein.
-3. Einen bestehenden Artikel bearbeiten und speichern. Name, Preis, Farbe, Symbol und Aktiv-Status müssen funktionieren.
-4. Falls auf dem Gerät vorher Artikelbilder gespeichert waren: App neu laden. Die Kasse darf keine Bilder mehr anzeigen.
-5. Alte JSON-Sicherung mit Bilddaten importieren. Der Import soll funktionieren, die Bilder aber ignorieren.
-6. Verkäufe und Top-Artikel kurz prüfen; dort dürfen keine Artikelbilder mehr erscheinen.
+### Muss funktionieren
+1. App am Handy öffnen und ins Querformat drehen.
+2. Prüfen, dass zuerst die Artikel und darunter der komplette Warenkorb erscheinen.
+3. Mehrere Artikel hinzufügen, bis mehrere Warenkorbzeilen sichtbar sind.
+4. Nach unten scrollen: Gesamt, Gegeben, Rückgeld und „Verkauf abschließen“ müssen vollständig erreichbar sein.
+5. Plus, Minus und Löschen in mehreren Warenkorbzeilen testen.
+6. Einen Artikel mit langem Namen testen. Der Name darf nicht abgeschnitten werden.
+7. Schnellwahl und Tastenfeld testen und einen Verkauf abschließen.
+
+### Regressionstest
+1. Handy wieder hochkant drehen: die bisherige Hochformat-Ansicht muss erhalten bleiben.
+2. Tablet prüfen: Artikel und Kassenspalte müssen weiterhin nebeneinander stehen.
+3. Laptop/Desktop prüfen: zweispaltiges Kassenlayout muss unverändert funktionieren.
+4. Burger-Menü im Handy-Querformat öffnen und wieder schließen.
+
+## Geänderte Dateien
+- `styles.css`
+- `index.html`
+- `app.js`
+- `version.json`
+- `service-worker.js`
+- `README.md`
