@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.23.2">
+<html lang="de" data-app-version="V0.23.2.1">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.23.2" />
+  <link rel="stylesheet" href="styles.css?v=0.23.2.1" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -293,7 +293,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.23.2</strong><br>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.23.2.1</strong><br>
               <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
               <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
@@ -313,13 +313,15 @@
         <div class="backup-box preset-picker-box">
           <div class="preset-picker-copy">
             <h3>Artikel-Preset auswählen</h3>
-            <p>Verfügbare Presets werden aus <code>presets/index.json</code> geladen. Das eigentliche Übernehmen folgt im nächsten Schritt.</p>
           </div>
           <div class="preset-picker-controls">
             <label for="presetSelect">Preset</label>
-            <select id="presetSelect" disabled>
-              <option value="">Presets werden geladen …</option>
-            </select>
+            <div class="preset-select-row">
+              <select id="presetSelect" disabled>
+                <option value="">Presets werden geladen …</option>
+              </select>
+              <button id="clearPresetSelectionBtn" class="secondary-btn" type="button" disabled title="Preset-Auswahl löschen">Löschen</button>
+            </div>
             <span id="presetStatus" class="preset-status" role="status">Preset-Liste wird geladen …</span>
           </div>
         </div>
@@ -416,7 +418,7 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.23.2"></script>
+<script src="app.js?v=0.23.2.1"></script>
 <script>
   (() => {
     const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";

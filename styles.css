@@ -3289,6 +3289,24 @@ body { min-width: 0; }
   font-size: .9rem;
 }
 
+
+.preset-select-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.preset-select-row .secondary-btn {
+  min-height: 44px;
+  padding-inline: 14px;
+}
+
+.preset-select-row .secondary-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
 .preset-picker-controls select {
   width: 100%;
   min-height: 44px;

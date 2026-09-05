@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.2";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.2.1";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -842,9 +842,11 @@ let availablePresets = [];
 function renderPresetSelection() {
   const select = document.getElementById("presetSelect");
   const status = document.getElementById("presetStatus");
+  const clearBtn = document.getElementById("clearPresetSelectionBtn");
   if (!select || !status) return;
 
   select.innerHTML = "";
+  if (clearBtn) clearBtn.disabled = true;
 
   if (!availablePresets.length) {
     const option = document.createElement("option");
@@ -852,13 +854,15 @@ function renderPresetSelection() {
     option.textContent = "Keine Presets verfügbar";
     select.appendChild(option);
     select.disabled = true;
-    status.textContent = "In presets/index.json sind aktuell keine Presets eingetragen.";
+    status.textContent = "Keine Presets verfügbar.";
     return;
   }
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
   placeholder.textContent = "Preset auswählen …";
+  placeholder.disabled = true;
+  placeholder.selected = true;
   select.appendChild(placeholder);
 
   availablePresets.forEach((preset, index) => {
@@ -875,16 +879,26 @@ function renderPresetSelection() {
 function updatePresetSelectionStatus() {
   const select = document.getElementById("presetSelect");
   const status = document.getElementById("presetStatus");
+  const clearBtn = document.getElementById("clearPresetSelectionBtn");
   if (!select || !status) return;
 
   if (select.value === "") {
+    if (clearBtn) clearBtn.disabled = true;
     status.textContent = `${availablePresets.length} Preset${availablePresets.length === 1 ? "" : "s"} verfügbar.`;
     return;
   }
 
   const preset = availablePresets[Number(select.value)];
   if (!preset) return;
-  status.textContent = `Ausgewählt: ${preset.name} · Datei: ${preset.file}`;
+  if (clearBtn) clearBtn.disabled = false;
+  status.textContent = `Ausgewählt: ${preset.name}`;
+}
+
+function clearPresetSelection() {
+  const select = document.getElementById("presetSelect");
+  if (!select || select.disabled) return;
+  select.value = "";
+  updatePresetSelectionStatus();
 }
 
 async function loadPresetIndex() {
@@ -913,7 +927,9 @@ async function loadPresetIndex() {
     availablePresets = [];
     select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
     select.disabled = true;
-    status.textContent = "Preset-Liste konnte nicht geladen werden. Die vorhandenen Artikel bleiben unverändert.";
+    const clearBtn = document.getElementById("clearPresetSelectionBtn");
+    if (clearBtn) clearBtn.disabled = true;
+    status.textContent = "Preset-Liste konnte nicht geladen werden.";
   }
 }
 
@@ -1148,6 +1164,8 @@ document.getElementById("appNameInput").addEventListener("change", (e) => {
 document.getElementById("backupBtn").addEventListener("click", backupData);
 const presetSelect = document.getElementById("presetSelect");
 if (presetSelect) presetSelect.addEventListener("change", updatePresetSelectionStatus);
+const clearPresetSelectionBtn = document.getElementById("clearPresetSelectionBtn");
+if (clearPresetSelectionBtn) clearPresetSelectionBtn.addEventListener("click", clearPresetSelection);
 loadPresetIndex();
 
 const exportProductPresetBtn = document.getElementById("exportProductPresetBtn");

@@ -1,48 +1,30 @@
-# KassenApp V0.23.2
+# KassenApp V0.23.2.1
 
 ## Thema
-Preset-System – Auswahl vorhandener Presets in den Einstellungen.
+Hotfix zur Preset-Auswahl in den Einstellungen.
 
-## Neu in V0.23.2
-- Die App lädt `presets/index.json` beim Start ohne Browser-Cache.
-- In den Einstellungen gibt es jetzt eine Preset-Auswahl.
-- Alle gültigen Einträge aus dem Preset-Index werden im Dropdown angezeigt.
-- Nach der Auswahl zeigt die App Preset-Name und zugehörige Datei an.
-- Ein leerer oder nicht erreichbarer Preset-Index wird sauber abgefangen.
-- Die vorhandene Artikelliste wird in V0.23.2 noch nicht verändert.
-
-Das tatsächliche Laden, Prüfen und Ersetzen der Artikelliste folgt getrennt in V0.23.3.
-
-## Preset-Index
-Beispiel:
-
-```json
-{
-  "version": 1,
-  "presets": [
-    {
-      "name": "Sommerfest",
-      "file": "sommerfest.json"
-    }
-  ]
-}
-```
-
-Die referenzierten JSON-Dateien liegen ebenfalls im Ordner `presets/`.
+## Änderungen
+- Die technische Beschreibung zur Herkunft der Presets wurde aus der Oberfläche entfernt.
+- „Preset auswählen …“ ist nur noch der Startzustand und kann im geöffneten Dropdown nicht erneut gewählt werden.
+- Nach einer Preset-Auswahl wird der neue Button **Löschen** aktiv.
+- **Löschen** entfernt nur die aktuelle Auswahl; es wird keine Preset-Datei gelöscht.
+- Die Statusanzeige zeigt nach der Auswahl nur noch den Preset-Namen und nicht mehr den Dateinamen.
 
 ## Test
 ### Muss funktionieren
-1. App öffnen und zu **Einstellungen** wechseln.
-2. Unter **Artikel-Preset auswählen** muss die Auswahl erscheinen.
-3. Das vorhandene Beispiel-Preset muss auswählbar sein.
-4. Nach Auswahl müssen Name und Dateiname angezeigt werden.
-5. Die aktuelle Artikelliste darf sich durch die Auswahl noch nicht verändern.
+1. Einstellungen öffnen.
+2. Unter **Artikel-Preset auswählen** darf keine Beschreibung zu `presets/index.json` stehen.
+3. Ein Preset auswählen.
+4. „Preset auswählen …“ darf danach im Dropdown nicht als auswählbare Option funktionieren.
+5. Der Button **Löschen** muss nach der Auswahl aktiv sein.
+6. **Löschen** drücken: Die Auswahl muss auf den leeren Startzustand zurückgesetzt werden und der Button wieder deaktiviert sein.
+7. Die Artikelliste darf dabei nicht verändert werden.
 
 ### Regressionstest
+- Preset-Liste muss weiterhin geladen werden.
 - Artikelliste als Preset exportieren.
 - Artikel anlegen/bearbeiten/löschen.
-- Normale Sicherung herunterladen und wieder einlesen.
-- Einen Verkauf durchführen.
+- Einen normalen Verkauf durchführen.
 
-### Fehlerfall
-`presets/index.json` testweise umbenennen oder ungültig machen. Die App muss eine verständliche Fehlermeldung anzeigen und die vorhandenen Artikel unverändert lassen.
+### Gerätecheck
+- Preset-Auswahl und Löschen-Button einmal am PC und einmal am Handy prüfen.
