@@ -3194,3 +3194,70 @@ body { min-width: 0; }
     padding: 8px 8px 8px 11px;
   }
 }
+
+/* =========================================================
+   KassenApp V0.22.4.1 – Warenkorb: schmale Breiten
+   Lange Artikelnamen erhalten eine eigene Zeile oberhalb der Bedienung.
+   ========================================================= */
+@media (min-width: 761px) and (max-width: 1050px) {
+  #cashView.active .cart-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px 10px;
+    align-items: center;
+  }
+
+  #cashView.active .cart-main {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  #cashView.active .qty-controls {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  #cashView.active .cart-line-total {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    text-align: right;
+  }
+
+  #cashView.active .delete-cart-item {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  #cashView.active .cart-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px 10px;
+    align-items: center;
+  }
+
+  #cashView.active .cart-main {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  #cashView.active .qty-controls {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  #cashView.active .cart-line-total {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    text-align: right;
+  }
+
+  #cashView.active .delete-cart-item {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+  }
+}

@@ -1,42 +1,24 @@
-# KassenApp V0.22.4
+# KassenApp V0.22.4.1
 
-## Thema
-Warenkorb – insbesondere die Bedienung auf dem Handy im Querformat.
-
-Diese Version ändert nur den Kassen-/Warenkorbbereich. Auf kleinen Touch-Geräten im Querformat wird die Kasse nicht mehr in zwei Spalten gequetscht. Stattdessen stehen Artikel, Warenkorb und Bezahlung untereinander in voller Breite.
+Hotfix zum Warenkorb bei schmalen Bildschirmbreiten.
 
 ## Änderungen
-- Handy quer: keine Zwei-Spalten-Kasse mehr
-- Artikelbereich steht oben in voller Breite
-- Warenkorb folgt direkt unter den Artikeln
-- Bezahlbereich und „Verkauf abschließen“ folgen unter dem Warenkorb
-- die Seite darf im Querformat scrollen, damit nichts künstlich in eine geringe Bildschirmhöhe gepresst wird
-- Warenkorbzeilen nutzen die volle Breite
-- lange Artikelnamen dürfen sauber umbrechen
-- Menge, Plus/Minus und Löschen bleiben mit 44-px-Touchflächen gut bedienbar
-- das kompakte 4-Spalten-Tastenfeld bleibt im Querformat erhalten
-- Tablet und Desktop behalten ihr zweispaltiges Layout
+- Bei schmalem PC-/Tablet-Fenster steht der Artikelname im Warenkorb jetzt in einer eigenen Zeile über Menge, Positionssumme und Löschen.
+- Im Handy-Hochformat sitzt der Löschen-Button pro Position sauber in der zweiten Zeile rechts.
+- Keine Änderungen an Artikeln, Bezahlung, Verkäufen oder Einstellungen.
 
-## Testplan
+## Test
 ### Muss funktionieren
-1. App am Handy öffnen und ins Querformat drehen.
-2. Prüfen, dass zuerst die Artikel und darunter der komplette Warenkorb erscheinen.
-3. Mehrere Artikel hinzufügen, bis mehrere Warenkorbzeilen sichtbar sind.
-4. Nach unten scrollen: Gesamt, Gegeben, Rückgeld und „Verkauf abschließen“ müssen vollständig erreichbar sein.
-5. Plus, Minus und Löschen in mehreren Warenkorbzeilen testen.
-6. Einen Artikel mit langem Namen testen. Der Name darf nicht abgeschnitten werden.
-7. Schnellwahl und Tastenfeld testen und einen Verkauf abschließen.
+1. Am PC das Browserfenster schmal ziehen: lange Artikelnamen müssen oberhalb der Bedienelemente vollständig lesbar bleiben.
+2. Handy hochkant: mehrere Positionen hinzufügen und prüfen, dass das × jeder Position rechts in derselben Bedienzeile sitzt.
+3. Plus, Minus und Löschen betätigen.
 
 ### Regressionstest
-1. Handy wieder hochkant drehen: die bisherige Hochformat-Ansicht muss erhalten bleiben.
-2. Tablet prüfen: Artikel und Kassenspalte müssen weiterhin nebeneinander stehen.
-3. Laptop/Desktop prüfen: zweispaltiges Kassenlayout muss unverändert funktionieren.
-4. Burger-Menü im Handy-Querformat öffnen und wieder schließen.
+- Desktop breit: Warenkorb weiterhin normal bedienen.
+- Handy quer: Artikel oben, Warenkorb darunter; bestehendes V0.22.4-Layout bleibt erhalten.
+- Verkauf vollständig abschließen.
 
-## Geänderte Dateien
-- `styles.css`
-- `index.html`
-- `app.js`
-- `version.json`
-- `service-worker.js`
-- `README.md`
+### Gerätecheck
+- PC bei ca. 760–1050 px Fensterbreite.
+- Handy hochkant.
+- Handy quer.
