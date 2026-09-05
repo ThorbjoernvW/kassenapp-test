@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.3.1";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.4";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -24,6 +24,18 @@ let salesPage = 1;
 let salesPageSize = 10;
 let keypadSequence = "";
 
+function sanitizeProduct(product, fallbackColor = "#d8eadf") {
+  return {
+    id: product.id,
+    name: product.name,
+    category: product.category,
+    price: Number(product.price) || 0,
+    icon: product.icon || "",
+    active: product.active !== false,
+    order: Number(product.order) || 0,
+    color: product.color || fallbackColor
+  };
+}
 
 function loadState() {
   try {
@@ -32,14 +44,7 @@ function loadState() {
     const parsed = JSON.parse(raw);
     if (!parsed.products || !parsed.sales) throw new Error("invalid");
     const defaultColors = ["#f2c66d", "#e8a98d", "#e6bd86", "#9fc8d8", "#9fcbb3", "#b7c6e6"];
-    parsed.products = parsed.products.map((p, i) => ({
-      ...p,
-      imageData: p.imageData || "",
-      imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
-      imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
-      imageZoom: Number.isFinite(Number(p.imageZoom)) ? Math.min(2.5, Math.max(1, Number(p.imageZoom))) : 1,
-      color: p.color || defaultColors[i % defaultColors.length]
-    }));
+    parsed.products = parsed.products.map((p, i) => sanitizeProduct(p, defaultColors[i % defaultColors.length]));
     parsed.paymentMode = parsed.paymentMode === "keypad" ? "keypad" : "quick";
     parsed.hapticsEnabled = parsed.hapticsEnabled !== false;
     return parsed;
@@ -121,22 +126,13 @@ function renderProducts() {
 function productButton(product) {
   const btn = document.createElement("button");
   btn.type = "button";
-  const hasImage = Boolean(product.imageData);
   const hasIcon = Boolean(product.icon && product.icon.trim());
-  btn.className = `product-btn ${product.category} ${hasImage ? "has-image" : ""} ${(!hasImage && hasIcon) ? "has-icon" : ""} ${(!hasImage && !hasIcon) ? "no-media" : ""}`;
+  btn.className = `product-btn ${product.category} ${hasIcon ? "has-icon" : "no-media"}`;
   btn.style.setProperty("--product-color", product.color || (product.category === "food" ? "#f2c66d" : "#9fc8d8"));
 
-  let media = "";
-  if (hasImage) {
-    const t = imageTransformValues(
-      Number(product.imagePositionX ?? 50),
-      Number(product.imagePositionY ?? 50),
-      Number(product.imageZoom ?? 1)
-    );
-    media = `<div class="product-media image"><img src="${product.imageData}" alt="" style="object-position:${t.x}% ${t.y}%; transform:translate(${t.translateX}%, ${t.translateY}%) scale(${t.zoom}); transform-origin:50% 50%" /></div>`;
-  } else if (hasIcon) {
-    media = `<div class="product-media icon">${escapeHtml(product.icon)}</div>`;
-  }
+  const media = hasIcon
+    ? `<div class="product-media icon">${escapeHtml(product.icon)}</div>`
+    : "";
 
   btn.innerHTML = `
     ${media}
@@ -459,13 +455,11 @@ function renderSales() {
   stats.innerHTML = sorted.length
     ? sorted.map(item => {
         const product = state.products.find(p => p.id === item.productId);
-        const image = product?.imageData
-          ? `<img src="${product.imageData}" alt="" />`
-          : `<span>${escapeHtml(product?.icon || item.name.slice(0, 1).toUpperCase())}</span>`;
+        const media = `<span>${escapeHtml(product?.icon || item.name.slice(0, 1).toUpperCase())}</span>`;
         const color = product?.color || "#d8eadf";
         return `
           <article class="top-product-card" style="--item-color:${color}">
-            <div class="top-product-media">${image}</div>
+            <div class="top-product-media">${media}</div>
             <div class="top-product-copy">
               <strong>${escapeHtml(item.name)}</strong>
               <span><b>${item.qty}</b> verkauft</span>
@@ -561,9 +555,7 @@ function renderSettings() {
     row.draggable = true;
     row.dataset.productId = p.id;
 
-    const preview = p.imageData
-      ? `<img class="settings-thumb" src="${p.imageData}" alt="" />`
-      : `<div class="settings-thumb fallback">${escapeHtml(p.icon || p.name.slice(0,1).toUpperCase())}</div>`;
+    const preview = `<div class="settings-thumb fallback">${escapeHtml(p.icon || p.name.slice(0,1).toUpperCase())}</div>`;
 
     row.innerHTML = `
       <div class="drag-handle" title="Ziehen zum Verschieben" aria-hidden="true">⋮⋮</div>
@@ -691,209 +683,6 @@ function moveProduct(id, delta) {
   renderProducts();
 }
 
-let pendingProductImageData = null;
-let pendingProductImagePositionX = 50;
-let pendingProductImagePositionY = 50;
-let pendingProductImageZoom = 1;
-const imagePreviewPointers = new Map();
-let imagePreviewDragStart = null;
-let imagePreviewPinchStart = null;
-
-function clampImageSetting(value, min, max) {
-  return Math.min(max, Math.max(min, Number(value)));
-}
-
-function imageTransformValues(imageX = 50, imageY = 50, imageZoom = 1) {
-  const x = clampImageSetting(imageX, 0, 100);
-  const y = clampImageSetting(imageY, 0, 100);
-  const zoom = clampImageSetting(imageZoom, 1, 2.5);
-
-  // object-position nutzt den natuerlichen Beschnitt von object-fit: cover.
-  // Bei Zoom kommt zusaetzlich ein normalisierter Pan hinzu. So verwenden
-  // Editor-Vorschau und echte Kachel exakt dieselbe Transformationslogik.
-  const panFactor = Math.max(0, zoom - 1);
-  const translateX = ((50 - x) / 50) * panFactor * 18;
-  const translateY = ((50 - y) / 50) * panFactor * 18;
-  return { x, y, zoom, translateX, translateY };
-}
-
-function applyImageTransform(img) {
-  if (!img) return;
-  const t = imageTransformValues(
-    pendingProductImagePositionX,
-    pendingProductImagePositionY,
-    pendingProductImageZoom
-  );
-  img.style.objectPosition = `${t.x}% ${t.y}%`;
-  img.style.transform = `translate(${t.translateX}%, ${t.translateY}%) scale(${t.zoom})`;
-  img.style.transformOrigin = `50% 50%`;
-}
-
-function syncImageEditorUi() {
-  const xInput = document.getElementById("productImagePositionX");
-  const yInput = document.getElementById("productImagePositionY");
-  const zoomInput = document.getElementById("productImageZoom");
-  const xValue = document.getElementById("productImagePositionXValue");
-  const yValue = document.getElementById("productImagePositionYValue");
-  const zoomValue = document.getElementById("productImageZoomValue");
-
-  if (xInput) xInput.value = String(Math.round(pendingProductImagePositionX));
-  if (yInput) yInput.value = String(Math.round(pendingProductImagePositionY));
-  if (zoomInput) zoomInput.value = String(Math.round(pendingProductImageZoom * 100));
-  if (xValue) xValue.textContent = `${Math.round(pendingProductImagePositionX)}%`;
-  if (yValue) yValue.textContent = `${Math.round(pendingProductImagePositionY)}%`;
-  if (zoomValue) zoomValue.textContent = `${Math.round(pendingProductImageZoom * 100)}%`;
-
-  applyImageTransform(document.getElementById("productImagePreview"));
-  applyImageTransform(document.getElementById("productTileImagePreview"));
-}
-
-function updateProductImagePreview(dataUrl) {
-  const preview = document.getElementById("productImagePreview");
-  const tilePreview = document.getElementById("productTileImagePreview");
-  const controls = document.getElementById("imagePositionControls");
-  const text = document.getElementById("imageDropText");
-  const removeBtn = document.getElementById("removeProductImageBtn");
-
-  syncImageEditorUi();
-
-  if (dataUrl) {
-    preview.src = dataUrl;
-    preview.hidden = false;
-    if (tilePreview) tilePreview.src = dataUrl;
-    syncImageEditorUi();
-    if (controls) controls.hidden = false;
-    text.textContent = "Anderes Bild auswählen";
-    removeBtn.style.visibility = "visible";
-  } else {
-    preview.removeAttribute("src");
-    preview.hidden = true;
-    if (tilePreview) tilePreview.removeAttribute("src");
-    if (controls) controls.hidden = true;
-    text.textContent = "Bild auswählen";
-    removeBtn.style.visibility = "hidden";
-  }
-}
-
-function updatePendingImagePosition() {
-  const xInput = document.getElementById("productImagePositionX");
-  const yInput = document.getElementById("productImagePositionY");
-  const zoomInput = document.getElementById("productImageZoom");
-  pendingProductImagePositionX = clampImageSetting(xInput?.value ?? 50, 0, 100);
-  pendingProductImagePositionY = clampImageSetting(yInput?.value ?? 50, 0, 100);
-  pendingProductImageZoom = clampImageSetting(Number(zoomInput?.value ?? 100) / 100, 1, 2.5);
-  syncImageEditorUi();
-}
-
-function resetPendingImageTransform() {
-  pendingProductImagePositionX = 50;
-  pendingProductImagePositionY = 50;
-  pendingProductImageZoom = 1;
-  syncImageEditorUi();
-}
-
-function pointerDistance(a, b) {
-  return Math.hypot(a.x - b.x, a.y - b.y);
-}
-
-function setupTouchImageEditor() {
-  const preview = document.querySelector(".image-position-preview");
-  if (!preview || preview.dataset.touchEditorReady === "1") return;
-  preview.dataset.touchEditorReady = "1";
-
-  preview.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "mouse") return;
-    preview.setPointerCapture?.(event.pointerId);
-    imagePreviewPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-
-    if (imagePreviewPointers.size === 1) {
-      imagePreviewDragStart = {
-        pointerId: event.pointerId,
-        x: event.clientX,
-        y: event.clientY,
-        imageX: pendingProductImagePositionX,
-        imageY: pendingProductImagePositionY
-      };
-      imagePreviewPinchStart = null;
-    } else if (imagePreviewPointers.size === 2) {
-      const [a, b] = [...imagePreviewPointers.values()];
-      imagePreviewPinchStart = { distance: pointerDistance(a, b), zoom: pendingProductImageZoom };
-      imagePreviewDragStart = null;
-    }
-    event.preventDefault();
-  });
-
-  preview.addEventListener("pointermove", (event) => {
-    if (!imagePreviewPointers.has(event.pointerId)) return;
-    imagePreviewPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-
-    if (imagePreviewPointers.size >= 2 && imagePreviewPinchStart) {
-      const [a, b] = [...imagePreviewPointers.values()];
-      const distance = Math.max(1, pointerDistance(a, b));
-      pendingProductImageZoom = clampImageSetting(imagePreviewPinchStart.zoom * (distance / Math.max(1, imagePreviewPinchStart.distance)), 1, 2.5);
-      syncImageEditorUi();
-      event.preventDefault();
-      return;
-    }
-
-    if (imagePreviewPointers.size === 1 && imagePreviewDragStart?.pointerId === event.pointerId) {
-      const rect = preview.getBoundingClientRect();
-      const dx = event.clientX - imagePreviewDragStart.x;
-      const dy = event.clientY - imagePreviewDragStart.y;
-      const zoomDamping = Math.max(1, pendingProductImageZoom);
-      pendingProductImagePositionX = clampImageSetting(imagePreviewDragStart.imageX - (dx / Math.max(1, rect.width)) * 100 / zoomDamping, 0, 100);
-      pendingProductImagePositionY = clampImageSetting(imagePreviewDragStart.imageY - (dy / Math.max(1, rect.height)) * 100 / zoomDamping, 0, 100);
-      syncImageEditorUi();
-      event.preventDefault();
-    }
-  });
-
-  const endPointer = (event) => {
-    imagePreviewPointers.delete(event.pointerId);
-    if (imagePreviewPointers.size === 1) {
-      const [pointerId, point] = [...imagePreviewPointers.entries()][0];
-      imagePreviewDragStart = {
-        pointerId,
-        x: point.x,
-        y: point.y,
-        imageX: pendingProductImagePositionX,
-        imageY: pendingProductImagePositionY
-      };
-      imagePreviewPinchStart = null;
-    } else if (imagePreviewPointers.size === 0) {
-      imagePreviewDragStart = null;
-      imagePreviewPinchStart = null;
-    }
-  };
-
-  preview.addEventListener("pointerup", endPointer);
-  preview.addEventListener("pointercancel", endPointer);
-}
-
-function compressImage(file, maxWidth = 640, maxHeight = 420, quality = 0.78) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        const scale = Math.min(1, maxWidth / img.width, maxHeight / img.height);
-        const width = Math.max(1, Math.round(img.width * scale));
-        const height = Math.max(1, Math.round(img.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
 function openProductDialog(id = null) {
   const dialog = document.getElementById("productDialog");
   showProductFormMessage("");
@@ -907,13 +696,6 @@ function openProductDialog(id = null) {
   document.getElementById("productColorValue").textContent = document.getElementById("productColorInput").value;
   document.getElementById("productIconInput").value = p?.icon || "";
   document.getElementById("productActiveInput").checked = p ? p.active : true;
-  document.getElementById("productImageInput").value = "";
-  pendingProductImageData = p?.imageData || "";
-  pendingProductImagePositionX = Number.isFinite(Number(p?.imagePositionX)) ? Number(p.imagePositionX) : 50;
-  pendingProductImagePositionY = Number.isFinite(Number(p?.imagePositionY)) ? Number(p.imagePositionY) : 50;
-  pendingProductImageZoom = Number.isFinite(Number(p?.imageZoom)) ? clampImageSetting(Number(p.imageZoom), 1, 2.5) : 1;
-  updateProductImagePreview(pendingProductImageData);
-  setupTouchImageEditor();
   dialog.showModal();
 }
 
@@ -959,10 +741,6 @@ function saveProductFromForm(e) {
     const color = colorInput.value || "#d8eadf";
     const icon = iconInput.value.trim();
     const active = activeInput.checked;
-    const imageData = pendingProductImageData || "";
-    const imagePositionX = imageData ? pendingProductImagePositionX : 50;
-    const imagePositionY = imageData ? pendingProductImagePositionY : 50;
-    const imageZoom = imageData ? pendingProductImageZoom : 1;
 
     if (!name) {
       showProductFormMessage("Bitte gib einen Artikelnamen ein.");
@@ -982,7 +760,7 @@ function saveProductFromForm(e) {
         showProductFormMessage("Der Artikel wurde nicht gefunden.");
         return;
       }
-      Object.assign(product, { name, category, price, color, icon, active, imageData, imagePositionX, imagePositionY, imageZoom });
+      Object.assign(product, { name, category, price, color, icon, active });
     } else {
       state.products.push({
         id: createProductId(),
@@ -992,10 +770,6 @@ function saveProductFromForm(e) {
         color,
         icon,
         active,
-        imageData,
-        imagePositionX,
-        imagePositionY,
-        imageZoom,
         order: state.products.length + 1
       });
     }
@@ -1075,14 +849,7 @@ function restoreData(file) {
       const parsed = JSON.parse(reader.result);
       if (!parsed.products || !parsed.sales) throw new Error("Ungültiges Format");
       const defaultColors = ["#f2c66d", "#e8a98d", "#e6bd86", "#9fc8d8", "#9fcbb3", "#b7c6e6"];
-      parsed.products = parsed.products.map((p, i) => ({
-        ...p,
-        imageData: p.imageData || "",
-        imagePositionX: Number.isFinite(Number(p.imagePositionX)) ? Math.min(100, Math.max(0, Number(p.imagePositionX))) : 50,
-        imagePositionY: Number.isFinite(Number(p.imagePositionY)) ? Math.min(100, Math.max(0, Number(p.imagePositionY))) : 50,
-        imageZoom: Number.isFinite(Number(p.imageZoom)) ? Math.min(2.5, Math.max(1, Number(p.imageZoom))) : 1,
-        color: p.color || defaultColors[i % defaultColors.length]
-      }));
+      parsed.products = parsed.products.map((p, i) => sanitizeProduct(p, defaultColors[i % defaultColors.length]));
       state = parsed;
       normalizeOrder();
       saveState();
@@ -1270,39 +1037,6 @@ document.getElementById("productColorInput").addEventListener("input", (e) => {
 });
 document.getElementById("cancelProductBtn").addEventListener("click", () => document.getElementById("productDialog").close());
 document.getElementById("closeProductDialogBtn").addEventListener("click", () => document.getElementById("productDialog").close());
-
-document.getElementById("productImageInput").addEventListener("change", async (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  if (!file.type.startsWith("image/")) {
-    alert("Bitte wähle eine Bilddatei aus.");
-    return;
-  }
-  try {
-    pendingProductImageData = await compressImage(file);
-    pendingProductImagePositionX = 50;
-    pendingProductImagePositionY = 50;
-    pendingProductImageZoom = 1;
-    updateProductImagePreview(pendingProductImageData);
-  } catch {
-    alert("Das Bild konnte nicht verarbeitet werden.");
-  }
-});
-
-document.getElementById("removeProductImageBtn").addEventListener("click", () => {
-  pendingProductImageData = "";
-  pendingProductImagePositionX = 50;
-  pendingProductImagePositionY = 50;
-  pendingProductImageZoom = 1;
-  document.getElementById("productImageInput").value = "";
-  updateProductImagePreview("");
-});
-
-document.getElementById("productImagePositionX").addEventListener("input", updatePendingImagePosition);
-document.getElementById("productImagePositionY").addEventListener("input", updatePendingImagePosition);
-document.getElementById("productImageZoom").addEventListener("input", updatePendingImagePosition);
-document.getElementById("resetProductImageTransformBtn").addEventListener("click", resetPendingImageTransform);
-setupTouchImageEditor();
 
 document.getElementById("appNameInput").addEventListener("change", (e) => {
   state.appName = e.target.value.trim() || "KassenApp";

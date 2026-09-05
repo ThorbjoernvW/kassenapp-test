@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.22.3.3.1">
+<html lang="de" data-app-version="V0.22.3.4">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.22.3.3.1" />
+  <link rel="stylesheet" href="styles.css?v=0.22.3.4" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -293,7 +293,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.22.3.1</strong><br>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.22.3.4</strong><br>
               <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
               <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
@@ -366,46 +366,6 @@
         <input id="productIconInput" type="text" maxlength="4" placeholder="z. B. 🌭" />
       </label>
 
-      <div class="image-upload-block">
-        <div class="image-upload-head">
-          <div>
-            <strong>Artikelbild (optional)</strong>
-            <small>Wird automatisch verkleinert, damit die App schnell bleibt.</small>
-          </div>
-          <button id="removeProductImageBtn" class="text-btn danger-soft" type="button">Bild entfernen</button>
-        </div>
-        <label class="image-drop">
-          <input id="productImageInput" type="file" accept="image/*" hidden />
-          <span id="imageDropText">Bild auswählen</span>
-          <img id="productImagePreview" alt="Vorschau" hidden />
-        </label>
-
-        <div id="imagePositionControls" class="image-position-controls" hidden>
-          <div class="image-position-preview" aria-label="Vorschau des Bildausschnitts. Auf Touchgeräten mit einem Finger verschieben und mit zwei Fingern zoomen.">
-            <img id="productTileImagePreview" alt="Vorschau des Kachelausschnitts" />
-            <div class="touch-image-hint">1 Finger: verschieben · 2 Finger: zoomen</div>
-          </div>
-          <div class="image-position-sliders">
-            <label>
-              <span>Bild horizontal <output id="productImagePositionXValue">50%</output></span>
-              <input id="productImagePositionX" type="range" min="0" max="100" step="1" value="50" />
-              <small>Links ↔ Rechts</small>
-            </label>
-            <label>
-              <span>Bild vertikal <output id="productImagePositionYValue">50%</output></span>
-              <input id="productImagePositionY" type="range" min="0" max="100" step="1" value="50" />
-              <small>Oben ↕ Unten</small>
-            </label>
-            <label>
-              <span>Zoom <output id="productImageZoomValue">100%</output></span>
-              <input id="productImageZoom" type="range" min="100" max="250" step="1" value="100" />
-              <small>100% = normal · bis 250% vergrößern</small>
-            </label>
-            <button id="resetProductImageTransformBtn" class="secondary-btn image-reset-btn" type="button">Bildausschnitt zurücksetzen</button>
-          </div>
-        </div>
-      </div>
-
       <label class="modal-toggle-row">
         <div>
           <strong>Artikel aktiv</strong>
@@ -432,10 +392,10 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.22.3.3.1"></script>
+<script src="app.js?v=0.22.3.4"></script>
 <script>
   (() => {
-    const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.1";
+    const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.3.4";
     const installBtn = document.getElementById("installPwaBtn");
     const updateBtn = document.getElementById("updatePwaBtn");
     const checkBtn = document.getElementById("checkUpdateBtn");

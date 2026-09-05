@@ -1,30 +1,26 @@
-# KassenApp V0.22.3.3.1
+# KassenApp V0.22.3.4
 
-Hotfix zum Themenblock **V0.22.3 – Artikelbilder/Kacheloptik**.
+## Thema
+Artikelfotos vollständig entfernt.
 
-## Behoben
+Die Foto-Idee wurde verworfen. Diese Version entfernt die gesamte Artikelfoto-Funktion aus der App und kehrt bei den Artikelkacheln zur Darstellung mit Artikelfarbe, optionalem Symbol, Artikelname und Preis zurück.
 
-- Auf Touchgeraeten eingestellte Bildposition und Zoom werden jetzt mit derselben Transformationslogik in der Editor-Vorschau und auf der echten Artikelkachel dargestellt.
-- Der gespeicherte horizontale und vertikale Bildausschnitt wird beim Rendern der Kassenkachel explizit angewendet.
-- Zoom und Verschiebung verwenden jetzt einen zentrierten, normalisierten Pan statt eines vom Bildausschnitt abhaengigen Transform-Ursprungs. Dadurch verhalten sich Vorschau und Kachel deutlich konsistenter.
+## Entfernt
+- Upload und Speicherung von Artikelbildern
+- Bildkomprimierung im Browser
+- Bildvorschau im Artikel-Dialog
+- horizontale/vertikale Bildposition
+- Zoom und Touch-Gesten für Bilder
+- Bilddarstellung auf Kassenkacheln
+- Bilddarstellung in Einstellungen und Top-Artikel-Statistik
+- zugehörige CSS-Regeln und Event-Handler
+
+Beim Laden bestehender Daten und beim Import alter Sicherungen werden die früheren Bildfelder verworfen. Dadurch werden alte Base64-Bilder nach dem nächsten Speichern nicht weiter im App-Zustand geführt.
 
 ## Testplan
-
-1. Auf dem Handy einen Artikel mit Bild bearbeiten.
-2. Das Bild mit einem Finger deutlich diagonal verschieben.
-3. Mit zwei Fingern auf etwa 150–200 % zoomen.
-4. Speichern und direkt zur Kasse wechseln.
-5. Pruefen, ob Position und Zoom auf der Artikelkachel sichtbar sind.
-6. Den Artikel erneut bearbeiten: gespeicherte Werte/Vorschau muessen erhalten sein.
-7. App neu laden und nochmals pruefen.
-8. Am Laptop kurz kontrollieren, dass Horizontal-, Vertikal- und Zoom-Regler weiterhin korrekt auf die Kachel wirken.
-
-## Geaenderte Dateien
-
-- `app.js`
-- `index.html`
-- `version.json`
-- `service-worker.js`
-- `README.md`
-
-`styles.css` wurde fuer diesen Hotfix nicht veraendert.
+1. Einstellungen öffnen und einen Artikel bearbeiten: Es darf keine Bild-Upload- oder Bildausschnitt-Funktion mehr geben.
+2. Artikel mit Symbol und Artikel ohne Symbol prüfen. Beide Kacheltypen müssen normal dargestellt und antippbar sein.
+3. Einen bestehenden Artikel bearbeiten und speichern. Name, Preis, Farbe, Symbol und Aktiv-Status müssen funktionieren.
+4. Falls auf dem Gerät vorher Artikelbilder gespeichert waren: App neu laden. Die Kasse darf keine Bilder mehr anzeigen.
+5. Alte JSON-Sicherung mit Bilddaten importieren. Der Import soll funktionieren, die Bilder aber ignorieren.
+6. Verkäufe und Top-Artikel kurz prüfen; dort dürfen keine Artikelbilder mehr erscheinen.
