@@ -3349,3 +3349,140 @@ body { min-width: 0; }
   opacity: .5;
   cursor: default;
 }
+
+
+/* =========================================================
+   KassenApp V0.23.4 – Preset benennen
+   ========================================================= */
+.preset-export-controls {
+  width: min(380px, 100%);
+  display: grid;
+  gap: 7px;
+}
+
+.preset-export-controls label {
+  font-weight: 800;
+  font-size: .9rem;
+}
+
+.preset-export-controls input {
+  width: 100%;
+  min-height: 44px;
+}
+
+.preset-export-controls .secondary-btn {
+  min-height: 44px;
+}
+
+.preset-export-controls .secondary-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+@media (max-width: 680px) {
+  .preset-export-controls {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   KassenApp V0.23.4.2 – Einstellungen: Artikel & Preset-Export
+   ========================================================= */
+.settings-articles-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 22px 0 12px;
+}
+
+.settings-articles-head h2 {
+  margin: 0 0 4px;
+  font-size: 1.18rem;
+}
+
+.settings-articles-head .settings-drag-hint {
+  margin: 0;
+}
+
+.settings-articles-head .primary-btn {
+  flex: 0 0 auto;
+  min-height: 44px;
+}
+
+.preset-export-box {
+  align-items: center;
+}
+
+.preset-export-copy {
+  min-width: 0;
+}
+
+.preset-export-copy h3,
+.preset-export-copy p {
+  margin-bottom: 0;
+}
+
+.preset-export-controls {
+  width: min(560px, 100%);
+  grid-template-columns: minmax(180px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.preset-export-controls input,
+.preset-export-controls .primary-btn {
+  min-height: 46px;
+}
+
+.preset-export-controls .primary-btn {
+  white-space: nowrap;
+}
+
+.preset-export-hint {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.35;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (max-width: 680px) {
+  .settings-articles-head {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .settings-articles-head .primary-btn {
+    width: 100%;
+  }
+
+  .preset-export-box {
+    align-items: stretch;
+  }
+
+  .preset-export-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .preset-export-controls .primary-btn {
+    width: 100%;
+  }
+
+  .preset-export-hint {
+    grid-column: 1;
+  }
+}

@@ -1,39 +1,35 @@
-# KassenApp V0.23.4.1
+# KassenApp V0.23.4.2
 
-## Thema
-Preset-System – `index.json` beim Preset-Export automatisch erzeugen.
+Hotfix innerhalb des Preset-Themas.
 
 ## Änderungen
-- Beim Speichern eines neuen Artikel-Presets werden jetzt **zwei Dateien** heruntergeladen:
-  1. die Preset-Datei, z. B. `sommerfest-2026.json`
-  2. eine aktualisierte `index.json`
-- Die neue `index.json` übernimmt alle bereits vorhandenen Presets aus der geladenen Preset-Liste und ergänzt das neu erstellte Preset.
-- Existiert bereits ein Eintrag mit gleichem Namen oder Dateinamen, wird dieser ersetzt statt doppelt angelegt.
-- Der Preset-Export ist nur möglich, wenn die bestehende `presets/index.json` erfolgreich geladen wurde. So wird verhindert, dass versehentlich eine unvollständige Indexdatei erzeugt wird.
-- Verkäufe und sonstige Kassendaten bleiben unverändert.
 
-## Verwendung
-1. Artikel wie gewünscht einrichten.
-2. Unter **Einstellungen → Artikel-Preset erstellen** einen Namen vergeben.
-3. **Artikelliste als Preset speichern** drücken.
-4. Die heruntergeladene Preset-Datei und die ebenfalls heruntergeladene `index.json` gemeinsam in den GitHub-Ordner `presets/` hochladen bzw. dort ersetzen.
+- Preset-Export in den Einstellungen optisch neu aufgebaut.
+- Preset-Name und Speichern-Button stehen auf breiten Ansichten kompakt nebeneinander.
+- Der Button heißt jetzt kurz „Preset speichern“.
+- Hinweis auf die zwei Downloads (Preset-Datei + index.json) steht dezent unter den Bedienelementen.
+- „Artikel hinzufügen“ wurde aus dem allgemeinen Einstellungs-Kopf entfernt.
+- Der Button befindet sich jetzt direkt im Abschnitt „Artikel“ oberhalb der Artikelliste.
+- Auf schmalen Geräten werden die Bedienelemente sauber untereinander angeordnet.
 
-## Testplan
+## Test
+
 ### Muss funktionieren
-1. Bestehende Preset-Liste muss erfolgreich geladen sein.
-2. Preset-Namen eingeben und speichern.
-3. Es müssen die Preset-Datei und eine `index.json` heruntergeladen werden.
-4. `index.json` öffnen und prüfen, dass vorhandene Presets weiterhin enthalten sind.
-5. Das neu erstellte Preset muss zusätzlich mit richtigem Namen und Dateinamen enthalten sein.
-6. Beide Dateien in `presets/` hochladen und App neu laden.
-7. Das neue Preset muss danach in der Auswahl erscheinen und ladbar sein.
+
+1. Einstellungen öffnen.
+2. Prüfen, dass „Artikel hinzufügen“ direkt oberhalb der Artikelliste steht.
+3. Über den Button einen neuen Artikel anlegen.
+4. Preset-Name eingeben und prüfen, dass „Preset speichern“ aktiv wird.
+5. Preset speichern und kontrollieren, dass Preset-Datei und `index.json` heruntergeladen werden.
 
 ### Regressionstest
-- Ein vorhandenes Preset laden.
-- Preset-Auswahl mit **Löschen** zurücksetzen.
-- Einen normalen Verkauf durchführen.
-- Komplette Datensicherung testen.
+
+- Bestehendes Preset auswählen, laden und Auswahl löschen.
+- Artikel bearbeiten/löschen/verschieben.
+- Normale Datensicherung testen.
 
 ### Gerätecheck
-- Preset-Export einmal am PC und einmal am Handy testen.
-- Falls der Browser beim ersten Mal nach der Erlaubnis für mehrere Downloads fragt, diese erlauben.
+
+- Desktop: Preset-Name und Speichern-Button stehen kompakt nebeneinander.
+- Handy: Preset-Eingabe und Button stehen untereinander und nutzen die verfügbare Breite.
+- Der Artikel-hinzufügen-Button muss auf beiden Ansichten direkt bei der Artikelliste bleiben.
