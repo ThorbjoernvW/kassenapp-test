@@ -3307,6 +3307,17 @@ body { min-width: 0; }
   cursor: default;
 }
 
+.preset-select-row .preset-clear-btn {
+  color: var(--danger);
+  border-color: #e8caca;
+  background: var(--danger-bg);
+}
+
+.preset-select-row .preset-clear-btn:hover:not(:disabled) {
+  background: #fff2ef;
+  border-color: #dcaeae;
+}
+
 .preset-picker-controls select {
   width: 100%;
   min-height: 44px;

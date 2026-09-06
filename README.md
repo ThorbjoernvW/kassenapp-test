@@ -1,27 +1,21 @@
-# KassenApp V0.23.4.2.3
+# KassenApp V0.23.4.2.4
 
-Hotfix innerhalb von V0.23.4.2.
+Hotfix innerhalb des Preset-Themas.
 
 ## Änderung
-Der Kopf des Artikelbereichs in den Einstellungen verwendet jetzt denselben horizontalen Innenabstand wie die Artikelliste und die übrigen Einstellungsbereiche. Dadurch stehen **„Artikel“** links und **„+ Artikel hinzufügen“** rechts bündig zu den darunterliegenden Elementen.
-
-- Desktop/Tablet: 22 px horizontaler Abstand
-- Handy: 16 px horizontaler Abstand
-
-Es wurden keine Funktionen verändert.
+- Der Button „Löschen“ bei der Preset-Auswahl ist jetzt als rote/destruktive Aktion gestaltet.
+- Funktional bleibt das Verhalten unverändert: Der Button löscht nur die aktuelle Preset-Auswahl, nicht die Preset-Datei.
 
 ## Test
-
 ### Muss funktionieren
-- Einstellungen am PC öffnen.
-- Prüfen, dass Überschrift/Hint links bündig mit der Artikelliste beginnen.
-- Prüfen, dass „+ Artikel hinzufügen“ rechts bündig mit der Artikelliste endet.
-- Button anklicken und einen Artikel hinzufügen.
+1. Einstellungen öffnen.
+2. Preset auswählen.
+3. Prüfen, dass „Löschen“ rot dargestellt wird.
+4. „Löschen“ drücken und prüfen, dass nur die Auswahl zurückgesetzt wird.
 
 ### Regressionstest
-- Artikel bearbeiten, löschen und verschieben.
-- Preset speichern und laden.
+- Preset auswählen und laden.
+- Preset speichern.
 
 ### Gerätecheck
-- Desktop/Tablet: horizontalen Abstand links und rechts prüfen.
-- Handy: Artikelkopf darf nicht am Bildschirmrand kleben; 16-px-Abstand muss erhalten bleiben.
+- Desktop und Handy: rote Darstellung und deaktivierter Zustand prüfen.
