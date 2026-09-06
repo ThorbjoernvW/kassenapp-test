@@ -3335,3 +3335,17 @@ body { min-width: 0; }
     width: 100%;
   }
 }
+
+
+/* =========================================================
+   KassenApp V0.23.3 – Preset laden
+   ========================================================= */
+.preset-load-btn {
+  width: 100%;
+  min-height: 44px;
+}
+
+.preset-load-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}

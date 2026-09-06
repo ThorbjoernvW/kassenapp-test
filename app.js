@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.2.1";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.3";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -843,10 +843,12 @@ function renderPresetSelection() {
   const select = document.getElementById("presetSelect");
   const status = document.getElementById("presetStatus");
   const clearBtn = document.getElementById("clearPresetSelectionBtn");
+  const loadBtn = document.getElementById("loadPresetBtn");
   if (!select || !status) return;
 
   select.innerHTML = "";
   if (clearBtn) clearBtn.disabled = true;
+  if (loadBtn) loadBtn.disabled = true;
 
   if (!availablePresets.length) {
     const option = document.createElement("option");
@@ -880,10 +882,12 @@ function updatePresetSelectionStatus() {
   const select = document.getElementById("presetSelect");
   const status = document.getElementById("presetStatus");
   const clearBtn = document.getElementById("clearPresetSelectionBtn");
+  const loadBtn = document.getElementById("loadPresetBtn");
   if (!select || !status) return;
 
   if (select.value === "") {
     if (clearBtn) clearBtn.disabled = true;
+    if (loadBtn) loadBtn.disabled = true;
     status.textContent = `${availablePresets.length} Preset${availablePresets.length === 1 ? "" : "s"} verfügbar.`;
     return;
   }
@@ -891,6 +895,7 @@ function updatePresetSelectionStatus() {
   const preset = availablePresets[Number(select.value)];
   if (!preset) return;
   if (clearBtn) clearBtn.disabled = false;
+  if (loadBtn) loadBtn.disabled = false;
   status.textContent = `Ausgewählt: ${preset.name}`;
 }
 
@@ -928,8 +933,86 @@ async function loadPresetIndex() {
     select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
     select.disabled = true;
     const clearBtn = document.getElementById("clearPresetSelectionBtn");
+    const loadBtn = document.getElementById("loadPresetBtn");
     if (clearBtn) clearBtn.disabled = true;
+    if (loadBtn) loadBtn.disabled = true;
     status.textContent = "Preset-Liste konnte nicht geladen werden.";
+  }
+}
+
+function validatePresetProducts(data) {
+  if (!data || data.format !== "kassenapp-products" || Number(data.version) !== 1 || !Array.isArray(data.products)) {
+    throw new Error("Ungültiges Preset-Format");
+  }
+  if (!data.products.length) throw new Error("Das Preset enthält keine Artikel");
+
+  const allowedCategories = new Set(["food", "drink"]);
+  return data.products.map((product, index) => {
+    if (!product || typeof product !== "object") throw new Error(`Artikel ${index + 1} ist ungültig`);
+    const name = typeof product.name === "string" ? product.name.trim() : "";
+    const category = typeof product.category === "string" ? product.category.trim() : "";
+    const price = Number(product.price);
+    if (!name) throw new Error(`Artikel ${index + 1} hat keinen Namen`);
+    if (!allowedCategories.has(category)) throw new Error(`Artikel „${name}“ hat eine ungültige Kategorie`);
+    if (!Number.isFinite(price) || price < 0) throw new Error(`Artikel „${name}“ hat einen ungültigen Preis`);
+
+    return sanitizeProduct({
+      id: crypto.randomUUID(),
+      name,
+      category,
+      price,
+      icon: typeof product.icon === "string" ? product.icon : "",
+      active: product.active !== false,
+      order: index + 1,
+      color: typeof product.color === "string" && product.color.trim() ? product.color.trim() : "#d8eadf"
+    });
+  });
+}
+
+async function loadSelectedPreset() {
+  const select = document.getElementById("presetSelect");
+  const status = document.getElementById("presetStatus");
+  const loadBtn = document.getElementById("loadPresetBtn");
+  const clearBtn = document.getElementById("clearPresetSelectionBtn");
+  if (!select || !status || select.value === "") return;
+
+  const preset = availablePresets[Number(select.value)];
+  if (!preset) return;
+
+  const confirmed = confirm(
+    `Preset „${preset.name}“ laden?\n\nDie aktuelle Artikelliste wird vollständig ersetzt. Bereits gespeicherte Verkäufe bleiben erhalten.`
+  );
+  if (!confirmed) return;
+
+  select.disabled = true;
+  if (loadBtn) loadBtn.disabled = true;
+  if (clearBtn) clearBtn.disabled = true;
+  status.textContent = `Preset „${preset.name}“ wird geladen …`;
+
+  try {
+    const response = await fetch(`./presets/${encodeURIComponent(preset.file)}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const products = validatePresetProducts(data);
+
+    // Erst nach vollständiger Prüfung den Zustand verändern.
+    state.products = products;
+    normalizeOrder();
+    saveState();
+    cart.clear();
+    renderAll();
+    setPaymentMode(state.paymentMode || "quick", false);
+
+    status.textContent = `Preset „${preset.name}“ wurde geladen (${products.length} Artikel).`;
+    haptic([22, 35, 22]);
+  } catch (error) {
+    console.error("Preset konnte nicht geladen werden:", error);
+    status.textContent = `Preset „${preset.name}“ konnte nicht geladen werden. Die Artikelliste wurde nicht verändert.`;
+    alert("Das Preset konnte nicht geladen werden. Die bestehende Artikelliste bleibt unverändert.");
+  } finally {
+    select.disabled = availablePresets.length === 0;
+    if (clearBtn) clearBtn.disabled = select.value === "";
+    if (loadBtn) loadBtn.disabled = select.value === "";
   }
 }
 
@@ -1166,6 +1249,8 @@ const presetSelect = document.getElementById("presetSelect");
 if (presetSelect) presetSelect.addEventListener("change", updatePresetSelectionStatus);
 const clearPresetSelectionBtn = document.getElementById("clearPresetSelectionBtn");
 if (clearPresetSelectionBtn) clearPresetSelectionBtn.addEventListener("click", clearPresetSelection);
+const loadPresetBtn = document.getElementById("loadPresetBtn");
+if (loadPresetBtn) loadPresetBtn.addEventListener("click", loadSelectedPreset);
 loadPresetIndex();
 
 const exportProductPresetBtn = document.getElementById("exportProductPresetBtn");
