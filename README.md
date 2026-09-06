@@ -1,27 +1,22 @@
-# KassenApp V0.23.4.2.1
+# KassenApp V0.23.4.2.2
 
-Hotfix innerhalb des Preset-/Einstellungsblocks.
+Hotfix für den Artikelkopf in den Einstellungen.
 
 ## Änderung
-
-- Desktop-Anordnung im Abschnitt „Artikel“ korrigiert.
-- Überschrift und Drag&Drop-Hinweis bilden links wieder einen sauberen Textblock.
-- „+ Artikel hinzufügen“ wird rechts vertikal sauber zu diesem Block ausgerichtet.
-- Mobile Darstellung bleibt unverändert: Button weiterhin unter dem Textblock in voller Breite.
+- Auf dem PC stehen „Artikel“ und „+ Artikel hinzufügen“ jetzt sauber in derselben Zeile.
+- Der Drag&Drop-Hinweis steht in einer eigenen Zeile direkt unter der Überschrift.
+- Auf dem Handy bleibt der Button unter Überschrift und Hinweis in voller Breite.
 
 ## Test
-
 ### Muss funktionieren
-1. Einstellungen am PC öffnen.
-2. Abschnitt „Artikel“ ansehen.
-3. Überschrift + Hinweis müssen links sauber untereinander stehen.
-4. „+ Artikel hinzufügen“ muss rechts mittig zum Textblock ausgerichtet sein.
-5. Button anklicken und prüfen, ob der Artikeldialog weiterhin öffnet.
+- Einstellungen am PC öffnen.
+- Prüfen, dass Überschrift und Button auf einer Höhe stehen.
+- Prüfen, dass der Hinweis direkt darunter steht.
+- „+ Artikel hinzufügen“ anklicken.
 
 ### Regressionstest
 - Artikel bearbeiten, löschen und verschieben.
 - Preset speichern und laden.
 
 ### Gerätecheck
-- PC/Desktop: neue Anordnung prüfen.
-- Handy: bestehende einspaltige Darstellung des Artikelkopfs prüfen.
+- PC sowie Handy-Hochformat prüfen.
