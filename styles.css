@@ -3391,10 +3391,17 @@ body { min-width: 0; }
    ========================================================= */
 .settings-articles-head {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
   margin: 22px 0 12px;
+}
+
+.settings-articles-head > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .settings-articles-head h2 {
@@ -3409,6 +3416,7 @@ body { min-width: 0; }
 .settings-articles-head .primary-btn {
   flex: 0 0 auto;
   min-height: 44px;
+  align-self: center;
 }
 
 .preset-export-box {

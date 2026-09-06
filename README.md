@@ -1,35 +1,27 @@
-# KassenApp V0.23.4.2
+# KassenApp V0.23.4.2.1
 
-Hotfix innerhalb des Preset-Themas.
+Hotfix innerhalb des Preset-/Einstellungsblocks.
 
-## Änderungen
+## Änderung
 
-- Preset-Export in den Einstellungen optisch neu aufgebaut.
-- Preset-Name und Speichern-Button stehen auf breiten Ansichten kompakt nebeneinander.
-- Der Button heißt jetzt kurz „Preset speichern“.
-- Hinweis auf die zwei Downloads (Preset-Datei + index.json) steht dezent unter den Bedienelementen.
-- „Artikel hinzufügen“ wurde aus dem allgemeinen Einstellungs-Kopf entfernt.
-- Der Button befindet sich jetzt direkt im Abschnitt „Artikel“ oberhalb der Artikelliste.
-- Auf schmalen Geräten werden die Bedienelemente sauber untereinander angeordnet.
+- Desktop-Anordnung im Abschnitt „Artikel“ korrigiert.
+- Überschrift und Drag&Drop-Hinweis bilden links wieder einen sauberen Textblock.
+- „+ Artikel hinzufügen“ wird rechts vertikal sauber zu diesem Block ausgerichtet.
+- Mobile Darstellung bleibt unverändert: Button weiterhin unter dem Textblock in voller Breite.
 
 ## Test
 
 ### Muss funktionieren
-
-1. Einstellungen öffnen.
-2. Prüfen, dass „Artikel hinzufügen“ direkt oberhalb der Artikelliste steht.
-3. Über den Button einen neuen Artikel anlegen.
-4. Preset-Name eingeben und prüfen, dass „Preset speichern“ aktiv wird.
-5. Preset speichern und kontrollieren, dass Preset-Datei und `index.json` heruntergeladen werden.
+1. Einstellungen am PC öffnen.
+2. Abschnitt „Artikel“ ansehen.
+3. Überschrift + Hinweis müssen links sauber untereinander stehen.
+4. „+ Artikel hinzufügen“ muss rechts mittig zum Textblock ausgerichtet sein.
+5. Button anklicken und prüfen, ob der Artikeldialog weiterhin öffnet.
 
 ### Regressionstest
-
-- Bestehendes Preset auswählen, laden und Auswahl löschen.
-- Artikel bearbeiten/löschen/verschieben.
-- Normale Datensicherung testen.
+- Artikel bearbeiten, löschen und verschieben.
+- Preset speichern und laden.
 
 ### Gerätecheck
-
-- Desktop: Preset-Name und Speichern-Button stehen kompakt nebeneinander.
-- Handy: Preset-Eingabe und Button stehen untereinander und nutzen die verfügbare Breite.
-- Der Artikel-hinzufügen-Button muss auf beiden Ansichten direkt bei der Artikelliste bleiben.
+- PC/Desktop: neue Anordnung prüfen.
+- Handy: bestehende einspaltige Darstellung des Artikelkopfs prüfen.
