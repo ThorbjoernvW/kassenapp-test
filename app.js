@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.3";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.23.4.1";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -838,6 +838,7 @@ async function copySales() {
 }
 
 let availablePresets = [];
+let presetIndexReady = false;
 
 function renderPresetSelection() {
   const select = document.getElementById("presetSelect");
@@ -926,10 +927,13 @@ async function loadPresetIndex() {
       .map(preset => ({ name: preset.name.trim(), file: preset.file.trim() }))
       .filter(preset => preset.name && preset.file && !preset.file.includes("..") && !preset.file.startsWith("/"));
 
+    presetIndexReady = true;
     renderPresetSelection();
+    updatePresetExportButton();
   } catch (error) {
     console.error("Preset-Liste konnte nicht geladen werden:", error);
     availablePresets = [];
+    presetIndexReady = false;
     select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
     select.disabled = true;
     const clearBtn = document.getElementById("clearPresetSelectionBtn");
@@ -937,6 +941,7 @@ async function loadPresetIndex() {
     if (clearBtn) clearBtn.disabled = true;
     if (loadBtn) loadBtn.disabled = true;
     status.textContent = "Preset-Liste konnte nicht geladen werden.";
+    updatePresetExportButton();
   }
 }
 
@@ -1021,7 +1026,32 @@ function backupData() {
   downloadBlob(blob, `kassenapp_sicherung_${new Date().toISOString().slice(0,10)}.json`);
 }
 
+function presetFilename(name) {
+  const normalized = name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return `${normalized || "preset"}.json`;
+}
+
+function updatePresetExportButton() {
+  const input = document.getElementById("presetNameInput");
+  const button = document.getElementById("exportProductPresetBtn");
+  if (!input || !button) return;
+  button.disabled = input.value.trim().length === 0 || !presetIndexReady;
+}
+
 function exportProductPreset() {
+  const nameInput = document.getElementById("presetNameInput");
+  const presetName = nameInput?.value.trim() || "";
+  if (!presetName) {
+    nameInput?.focus();
+    return;
+  }
+
   const products = sortedProducts().map(product => ({
     name: product.name,
     category: product.category,
@@ -1035,11 +1065,28 @@ function exportProductPreset() {
   const preset = {
     format: "kassenapp-products",
     version: 1,
+    name: presetName,
     products
   };
 
-  const blob = new Blob([JSON.stringify(preset, null, 2)], { type: "application/json" });
-  downloadBlob(blob, `kassenapp_preset_${new Date().toISOString().slice(0,10)}.json`);
+  const filename = presetFilename(presetName);
+  const presetBlob = new Blob([JSON.stringify(preset, null, 2)], { type: "application/json" });
+
+  // Den bereits geladenen Preset-Index übernehmen und den neuen Eintrag ergänzen.
+  // Gleicher Name oder gleicher Dateiname wird ersetzt, damit keine Duplikate entstehen.
+  const nextPresets = availablePresets
+    .filter(entry => entry.name !== presetName && entry.file !== filename)
+    .map(entry => ({ name: entry.name, file: entry.file }));
+  nextPresets.push({ name: presetName, file: filename });
+
+  const indexData = { presets: nextPresets };
+  const indexBlob = new Blob([JSON.stringify(indexData, null, 2)], { type: "application/json" });
+
+  downloadBlob(presetBlob, filename);
+  window.setTimeout(() => downloadBlob(indexBlob, "index.json"), 120);
+  window.setTimeout(() => {
+    alert(`Preset „${presetName}“ und die passende index.json wurden heruntergeladen.`);
+  }, 240);
 }
 
 function restoreData(file) {
@@ -1253,8 +1300,19 @@ const loadPresetBtn = document.getElementById("loadPresetBtn");
 if (loadPresetBtn) loadPresetBtn.addEventListener("click", loadSelectedPreset);
 loadPresetIndex();
 
+const presetNameInput = document.getElementById("presetNameInput");
+if (presetNameInput) {
+  presetNameInput.addEventListener("input", updatePresetExportButton);
+  presetNameInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && presetNameInput.value.trim()) {
+      event.preventDefault();
+      exportProductPreset();
+    }
+  });
+}
 const exportProductPresetBtn = document.getElementById("exportProductPresetBtn");
 if (exportProductPresetBtn) exportProductPresetBtn.addEventListener("click", exportProductPreset);
+updatePresetExportButton();
 document.getElementById("restoreInput").addEventListener("change", (e) => {
   const file = e.target.files?.[0];
   if (file) restoreData(file);

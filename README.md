@@ -1,34 +1,39 @@
-# KassenApp V0.23.3
+# KassenApp V0.23.4.1
 
 ## Thema
-Preset laden, validieren und aktuelle Artikelliste ersetzen.
+Preset-System – `index.json` beim Preset-Export automatisch erzeugen.
 
-## Neu
-- In den Einstellungen kann das ausgewählte Preset mit **„Preset laden“** übernommen werden.
-- Vor dem Laden erscheint eine Sicherheitsabfrage.
-- Das Preset wird vollständig geprüft, bevor Artikeldaten verändert werden.
-- Nur Presets im Format `kassenapp-products`, Version `1`, werden akzeptiert.
-- Beim Laden werden alle aktuellen Artikel ersetzt.
-- Bereits gespeicherte Verkäufe bleiben unverändert.
-- Für geladene Artikel werden neue interne IDs erzeugt, damit bestehende Verkaufsdaten nicht mit neuen Artikeln vermischt werden.
-- Bei Fehlern bleibt die bisherige Artikelliste unverändert.
+## Änderungen
+- Beim Speichern eines neuen Artikel-Presets werden jetzt **zwei Dateien** heruntergeladen:
+  1. die Preset-Datei, z. B. `sommerfest-2026.json`
+  2. eine aktualisierte `index.json`
+- Die neue `index.json` übernimmt alle bereits vorhandenen Presets aus der geladenen Preset-Liste und ergänzt das neu erstellte Preset.
+- Existiert bereits ein Eintrag mit gleichem Namen oder Dateinamen, wird dieser ersetzt statt doppelt angelegt.
+- Der Preset-Export ist nur möglich, wenn die bestehende `presets/index.json` erfolgreich geladen wurde. So wird verhindert, dass versehentlich eine unvollständige Indexdatei erzeugt wird.
+- Verkäufe und sonstige Kassendaten bleiben unverändert.
+
+## Verwendung
+1. Artikel wie gewünscht einrichten.
+2. Unter **Einstellungen → Artikel-Preset erstellen** einen Namen vergeben.
+3. **Artikelliste als Preset speichern** drücken.
+4. Die heruntergeladene Preset-Datei und die ebenfalls heruntergeladene `index.json` gemeinsam in den GitHub-Ordner `presets/` hochladen bzw. dort ersetzen.
 
 ## Testplan
 ### Muss funktionieren
-1. Einstellungen öffnen und ein Preset auswählen.
-2. **Preset laden** drücken.
-3. Sicherheitsabfrage zunächst abbrechen: Artikelliste darf sich nicht ändern.
-4. Erneut laden und bestätigen: aktuelle Artikel müssen durch das Preset ersetzt werden.
-5. Prüfen, dass die Artikel in der Kasse sofort aktualisiert sind.
-6. Prüfen, dass bereits gespeicherte Verkäufe weiterhin vorhanden sind.
-7. Ein fehlerhaftes/ungültiges Preset testen: bestehende Artikelliste muss unverändert bleiben.
+1. Bestehende Preset-Liste muss erfolgreich geladen sein.
+2. Preset-Namen eingeben und speichern.
+3. Es müssen die Preset-Datei und eine `index.json` heruntergeladen werden.
+4. `index.json` öffnen und prüfen, dass vorhandene Presets weiterhin enthalten sind.
+5. Das neu erstellte Preset muss zusätzlich mit richtigem Namen und Dateinamen enthalten sein.
+6. Beide Dateien in `presets/` hochladen und App neu laden.
+7. Das neue Preset muss danach in der Auswahl erscheinen und ladbar sein.
 
 ### Regressionstest
+- Ein vorhandenes Preset laden.
 - Preset-Auswahl mit **Löschen** zurücksetzen.
-- Artikelliste als Preset exportieren.
-- Artikel manuell anlegen/bearbeiten/löschen.
-- Normalen Verkauf durchführen und speichern.
-- Sicherung herunterladen und wiederherstellen.
+- Einen normalen Verkauf durchführen.
+- Komplette Datensicherung testen.
 
 ### Gerätecheck
-- Preset-Auswahl und Laden auf PC sowie Handy testen.
+- Preset-Export einmal am PC und einmal am Handy testen.
+- Falls der Browser beim ersten Mal nach der Erlaubnis für mehrere Downloads fragt, diese erlauben.
