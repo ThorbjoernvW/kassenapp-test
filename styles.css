@@ -3397,6 +3397,8 @@ body { min-width: 0; }
   row-gap: 3px;
   align-items: center;
   margin: 22px 0 12px;
+  padding-inline: 22px;
+  box-sizing: border-box;
 }
 
 .settings-articles-head > div {
@@ -3478,6 +3480,7 @@ body { min-width: 0; }
     grid-template-rows: auto auto auto;
     row-gap: 6px;
     align-items: stretch;
+    padding-inline: 16px;
   }
 
   .settings-articles-head h2 {

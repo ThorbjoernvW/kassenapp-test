@@ -1,22 +1,27 @@
-# KassenApp V0.23.4.2.2
+# KassenApp V0.23.4.2.3
 
-Hotfix für den Artikelkopf in den Einstellungen.
+Hotfix innerhalb von V0.23.4.2.
 
 ## Änderung
-- Auf dem PC stehen „Artikel“ und „+ Artikel hinzufügen“ jetzt sauber in derselben Zeile.
-- Der Drag&Drop-Hinweis steht in einer eigenen Zeile direkt unter der Überschrift.
-- Auf dem Handy bleibt der Button unter Überschrift und Hinweis in voller Breite.
+Der Kopf des Artikelbereichs in den Einstellungen verwendet jetzt denselben horizontalen Innenabstand wie die Artikelliste und die übrigen Einstellungsbereiche. Dadurch stehen **„Artikel“** links und **„+ Artikel hinzufügen“** rechts bündig zu den darunterliegenden Elementen.
+
+- Desktop/Tablet: 22 px horizontaler Abstand
+- Handy: 16 px horizontaler Abstand
+
+Es wurden keine Funktionen verändert.
 
 ## Test
+
 ### Muss funktionieren
 - Einstellungen am PC öffnen.
-- Prüfen, dass Überschrift und Button auf einer Höhe stehen.
-- Prüfen, dass der Hinweis direkt darunter steht.
-- „+ Artikel hinzufügen“ anklicken.
+- Prüfen, dass Überschrift/Hint links bündig mit der Artikelliste beginnen.
+- Prüfen, dass „+ Artikel hinzufügen“ rechts bündig mit der Artikelliste endet.
+- Button anklicken und einen Artikel hinzufügen.
 
 ### Regressionstest
 - Artikel bearbeiten, löschen und verschieben.
 - Preset speichern und laden.
 
 ### Gerätecheck
-- PC sowie Handy-Hochformat prüfen.
+- Desktop/Tablet: horizontalen Abstand links und rechts prüfen.
+- Handy: Artikelkopf darf nicht am Bildschirmrand kleben; 16-px-Abstand muss erhalten bleiben.
