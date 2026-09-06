@@ -1,21 +1,26 @@
-# KassenApp V0.23.4.2.4
+# KassenApp V0.24.1
 
-Hotfix innerhalb des Preset-Themas.
+## Thema
+Auswertungen – neue Seite und Grundlayout.
 
-## Änderung
-- Der Button „Löschen“ bei der Preset-Auswahl ist jetzt als rote/destruktive Aktion gestaltet.
-- Funktional bleibt das Verhalten unverändert: Der Button löscht nur die aktuelle Preset-Auswahl, nicht die Preset-Datei.
+## Neu
+- Neuer Navigationspunkt **Auswertungen**.
+- Eigene responsive Auswertungsseite.
+- Grundbereiche für **Essen & Getränke** und **Stoßzeiten** vorbereitet.
+- Noch keine Kennzahlenberechnung in diesem Schritt; die Datenlogik folgt getrennt in V0.24.2 und V0.24.3.
 
 ## Test
 ### Muss funktionieren
-1. Einstellungen öffnen.
-2. Preset auswählen.
-3. Prüfen, dass „Löschen“ rot dargestellt wird.
-4. „Löschen“ drücken und prüfen, dass nur die Auswahl zurückgesetzt wird.
+- Navigation zu **Auswertungen** öffnet die neue Seite.
+- Kasse, Verkäufe und Einstellungen bleiben weiterhin erreichbar.
+- Beide Auswertungsbereiche werden vollständig dargestellt.
 
 ### Regressionstest
-- Preset auswählen und laden.
-- Preset speichern.
+- Verkauf durchführen und speichern.
+- Verkäufe öffnen.
+- Einstellungen öffnen und Preset-Funktionen kurz prüfen.
 
 ### Gerätecheck
-- Desktop und Handy: rote Darstellung und deaktivierter Zustand prüfen.
+- Desktop: zwei Auswertungskarten nebeneinander.
+- Schmales Fenster/Tablet: Layout bleibt lesbar.
+- Handy: Auswertungskarten stehen untereinander und die Navigation bleibt bedienbar.

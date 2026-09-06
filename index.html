@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.23.4.2.4">
+<html lang="de" data-app-version="V0.24.1">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.23.4.2.4" />
+  <link rel="stylesheet" href="styles.css?v=0.24.1" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -33,6 +33,9 @@
       </button>
       <button class="nav-btn" data-view="sales" type="button">
         <span class="nav-icon">▥</span><span>Verkäufe</span>
+      </button>
+      <button class="nav-btn" data-view="analytics" type="button">
+        <span class="nav-icon">◫</span><span>Auswertungen</span>
       </button>
       <button class="nav-btn" data-view="settings" type="button">
         <span class="nav-icon">⚙</span><span>Einstellungen</span>
@@ -256,6 +259,48 @@
       <button id="saleDrawerBackdrop" class="sale-drawer-backdrop" type="button" aria-label="Details schließen"></button>
     </section>
 
+    <section id="analyticsView" class="view">
+      <div class="analytics-page">
+        <header class="analytics-header">
+          <div>
+            <h1>Auswertungen</h1>
+            <p>Verkaufsdaten übersichtlich nach Kategorien und Uhrzeiten auswerten.</p>
+          </div>
+        </header>
+
+        <div class="analytics-overview-grid">
+          <section class="panel analytics-card analytics-card-category">
+            <div class="analytics-card-icon" aria-hidden="true">◒</div>
+            <div class="analytics-card-copy">
+              <span class="analytics-eyebrow">Kategorien</span>
+              <h2>Essen &amp; Getränke</h2>
+              <p>Umsatz und verkaufte Mengen nach Kategorie.</p>
+            </div>
+            <div class="analytics-placeholder" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </section>
+
+          <section class="panel analytics-card analytics-card-hours">
+            <div class="analytics-card-icon" aria-hidden="true">◷</div>
+            <div class="analytics-card-copy">
+              <span class="analytics-eyebrow">Zeitverlauf</span>
+              <h2>Stoßzeiten</h2>
+              <p>Verkäufe und Umsatz nach Uhrzeit.</p>
+            </div>
+            <div class="analytics-placeholder bars" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </section>
+        </div>
+
+        <div class="analytics-note">
+          <strong>Auswertungsbereich vorbereitet.</strong>
+          <span>Die Kennzahlen werden in den nächsten Schritten ergänzt.</span>
+        </div>
+      </div>
+    </section>
+
     <section id="settingsView" class="view">
       <div class="panel">
         <div class="settings-header">
@@ -425,7 +470,7 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.23.4.2.4"></script>
+<script src="app.js?v=0.24.1"></script>
 <script>
   (() => {
     const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";
