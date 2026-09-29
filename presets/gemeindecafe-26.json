@@ -1,0 +1,52 @@
+{
+  "format": "kassenapp-products",
+  "version": 1,
+  "name": "Gemeindecafé_26",
+  "products": [
+    {
+      "name": "Gulasch",
+      "category": "food",
+      "price": 7.5,
+      "icon": "",
+      "active": true,
+      "order": 1,
+      "color": "#f2c66d"
+    },
+    {
+      "name": "Vegetrisches Gulasch",
+      "category": "food",
+      "price": 7.5,
+      "icon": "",
+      "active": true,
+      "order": 2,
+      "color": "#81f372"
+    },
+    {
+      "name": "Nachschlag",
+      "category": "food",
+      "price": 3.5,
+      "icon": "",
+      "active": true,
+      "order": 3,
+      "color": "#72eaf3"
+    },
+    {
+      "name": "Wasser",
+      "category": "drink",
+      "price": 1.5,
+      "icon": "",
+      "active": true,
+      "order": 4,
+      "color": "#8bdff4"
+    },
+    {
+      "name": "Apfelschorle, Fanta, Cola",
+      "category": "drink",
+      "price": 2,
+      "icon": "",
+      "active": true,
+      "order": 5,
+      "color": "#f54242"
+    }
+  ]
+}

@@ -7,6 +7,10 @@
     {
       "name": "Test Preset",
       "file": "test-preset.json"
+    },
+    {
+      "name": "Gemeindecafé_26",
+      "file": "gemeindecafe-26.json"
     }
   ]
 }
