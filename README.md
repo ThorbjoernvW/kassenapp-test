@@ -1,26 +1,26 @@
-# KassenApp V0.24.1
+# KassenApp V0.24
 
-## Thema
-Auswertungen – neue Seite und Grundlayout.
+Tablet-Kassenlayout im Querformat.
 
-## Neu
-- Neuer Navigationspunkt **Auswertungen**.
-- Eigene responsive Auswertungsseite.
-- Grundbereiche für **Essen & Getränke** und **Stoßzeiten** vorbereitet.
-- Noch keine Kennzahlenberechnung in diesem Schritt; die Datenlogik folgt getrennt in V0.24.2 und V0.24.3.
+## Änderung
+- Tablet quer: drei visuelle Spalten für Artikel, Warenkorb und Bezahlung.
+- Aufteilung ungefähr 40 % / 32 % / 28 %.
+- Artikel und Warenkorb können intern scrollen.
+- Gesamtbetrag, Geldeingabe, Rückgeld und Abschluss bleiben in der rechten Spalte erreichbar.
+- Handy-Layouts und Desktop-Layout bleiben unverändert.
 
 ## Test
 ### Muss funktionieren
-- Navigation zu **Auswertungen** öffnet die neue Seite.
-- Kasse, Verkäufe und Einstellungen bleiben weiterhin erreichbar.
-- Beide Auswertungsbereiche werden vollständig dargestellt.
+1. App auf einem Tablet im Querformat öffnen.
+2. Prüfen: links Artikel, mittig Warenkorb, rechts Gesamt/Bezahlung.
+3. Viele Artikel in den Warenkorb legen und Warenkorb intern scrollen.
+4. Schnellwahl und Tastenfeld testen.
+5. Verkauf vollständig abschließen.
 
 ### Regressionstest
-- Verkauf durchführen und speichern.
-- Verkäufe öffnen.
-- Einstellungen öffnen und Preset-Funktionen kurz prüfen.
+- Desktop: bisheriges Kassenlayout prüfen.
+- Handy hochkant und quer: bisheriges Layout prüfen.
+- Tablet hochkant: bisherige Zweispaltenansicht prüfen.
 
 ### Gerätecheck
-- Desktop: zwei Auswertungskarten nebeneinander.
-- Schmales Fenster/Tablet: Layout bleibt lesbar.
-- Handy: Auswertungskarten stehen untereinander und die Navigation bleibt bedienbar.
+- Tablet quer bei typischen Breiten von ca. 900 bis 1366 px mit Touch-Eingabe.
