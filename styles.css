@@ -3810,3 +3810,38 @@ body { min-width: 0; }
     color: #fff;
   }
 }
+
+/* =========================================================
+   KassenApp V0.24.3 – Tablet-Bedienelemente neutral
+   Plus/Minus, Schnellwahl und numerische Tasten: schwarz auf weiß.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  #cashView.active .qty-controls button,
+  #cashView.active .quick-money button,
+  #cashView.active .cash-keypad button[data-keypad="0"],
+  #cashView.active .cash-keypad button[data-keypad="1"],
+  #cashView.active .cash-keypad button[data-keypad="2"],
+  #cashView.active .cash-keypad button[data-keypad="3"],
+  #cashView.active .cash-keypad button[data-keypad="4"],
+  #cashView.active .cash-keypad button[data-keypad="5"],
+  #cashView.active .cash-keypad button[data-keypad="6"],
+  #cashView.active .cash-keypad button[data-keypad="7"],
+  #cashView.active .cash-keypad button[data-keypad="8"],
+  #cashView.active .cash-keypad button[data-keypad="9"],
+  #cashView.active .cash-keypad button[data-keypad="00"] {
+    background: #fff;
+    border-color: #202725;
+    color: #202725;
+  }
+
+  #cashView.active .qty-controls button:hover,
+  #cashView.active .qty-controls button:focus-visible,
+  #cashView.active .quick-money button:hover,
+  #cashView.active .quick-money button:focus-visible,
+  #cashView.active .cash-keypad button[data-keypad]:hover,
+  #cashView.active .cash-keypad button[data-keypad]:focus-visible {
+    background: #f3f5f4;
+    border-color: #111715;
+    color: #111715;
+  }
+}
