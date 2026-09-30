@@ -3702,3 +3702,111 @@ body { min-width: 0; }
     min-height: 42px;
   }
 }
+
+/* =========================================================
+   KassenApp V0.24.2 – Tablet-Querformat Feinschliff
+   - drei optisch eigenständige Spalten
+   - kompakter Bezahlbereich ohne große Leerfläche
+   - Schnellwahltasten dunkel statt blau
+   Hinweis: V0.24.1 war die verworfene Auswertungs-Version.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  /* Artikel bleibt eine eigene Karte; Checkout liefert zwei weitere
+     gleichartig abgegrenzte Karten für Warenkorb und Bezahlung. */
+  #cashView.active .products-panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  #cashView.active .checkout-panel {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    grid-template-columns: minmax(0, 1.1429fr) minmax(250px, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 0;
+    overflow: visible;
+  }
+
+  /* Zwei vollständige Kartenflächen statt nur einer Trennlinie. */
+  #cashView.active .checkout-panel::before,
+  #cashView.active .checkout-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    pointer-events: none;
+  }
+
+  #cashView.active .checkout-panel::before {
+    left: 0;
+    width: calc(53.333% - 6px);
+  }
+
+  #cashView.active .checkout-panel::after {
+    right: 0;
+    width: calc(46.667% - 6px);
+  }
+
+  #cashView.active .checkout-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  #cashView.active .checkout-panel > .panel-header {
+    padding: 14px 14px 8px;
+  }
+
+  #cashView.active .cart-list {
+    grid-row: 2 / 5;
+    padding: 0 14px 14px;
+  }
+
+  #cashView.active .totals {
+    grid-row: 1;
+    padding: 14px 14px 12px;
+    border-top: 0;
+  }
+
+  /* Die Eingabemaske nimmt nur noch die tatsächlich benötigte Höhe ein.
+     Freier Raum liegt danach unten statt mitten in der Bezahlspalte. */
+  #cashView.active .payment-box {
+    grid-row: 2;
+    align-self: start;
+    padding: 12px 14px;
+    overflow: visible;
+  }
+
+  #cashView.active .complete-btn {
+    grid-row: 3;
+    width: calc(100% - 28px);
+    margin: 12px 14px 0;
+  }
+
+  #cashView.active #cashMessage {
+    grid-row: 4;
+    align-self: start;
+    margin: 8px 14px 14px;
+  }
+
+  /* Schnellwahl bewusst neutral/dunkel – keine blaue Browser-/Buttonoptik. */
+  #cashView.active .quick-money button {
+    background: #202725;
+    border-color: #202725;
+    color: #fff;
+  }
+
+  #cashView.active .quick-money button:hover,
+  #cashView.active .quick-money button:focus-visible {
+    background: #111715;
+    border-color: #111715;
+    color: #fff;
+  }
+}
