@@ -1,4 +1,21 @@
-# KassenApp V0.25.4
+# KassenApp V0.25.5
+
+## V0.25.5 – Zahnrad-Icon präzisiert
+
+- Das SVG-Symbol für **Einstellungen** wurde durch ein klar erkennbares klassisches Zahnrad mit ausgeformten Zähnen ersetzt.
+- Warenkorb- und Verlaufs-Icon bleiben unverändert.
+- Größe, Zentrierung, Farben und Navigationslogik bleiben unverändert.
+- Keine Änderungen an Breakpoints, Verkauf, Artikeln, Presets, Persistenz oder Zahlung.
+
+### Testplan V0.25.5
+
+1. Desktop/Laptop: Zahnrad in eingeklappter Navigation auf klare Erkennbarkeit, Größe und Zentrierung prüfen.
+2. Desktop: Hover-Aufklappen testen und Ausrichtung von Icon und Beschriftung prüfen.
+3. Tablet Hoch-/Querformat: Zahnrad in der permanenten Symbolleiste prüfen.
+4. Smartphone Hoch-/Querformat: bestehendes Burger-Menü öffnen und Zahnrad mit Beschriftung prüfen.
+5. Aktiv-, Hover- und Inaktivzustand der Einstellungen kontrollieren.
+6. Warenkorb- und Verlaufs-Icon als Regressionstest unverändert prüfen.
+7. Nach Deployment Cache-/Versionswechsel auf V0.25.5 und Offline-Laden prüfen.
 
 ## V0.25.4 – SVG-Icons für die Navigation
 
