@@ -1,6 +1,6 @@
-# KassenApp V0.24.4.1
+# KassenApp V0.24.4.2
 
-Tablet-Kassenansicht – eindeutige Spaltenüberschriften und Kategorie-Zwischensummen.
+Tablet-Kassenansicht – einheitliche Spaltenüberschriften und Kategorie-Zwischensummen.
 
 ## Thema
 
@@ -8,6 +8,9 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Änderungen
 
+- Die drei Hauptüberschriften **„Artikel“**, **„Warenkorb“** und **„Kasse“** haben im Tablet-Querformat jetzt dieselbe Schriftgröße.
+- **„Warenkorb“** ist im Tablet-Querformat oben bündig zu „Artikel“ und „Kasse“ ausgerichtet.
+- Die Änderung ist auf das bestehende Tablet-Querformat begrenzt; andere Geräteklassen werden nicht verändert.
 - Die Überschrift der Artikelspalte lautet jetzt auf allen Geräteklassen **„Artikel“** statt „Kasse“.
 - Die Überschrift des Warenkorbs lautet jetzt auf allen Geräteklassen **„Warenkorb“** statt „Aktueller Verkauf“.
 - Die dritte Spalte erhält im Tablet-Querformat die Überschrift **„Kasse“**.
@@ -28,12 +31,13 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Bekannte technische Schuld
 
-Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4.1 gehören.
+Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4.2 gehören.
 
 ## Testplan
 
 ### Tablet Querformat – Zielansicht
 
+- Prüfen, dass **Artikel, Warenkorb und Kasse gleich groß und an der Oberkante bündig** dargestellt werden.
 - Prüfen, dass die drei sichtbaren Spaltenüberschriften **„Artikel | Warenkorb | Kasse“** lauten.
 1. Kasse auf einem Tablet im Querformat öffnen.
 2. Prüfen, dass weiterhin drei Bereiche sichtbar sind:
@@ -79,6 +83,6 @@ Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Re
 
 ### PWA / Update
 
-- Prüfen, dass V0.24.4.1 als installierte Version angezeigt wird.
+- Prüfen, dass V0.24.4.2 als installierte Version angezeigt wird.
 - Nach Deployment kontrollieren, dass aktualisierte Assets geladen werden.
 - Bestehende bekannte `V0.22.4.1`-Referenzen bleiben bewusst unverändert und sind separat zu behandeln.

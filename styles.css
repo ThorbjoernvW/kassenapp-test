@@ -3893,3 +3893,31 @@ body { min-width: 0; }
   }
 }
 
+/* =========================================================
+   KassenApp V0.24.4.2 – Tablet-Spaltenüberschriften angleichen
+   Alle drei Hauptüberschriften sind gleich groß. Warenkorb und
+   Kasse beginnen im Tablet-Querformat auf derselben Oberkante
+   wie Artikel.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  #cashView.active .products-panel > .panel-header h1,
+  #cashView.active .checkout-panel > .panel-header h2,
+  #cashView.active .payment-column-title {
+    font-size: 1.15rem;
+    line-height: 1.2;
+    margin-top: 0;
+  }
+
+  #cashView.active .checkout-panel > .panel-header {
+    padding-top: 0;
+  }
+
+  #cashView.active .totals {
+    padding-top: 0;
+  }
+
+  #cashView.active .payment-column-title {
+    margin-bottom: 10px;
+  }
+}
+
