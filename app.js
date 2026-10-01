@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.24.3";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.24.4";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -99,6 +99,18 @@ function cartTotal() {
   return total;
 }
 
+function cartCategoryTotals() {
+  const totals = { food: 0, drink: 0 };
+
+  for (const [id, qty] of cart.entries()) {
+    const p = getProduct(id);
+    if (!p || !(p.category in totals)) continue;
+    totals[p.category] += p.price * qty;
+  }
+
+  return totals;
+}
+
 function renderAppName() {
   document.getElementById("appTitle").textContent = state.appName || "KassenApp";
   const mobileTitle = document.getElementById("mobileAppTitle");
@@ -197,7 +209,10 @@ function renderCart() {
     list.appendChild(row);
   }
 
-  document.getElementById("grandTotal").textContent = money(cartTotal());
+  const categoryTotals = cartCategoryTotals();
+  document.getElementById("foodSubtotal").textContent = money(categoryTotals.food);
+  document.getElementById("drinkSubtotal").textContent = money(categoryTotals.drink);
+  document.getElementById("grandTotal").textContent = money(categoryTotals.food + categoryTotals.drink);
   updateChange();
 }
 

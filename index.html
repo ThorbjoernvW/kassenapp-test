@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.24.3">
+<html lang="de" data-app-version="V0.24.4">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.24.3" />
+  <link rel="stylesheet" href="styles.css?v=0.24.4" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -84,7 +84,17 @@
           <div id="cartList" class="cart-list"></div>
 
           <div class="totals">
-            <div class="total-row">
+            <div class="category-subtotals" aria-label="Zwischensummen nach Kategorie">
+              <div class="total-row total-subrow">
+                <span>Essen</span>
+                <strong id="foodSubtotal">0,00 €</strong>
+              </div>
+              <div class="total-row total-subrow">
+                <span>Getränke</span>
+                <strong id="drinkSubtotal">0,00 €</strong>
+              </div>
+            </div>
+            <div class="total-row total-grand-row">
               <span>Gesamt</span>
               <strong id="grandTotal">0,00 €</strong>
             </div>
@@ -292,7 +302,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.24.3</strong><br>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.24.4</strong><br>
               <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
               <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
@@ -425,7 +435,7 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.24.3"></script>
+<script src="app.js?v=0.24.4"></script>
 <script>
   (() => {
     const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";

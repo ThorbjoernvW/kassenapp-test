@@ -202,6 +202,10 @@ p, .muted { color: var(--muted); }
 .total-row { display: flex; justify-content: space-between; align-items: center; }
 .total-row strong { font-size: 1.35rem; }
 
+.category-subtotals {
+  display: none;
+}
+
 .payment-box { padding-top: 18px; }
 .payment-box label { display: block; font-weight: 800; margin-bottom: 8px; }
 
@@ -3845,3 +3849,33 @@ body { min-width: 0; }
     color: #111715;
   }
 }
+
+/* =========================================================
+   KassenApp V0.24.4 – Tablet-Zwischensummen nach Kategorie
+   Im Tablet-Querformat zeigt die Bezahlspalte Essen und Getränke
+   kompakt über der Gesamtsumme. Andere Geräteklassen bleiben
+   durch die standardmäßig ausgeblendete Darstellung unverändert.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  #cashView.active .category-subtotals {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  #cashView.active .total-subrow {
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  #cashView.active .total-subrow strong {
+    font-size: .95rem;
+    color: var(--text);
+  }
+
+  #cashView.active .total-grand-row {
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+}
+
