@@ -1,4 +1,24 @@
-# KassenApp V0.25.3
+# KassenApp V0.25.4
+
+## V0.25.4 – SVG-Icons für die Navigation
+
+- Die bisherigen Text-/Unicode-Symbole der Hauptnavigation wurden durch einheitliche Inline-SVG-Icons ersetzt.
+- **Kasse:** Warenkorb-Symbol.
+- **Verkäufe:** Verlaufspfeil mit Uhr.
+- **Einstellungen:** Zahnrad.
+- Die SVGs verwenden `currentColor` und übernehmen damit die bestehenden Aktiv-, Hover- und Inaktivfarben der Navigation.
+- Desktop-, Tablet- und Smartphone-Navigationslogik sowie alle Breakpoints bleiben unverändert.
+- Keine Änderungen an Verkauf, Artikeln, Presets, Persistenz oder Zahlung.
+
+### Testplan V0.25.4
+
+1. Desktop/Laptop: alle drei SVG-Icons in eingeklappter Navigation auf Größe, Zentrierung und Erkennbarkeit prüfen.
+2. Desktop: Hover-Aufklappen testen; Icon und Beschriftung müssen sauber ausgerichtet bleiben.
+3. Tablet Hoch-/Querformat: Symbolleiste ohne Burger-Menü prüfen; Icons müssen mittig und ausreichend groß dargestellt werden.
+4. Smartphone Hoch-/Querformat: bestehendes Burger-Menü öffnen und alle drei SVG-Icons sowie Beschriftungen prüfen.
+5. Aktive Ansicht nacheinander auf Kasse, Verkäufe und Einstellungen wechseln und Aktivzustand kontrollieren.
+6. Tastaturfokus auf Desktop prüfen; Icons müssen mit der bestehenden Fokus-/Aufklapplogik funktionieren.
+7. Nach Deployment Cache-/Versionswechsel auf V0.25.4 und Offline-Laden prüfen.
 
 ## V0.25.3 – Tablet-Navigation nur mit Symbolen
 

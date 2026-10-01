@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="de" data-app-version="V0.25.3">
+<html lang="de" data-app-version="V0.25.4">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#16382d" />
   <title>KassenApp</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=0.25.3" />
+  <link rel="stylesheet" href="styles.css?v=0.25.4" />
 </head>
 <body>
   <div class="mobile-topbar">
@@ -29,13 +29,31 @@
 
     <nav class="nav" aria-label="Hauptnavigation">
       <button class="nav-btn active" data-view="cash" type="button" aria-label="Kasse">
-        <span class="nav-icon">▣</span><span>Kasse</span>
+        <span class="nav-icon" aria-hidden="true">
+          <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4h2l2.1 9.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 7H6" />
+            <circle cx="10" cy="19" r="1.25" />
+            <circle cx="18" cy="19" r="1.25" />
+          </svg>
+        </span><span>Kasse</span>
       </button>
       <button class="nav-btn" data-view="sales" type="button" aria-label="Verkäufe">
-        <span class="nav-icon">▥</span><span>Verkäufe</span>
+        <span class="nav-icon" aria-hidden="true">
+          <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.5 12a8.5 8.5 0 1 0 2.4-5.9" />
+            <path d="M3.5 4v5h5" />
+            <path d="M12 7.5V12l3 2" />
+          </svg>
+        </span><span>Verkäufe</span>
       </button>
       <button class="nav-btn" data-view="settings" type="button" aria-label="Einstellungen">
-        <span class="nav-icon">⚙</span><span>Einstellungen</span>
+        <span class="nav-icon" aria-hidden="true">
+          <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="3.2" />
+            <circle cx="12" cy="12" r="7.2" />
+            <path d="M12 2v2.8M12 19.2V22M2 12h2.8M19.2 12H22M4.9 4.9l2 2M17.1 17.1l2 2M19.1 4.9l-2 2M6.9 17.1l-2 2" />
+          </svg>
+        </span><span>Einstellungen</span>
       </button>
     </nav>
 
@@ -303,7 +321,7 @@
             <div class="pwa-status-copy">
               <strong id="pwaStatusTitle">App wird geprüft …</strong>
               <span id="pwaStatusText">Offline- und Installationsstatus werden ermittelt.</span>
-              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.25.3</strong><br>
+              <span class="app-version-line">Installierte Version: <strong id="appVersionLabel">V0.25.4</strong><br>
               <span>Verfügbare Version: <strong id="availableVersionLabel">–</strong></span><br>
               <span>Status: <strong id="versionStatusLabel">Wird geprüft …</strong></span></span>
             </div>
@@ -436,7 +454,7 @@
   </div>
   <button id="globalUpdateBtn" class="primary-btn" type="button">Aktualisieren</button>
 </div>
-<script src="app.js?v=0.25.3"></script>
+<script src="app.js?v=0.25.4"></script>
 <script>
   (() => {
     const CURRENT_VERSION = document.documentElement.dataset.appVersion || "V0.22.4.1";

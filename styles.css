@@ -1231,6 +1231,13 @@ body {
   font-size: 1.15rem;
 }
 
+.nav-svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+}
+
 .sidebar-foot {
   display: none;
   margin-top: auto;
@@ -4112,3 +4119,15 @@ body { min-width: 0; }
   }
 }
 
+
+
+/* =========================================================
+   KassenApp V0.25.4 – Einheitliche SVG-Navigationsicons
+   Warenkorb = Kasse, Verlauf/Uhr = Verkäufe, Zahnrad = Einstellungen.
+   ========================================================= */
+@media (min-width: 761px) {
+  .app-sidebar .nav-svg {
+    width: 32px;
+    height: 32px;
+  }
+}
