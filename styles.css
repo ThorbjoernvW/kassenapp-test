@@ -1146,7 +1146,8 @@ input[type="number"]::-webkit-outer-spin-button {
    ========================================================= */
 
 :root {
-  --sidebar-w: 205px;
+  --sidebar-w: 72px;
+  --sidebar-expanded-w: 205px;
 }
 
 /* App Navigation */
@@ -1159,6 +1160,7 @@ body {
   inset: 0 auto 0 0;
   width: var(--sidebar-w);
   z-index: 50;
+  transition: width .18s ease;
   padding: 22px 15px 18px;
   background: linear-gradient(180deg, #073e2e 0%, #064231 50%, #043626 100%);
   color: #fff;
@@ -1170,8 +1172,9 @@ body {
 .sidebar-brand {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 11px;
-  padding: 2px 8px 25px;
+  padding: 2px 0 25px;
 }
 
 .sidebar-brand .logo-box {
@@ -1183,7 +1186,10 @@ body {
   border: 2px solid rgba(255,255,255,.92);
 }
 
-.sidebar-brand-copy { min-width: 0; }
+.sidebar-brand-copy {
+  display: none;
+  min-width: 0;
+}
 .sidebar-brand .brand-title {
   white-space: nowrap;
   overflow: hidden;
@@ -1202,8 +1208,8 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  justify-content: flex-start;
-  padding: 0 14px;
+  justify-content: center;
+  padding: 0;
   border-radius: 12px;
   color: rgba(255,255,255,.86);
   font-size: .96rem;
@@ -1215,6 +1221,10 @@ body {
   color: #fff;
 }
 
+.app-sidebar .nav-btn span:not(.nav-icon) {
+  display: none;
+}
+
 .nav-icon {
   width: 23px;
   text-align: center;
@@ -1222,14 +1232,90 @@ body {
 }
 
 .sidebar-foot {
+  display: none;
   margin-top: auto;
   border-top: 1px solid rgba(255,255,255,.15);
   padding: 18px 10px 4px;
-  display: grid;
   gap: 4px;
 }
 .sidebar-foot span { font-size: .74rem; color: rgba(255,255,255,.6); }
 .sidebar-foot strong { font-size: .86rem; color: #aee1c7; }
+
+.sidebar-toggle {
+  display: none;
+  width: 100%;
+  min-height: 46px;
+  margin: 0 0 10px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.sidebar-toggle-label { display: none; }
+
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  .app-sidebar:hover,
+  .app-sidebar:focus-within {
+    width: var(--sidebar-expanded-w);
+  }
+
+  .app-sidebar:hover .sidebar-brand,
+  .app-sidebar:focus-within .sidebar-brand {
+    justify-content: flex-start;
+  }
+
+  .app-sidebar:hover .sidebar-brand-copy,
+  .app-sidebar:focus-within .sidebar-brand-copy,
+  .app-sidebar:hover .nav-btn span:not(.nav-icon),
+  .app-sidebar:focus-within .nav-btn span:not(.nav-icon) {
+    display: block;
+  }
+
+  .app-sidebar:hover .nav-btn,
+  .app-sidebar:focus-within .nav-btn {
+    justify-content: flex-start;
+    padding: 0 14px;
+  }
+
+  .app-sidebar:hover .sidebar-foot,
+  .app-sidebar:focus-within .sidebar-foot {
+    display: grid;
+  }
+}
+
+@media (min-width: 761px) and (pointer: coarse) {
+  .sidebar-toggle { display: flex; }
+
+  .app-sidebar.sidebar-expanded {
+    width: var(--sidebar-expanded-w);
+  }
+
+  .app-sidebar.sidebar-expanded .sidebar-brand {
+    justify-content: flex-start;
+  }
+
+  .app-sidebar.sidebar-expanded .sidebar-brand-copy,
+  .app-sidebar.sidebar-expanded .nav-btn span:not(.nav-icon),
+  .app-sidebar.sidebar-expanded .sidebar-toggle-label {
+    display: block;
+  }
+
+  .app-sidebar.sidebar-expanded .nav-btn,
+  .app-sidebar.sidebar-expanded .sidebar-toggle {
+    justify-content: flex-start;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .app-sidebar.sidebar-expanded .sidebar-foot {
+    display: grid;
+  }
+}
 
 
 
@@ -1650,23 +1736,6 @@ body {
 }
 
 @media (max-width: 980px) {
-  :root { --sidebar-w: 78px; }
-  .sidebar-brand-copy,
-  .app-sidebar .nav-btn span:not(.nav-icon),
-  .sidebar-foot {
-    display: none;
-  }
-  .app-sidebar {
-    padding-inline: 10px;
-  }
-  .sidebar-brand {
-    justify-content: center;
-    padding-inline: 0;
-  }
-  .app-sidebar .nav-btn {
-    justify-content: center;
-    padding: 0;
-  }
   .sales-summary-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1870,28 +1939,8 @@ body { min-width: 0; }
   display: none;
 }
 
-/* Schmale Desktop-/Tabletbreite: Sidebar bleibt lesbar */
+/* Schmale Desktop-/Tabletbreite */
 @media (max-width: 1100px) and (min-width: 761px) {
-  :root { --sidebar-w: 180px; }
-
-  .app-sidebar {
-    width: var(--sidebar-w);
-    padding-inline: 12px;
-  }
-
-  .sidebar-brand-copy,
-  .app-sidebar .nav-btn span:not(.nav-icon),
-  .sidebar-foot {
-    display: initial;
-  }
-
-  .sidebar-brand { justify-content: flex-start; }
-
-  .app-sidebar .nav-btn {
-    justify-content: flex-start;
-    padding: 0 12px;
-  }
-
   .sales-summary-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.24.4.3";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.25";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -1190,10 +1190,32 @@ function toggleMobileMenu(event) {
   setMobileMenuState(!isOpen);
 }
 
+function setSidebarExpanded(open) {
+  const sidebar = document.getElementById("appSidebar");
+  const button = document.getElementById("sidebarToggleBtn");
+  if (!sidebar || !button) return;
+
+  sidebar.classList.toggle("sidebar-expanded", open);
+  button.setAttribute("aria-expanded", String(open));
+  button.setAttribute("aria-label", open ? "Navigation einklappen" : "Navigation aufklappen");
+}
+
+function toggleSidebarExpanded() {
+  const sidebar = document.getElementById("appSidebar");
+  setSidebarExpanded(!sidebar.classList.contains("sidebar-expanded"));
+}
+
+document.getElementById("sidebarToggleBtn").addEventListener("click", toggleSidebarExpanded);
+
 document.getElementById("mobileMenuBtn").addEventListener("click", toggleMobileMenu);
 document.getElementById("closeMobileMenuBtn").addEventListener("click", closeMobileMenu);
 document.getElementById("sidebarBackdrop").addEventListener("click", closeMobileMenu);
-document.querySelectorAll(".app-sidebar .nav-btn").forEach(btn => btn.addEventListener("click", closeMobileMenu));
+document.querySelectorAll(".app-sidebar .nav-btn").forEach(btn => btn.addEventListener("click", () => {
+  closeMobileMenu();
+  if (window.innerWidth > 760 && window.matchMedia("(pointer: coarse)").matches) {
+    setSidebarExpanded(false);
+  }
+}));
 
 
 document.getElementById("givenInput").addEventListener("input", updateChange);
