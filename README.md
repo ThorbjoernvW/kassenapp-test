@@ -1,4 +1,25 @@
-# KassenApp V0.25.2
+# KassenApp V0.25.3
+
+## V0.25.3 – Tablet-Navigation nur mit Symbolen
+
+- Der zusaetzliche Burger-/Aufklappschalter in der Tablet-Seitenleiste wurde entfernt.
+- Tablet von 761 bis 1180 px verwendet dauerhaft nur die kompakte Symbolnavigation.
+- Die Navigationssymbole sind groesser und horizontal exakt in der Seitenleiste zentriert.
+- Die Navigation klappt auf Tablet auch bei angeschlossener Maus bzw. Trackpad nicht mehr auf.
+- Desktop-Verhalten aus V0.25.2 bleibt unveraendert.
+- Smartphone bis 760 px behaelt das bestehende Burger-Menue.
+- Keine Aenderungen an Verkauf, Artikeln, Presets, Persistenz oder Zahlung.
+
+### Testplan V0.25.3
+
+1. Tablet Hochformat (761–1180 px): pruefen, dass nur Logo und die drei Navigationssymbole sichtbar sind und kein zusaetzlicher Burger-Schalter erscheint.
+2. Tablet Querformat: gleiche Pruefung sowie Dreispalten-Kassenlayout und verfuegbare Inhaltsbreite kontrollieren.
+3. Alle drei Symbole antippen und sicherstellen, dass Kasse, Verkaeufe und Einstellungen korrekt wechseln.
+4. Tablet mit Maus/Trackpad testen: Navigation darf beim Hover nicht aufklappen.
+5. Ausrichtung und Groesse der Symbole optisch mit der Desktop-Leiste vergleichen.
+6. Smartphone Hoch-/Querformat als Regressionstest: bestehendes Burger-Menue muss unveraendert funktionieren.
+7. Desktop/Laptop ab 1181 px als Regressionstest: Hover-Aufklappen und Zentrierung aus V0.25.2 muessen erhalten bleiben.
+8. Nach Deployment Cache-/Versionswechsel auf V0.25.3 und Offline-Laden pruefen.
 
 ## V0.25.2 – Desktop-Zentrierung
 
@@ -120,9 +141,9 @@ Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Re
 
 ### PWA / Offline / Update
 
-1. Prüfen, dass **V0.25.2** als installierte Version angezeigt wird.
-2. Nach Deployment prüfen, dass `styles.css?v=0.25.2` und `app.js?v=0.25.2` geladen werden.
-3. Prüfen, dass der Service Worker den Cache `kassenapp-v0-25-2` verwendet.
+1. Prüfen, dass **V0.25.3** als installierte Version angezeigt wird.
+2. Nach Deployment prüfen, dass `styles.css?v=0.25.3` und `app.js?v=0.25.3` geladen werden.
+3. Prüfen, dass der Service Worker den Cache `kassenapp-v0-25-3` verwendet.
 4. Anwendung einmal online laden, danach offline neu öffnen und Navigation in allen verfügbaren Ansichten testen.
 5. Bestehenden Update-Mechanismus kurz auf Regressionen prüfen.
 6. Die bekannten alten `V0.22.4.1`-Referenzen bleiben bewusst unverändert und sind separat zu behandeln.
