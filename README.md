@@ -1,4 +1,22 @@
-# KassenApp V0.25.1
+# KassenApp V0.25.2
+
+## V0.25.2 – Desktop-Zentrierung
+
+- Icons der eingeklappten Desktop-Navigation horizontal exakt zentriert.
+- Kompakte Navigationsbuttons auf eine feste, mittig ausgerichtete Breite gesetzt.
+- Beim Aufklappen nutzt die Navigation weiterhin die volle Buttonbreite mit Beschriftung.
+- Der Seiteninhalt wird auf Desktop innerhalb der verbleibenden Flaeche horizontal mittig ausgerichtet.
+- Gleichzeitig bleibt nahezu die gesamte durch das Einklappen gewonnene Breite fuer die eigentliche Seite nutzbar.
+- Tablet- und Smartphone-Regeln wurden nicht veraendert.
+
+### Zusaetzlicher Testplan V0.25.2
+
+1. Desktop/Laptop ab 1181 px: eingeklappte Navigationsicons optisch und geometrisch mittig pruefen.
+2. Navigation aufklappen und kontrollieren, dass Icons/Beschriftungen weiterhin sauber links ausgerichtet sind.
+3. Kasse, Verkaeufe und Einstellungen jeweils aufrufen und pruefen, dass der Seiteninhalt horizontal mittig in der verbleibenden Flaeche sitzt.
+4. Sehr breite Desktop-Fenster sowie kleinere Desktop-Fenster knapp oberhalb 1180 px pruefen.
+5. Tablet Hoch-/Querformat und Smartphone Hoch-/Querformat als Regressionstest pruefen.
+6. Nach Deployment Cache-/Versionswechsel auf V0.25.2 und normales Offline-Laden pruefen.
 
 Einklappbare Navigation für Desktop und Tablet – PC-Darstellung nach Praxistest verfeinert.
 
@@ -102,9 +120,9 @@ Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Re
 
 ### PWA / Offline / Update
 
-1. Prüfen, dass **V0.25.1** als installierte Version angezeigt wird.
-2. Nach Deployment prüfen, dass `styles.css?v=0.25.1` und `app.js?v=0.25.1` geladen werden.
-3. Prüfen, dass der Service Worker den Cache `kassenapp-v0-25-1` verwendet.
+1. Prüfen, dass **V0.25.2** als installierte Version angezeigt wird.
+2. Nach Deployment prüfen, dass `styles.css?v=0.25.2` und `app.js?v=0.25.2` geladen werden.
+3. Prüfen, dass der Service Worker den Cache `kassenapp-v0-25-2` verwendet.
 4. Anwendung einmal online laden, danach offline neu öffnen und Navigation in allen verfügbaren Ansichten testen.
 5. Bestehenden Update-Mechanismus kurz auf Regressionen prüfen.
 6. Die bekannten alten `V0.22.4.1`-Referenzen bleiben bewusst unverändert und sind separat zu behandeln.

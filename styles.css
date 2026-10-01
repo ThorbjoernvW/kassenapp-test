@@ -4084,3 +4084,45 @@ body { min-width: 0; }
   }
 }
 
+
+/* =========================================================
+   KassenApp V0.25.2 – Desktop-Navigation und Seitenzentrierung
+   Nur Desktop mit Maus/Trackpad: Icons exakt mittig in der
+   kompakten Leiste; Seiteninhalt mittig in der verbleibenden
+   Flaeche und mit nahezu voller nutzbarer Breite.
+   ========================================================= */
+@media (min-width: 1181px) and (hover: hover) and (pointer: fine) {
+  .app-sidebar .nav {
+    justify-items: center;
+  }
+
+  .app-sidebar .nav-btn {
+    width: 44px;
+    margin-inline: auto;
+  }
+
+  .app-sidebar .nav-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    margin-inline: auto;
+  }
+
+  .app-sidebar:not(.desktop-selection-made):hover .nav-btn,
+  .app-sidebar:has(:focus-visible) .nav-btn {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .app-sidebar:not(.desktop-selection-made):hover .nav-icon,
+  .app-sidebar:has(:focus-visible) .nav-icon {
+    margin-inline: 0;
+  }
+
+  .shell {
+    width: calc(100% - 48px);
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
