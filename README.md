@@ -1,6 +1,6 @@
-# KassenApp V0.24.4.2
+# KassenApp V0.24.4.3
 
-Tablet-Kassenansicht – einheitliche Spaltenüberschriften und Kategorie-Zwischensummen.
+V0.24-Stabilisierung – kompakte Verkaufstabelle ohne horizontales Scrollen.
 
 ## Thema
 
@@ -8,6 +8,12 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Änderungen
 
+- Die Verkaufstabelle nutzt jetzt die verfügbare Seitenbreite und benötigt keinen horizontalen Seitenscroll mehr.
+- Die Spalte **„Artikel“** erhält flexibel den verbleibenden Platz.
+- Zu lange Artikelzusammenfassungen werden einzeilig mit **„…“** abgeschnitten.
+- Die vollständigen Verkaufspositionen bleiben unverändert in der Verkaufsdetailansicht verfügbar.
+- Uhrzeit, Betrag, Status und Detail-Pfeil behalten feste, kompakte Spaltenbreiten.
+- Auf schmalen Smartphone-Displays werden die festen Spalten zusätzlich kompakter dargestellt.
 - Die drei Hauptüberschriften **„Artikel“**, **„Warenkorb“** und **„Kasse“** haben im Tablet-Querformat jetzt dieselbe Schriftgröße.
 - **„Warenkorb“** ist im Tablet-Querformat oben bündig zu „Artikel“ und „Kasse“ ausgerichtet.
 - Die Änderung ist auf das bestehende Tablet-Querformat begrenzt; andere Geräteklassen werden nicht verändert.
@@ -31,9 +37,20 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Bekannte technische Schuld
 
-Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4.2 gehören.
+Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4.3 gehören.
 
 ## Testplan
+
+### Verkäufe – Tabelle
+
+1. Verkauf mit wenigen Artikeln öffnen und prüfen, dass alle Spalten ohne horizontales Scrollen sichtbar sind.
+2. Verkauf mit vielen bzw. langen Artikeln erzeugen.
+3. Prüfen, dass die Spalte „Artikel“ nur den verfügbaren Platz nutzt und am Ende mit „…“ gekürzt wird.
+4. Den gekürzten Verkauf anklicken und prüfen, dass in der Detailansicht weiterhin alle Artikel vollständig angezeigt werden.
+5. Status „Abgeschlossen“ und „Storniert“ prüfen.
+6. Betrag und Uhrzeit auf korrekte Darstellung prüfen.
+7. Desktop/Laptop, Tablet Hochformat, Tablet Querformat, Smartphone Hochformat und Smartphone Querformat gegenprüfen.
+8. Insbesondere auf Smartphones sicherstellen, dass kein horizontaler Seitenscroll durch die Verkaufstabelle entsteht.
 
 ### Tablet Querformat – Zielansicht
 
@@ -83,6 +100,6 @@ Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Re
 
 ### PWA / Update
 
-- Prüfen, dass V0.24.4.2 als installierte Version angezeigt wird.
+- Prüfen, dass V0.24.4.3 als installierte Version angezeigt wird.
 - Nach Deployment kontrollieren, dass aktualisierte Assets geladen werden.
 - Bestehende bekannte `V0.22.4.1`-Referenzen bleiben bewusst unverändert und sind separat zu behandeln.

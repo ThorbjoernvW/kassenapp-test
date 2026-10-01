@@ -3921,3 +3921,89 @@ body { min-width: 0; }
   }
 }
 
+/* =========================================================
+   KassenApp V0.24.4.3 – Verkaufstabelle ohne Seitenscrollen
+   Die Tabelle nutzt die verfügbare Breite. Die Artikelspalte
+   erhält den verbleibenden Platz und kürzt Überlänge mit „…“.
+   Die vollständigen Verkaufspositionen bleiben in der Detailansicht.
+   ========================================================= */
+#salesView .compact-sales-table-wrap {
+  overflow-x: hidden;
+}
+
+#salesView .compact-sales-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+#salesView .sale-time-col,
+#salesView .sale-time {
+  width: 78px;
+}
+
+#salesView .sale-amount-col,
+#salesView .sale-amount {
+  width: 105px;
+}
+
+#salesView .sale-status-col,
+#salesView .sale-status-cell {
+  width: 125px;
+}
+
+#salesView .chevron-col,
+#salesView .sale-chevron {
+  width: 30px;
+}
+
+#salesView .sale-items-col,
+#salesView .sale-items-cell {
+  width: auto;
+  min-width: 0;
+  max-width: 0;
+}
+
+#salesView .sale-items-cell {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+  #salesView .compact-sales-table th,
+  #salesView .compact-sales-table td {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  #salesView .sale-time-col,
+  #salesView .sale-time {
+    width: 58px;
+  }
+
+  #salesView .sale-amount-col,
+  #salesView .sale-amount {
+    width: 76px;
+  }
+
+  #salesView .sale-status-col,
+  #salesView .sale-status-cell {
+    width: 98px;
+  }
+
+  #salesView .chevron-col,
+  #salesView .sale-chevron {
+    width: 20px;
+  }
+
+  #salesView .status-pill {
+    max-width: 100%;
+    padding-left: 6px;
+    padding-right: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+

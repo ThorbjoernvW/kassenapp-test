@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.24.4.2";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.24.4.3";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -403,10 +403,10 @@ function renderSales() {
 
   head.innerHTML = `
     <tr>
-      <th>Uhrzeit</th>
-      <th>Artikel</th>
-      <th>Betrag</th>
-      <th>Status</th>
+      <th class="sale-time-col">Uhrzeit</th>
+      <th class="sale-items-col">Artikel</th>
+      <th class="sale-amount-col">Betrag</th>
+      <th class="sale-status-col">Status</th>
       <th class="chevron-col"></th>
     </tr>`;
 
@@ -428,7 +428,7 @@ function renderSales() {
       <td class="sale-time">${parts.time}</td>
       <td class="sale-items-cell">${articleText}</td>
       <td class="sale-amount">${money(sale.total)}</td>
-      <td>
+      <td class="sale-status-cell">
         <span class="status-pill ${sale.status === "cancelled" ? "cancelled" : "completed"}">
           ${sale.status === "cancelled" ? "Storniert" : "Abgeschlossen"}
         </span>
