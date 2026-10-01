@@ -202,7 +202,8 @@ p, .muted { color: var(--muted); }
 .total-row { display: flex; justify-content: space-between; align-items: center; }
 .total-row strong { font-size: 1.35rem; }
 
-.category-subtotals {
+.category-subtotals,
+.payment-column-title {
   display: none;
 }
 
@@ -3876,6 +3877,19 @@ body { min-width: 0; }
   #cashView.active .total-grand-row {
     padding-top: 8px;
     border-top: 1px solid var(--line);
+  }
+}
+
+/* =========================================================
+   KassenApp V0.24.4.1 – Spaltenüberschriften
+   Artikel und Warenkorb gelten auf allen Geräteklassen.
+   Die dritte Überschrift „Kasse“ ist ausschließlich im
+   bestehenden Tablet-Querformat sichtbar.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  #cashView.active .payment-column-title {
+    display: block;
+    margin: 0 0 10px;
   }
 }
 

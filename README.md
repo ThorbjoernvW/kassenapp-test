@@ -1,6 +1,6 @@
-# KassenApp V0.24.4
+# KassenApp V0.24.4.1
 
-Tablet-Querformat – Zwischensummen für die Kategorien im Bezahlbereich.
+Tablet-Kassenansicht – eindeutige Spaltenüberschriften und Kategorie-Zwischensummen.
 
 ## Thema
 
@@ -8,6 +8,10 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Änderungen
 
+- Die Überschrift der Artikelspalte lautet jetzt auf allen Geräteklassen **„Artikel“** statt „Kasse“.
+- Die Überschrift des Warenkorbs lautet jetzt auf allen Geräteklassen **„Warenkorb“** statt „Aktueller Verkauf“.
+- Die dritte Spalte erhält im Tablet-Querformat die Überschrift **„Kasse“**.
+- Die zusätzliche Überschrift „Kasse“ bleibt außerhalb des Tablet-Querformats ausgeblendet.
 - Im Tablet-Querformat werden oberhalb der Gesamtsumme zwei Zwischensummen angezeigt:
   - Essen
   - Getränke
@@ -24,12 +28,13 @@ Die Gesamtsumme im oberen Bereich der Bezahlspalte wird im Tablet-Querformat um 
 
 ## Bekannte technische Schuld
 
-Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4 gehören.
+Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Registrierung und im `CURRENT_VERSION`-Fallback wurden bewusst nicht verändert, da sie nicht automatisch zum Thema V0.24.4.1 gehören.
 
 ## Testplan
 
 ### Tablet Querformat – Zielansicht
 
+- Prüfen, dass die drei sichtbaren Spaltenüberschriften **„Artikel | Warenkorb | Kasse“** lauten.
 1. Kasse auf einem Tablet im Querformat öffnen.
 2. Prüfen, dass weiterhin drei Bereiche sichtbar sind:
    `Artikel | Warenkorb | Bezahlung`.
@@ -49,27 +54,31 @@ Die bereits dokumentierten alten `V0.22.4.1`-Referenzen in der Service-Worker-Re
 
 ### Tablet Hochformat
 
+- Prüfen, dass „Artikel“ und „Warenkorb“ verwendet werden und keine zusätzliche Überschrift „Kasse“ erscheint.
 - Prüfen, dass die zusätzlichen Zwischensummenzeilen nicht angezeigt werden.
 - Bestehendes Layout, Scrollen und Bedienung gegenprüfen.
 
 ### Desktop/Laptop
 
+- Prüfen, dass „Artikel“ und „Warenkorb“ verwendet werden und keine zusätzliche Überschrift „Kasse“ erscheint.
 - Prüfen, dass die zusätzlichen Zwischensummenzeilen nicht angezeigt werden.
 - Kasse, Warenkorb und Bezahlung kurz auf Regressionen prüfen.
 
 ### Smartphone Hochformat
 
+- Prüfen, dass „Artikel“ und „Warenkorb“ verwendet werden und keine zusätzliche Überschrift „Kasse“ erscheint.
 - Prüfen, dass die zusätzlichen Zwischensummenzeilen nicht angezeigt werden.
 - Artikel, Warenkorb und Bezahlung sowie Seiten-Scrollen testen.
 
 ### Smartphone Querformat
 
+- Prüfen, dass „Artikel“ und „Warenkorb“ verwendet werden und keine zusätzliche Überschrift „Kasse“ erscheint.
 - Prüfen, dass der bestehende vertikale Aufbau erhalten bleibt.
 - Zusätzliche Zwischensummenzeilen dürfen nicht angezeigt werden.
 - Seiten-Scrollen und Bedienbarkeit testen.
 
 ### PWA / Update
 
-- Prüfen, dass V0.24.4 als installierte Version angezeigt wird.
+- Prüfen, dass V0.24.4.1 als installierte Version angezeigt wird.
 - Nach Deployment kontrollieren, dass aktualisierte Assets geladen werden.
 - Bestehende bekannte `V0.22.4.1`-Referenzen bleiben bewusst unverändert und sind separat zu behandeln.
