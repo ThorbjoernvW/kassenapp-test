@@ -1259,32 +1259,60 @@ body {
 .sidebar-toggle-label { display: none; }
 
 @media (min-width: 761px) and (hover: hover) and (pointer: fine) {
-  .app-sidebar:hover,
-  .app-sidebar:focus-within {
+  .app-sidebar:not(.desktop-selection-made):hover,
+  .app-sidebar:has(:focus-visible) {
     width: var(--sidebar-expanded-w);
   }
 
-  .app-sidebar:hover .sidebar-brand,
-  .app-sidebar:focus-within .sidebar-brand {
+  .app-sidebar:not(.desktop-selection-made):hover .sidebar-brand,
+  .app-sidebar:has(:focus-visible) .sidebar-brand {
     justify-content: flex-start;
   }
 
-  .app-sidebar:hover .sidebar-brand-copy,
-  .app-sidebar:focus-within .sidebar-brand-copy,
-  .app-sidebar:hover .nav-btn span:not(.nav-icon),
-  .app-sidebar:focus-within .nav-btn span:not(.nav-icon) {
+  .app-sidebar:not(.desktop-selection-made):hover .sidebar-brand-copy,
+  .app-sidebar:has(:focus-visible) .sidebar-brand-copy,
+  .app-sidebar:not(.desktop-selection-made):hover .nav-btn span:not(.nav-icon),
+  .app-sidebar:has(:focus-visible) .nav-btn span:not(.nav-icon) {
     display: block;
   }
 
-  .app-sidebar:hover .nav-btn,
-  .app-sidebar:focus-within .nav-btn {
+  .app-sidebar:not(.desktop-selection-made):hover .nav-btn,
+  .app-sidebar:has(:focus-visible) .nav-btn {
     justify-content: flex-start;
     padding: 0 14px;
   }
 
-  .app-sidebar:hover .sidebar-foot,
-  .app-sidebar:focus-within .sidebar-foot {
+  .app-sidebar:not(.desktop-selection-made):hover .sidebar-foot,
+  .app-sidebar:has(:focus-visible) .sidebar-foot {
     display: grid;
+  }
+}
+
+/* V0.25.1 – Desktop: kompaktere Leiste und volle verfügbare Inhaltsbreite. */
+@media (min-width: 1181px) and (hover: hover) and (pointer: fine) {
+  :root { --sidebar-w: 56px; }
+
+  .app-sidebar {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .app-sidebar .nav-btn {
+    min-height: 56px;
+    border-radius: 10px;
+  }
+
+  .app-sidebar .nav-icon {
+    width: 28px;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
