@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kassenapp-v0-25-5';
+const CACHE_NAME = 'kassenapp-v0-26';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=0.25.5',
-  './app.js?v=0.25.5',
+  './styles.css?v=0.26',
+  './app.js?v=0.26',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'
@@ -33,6 +33,23 @@ self.addEventListener('fetch', event => {
   // Versionsprüfung darf niemals aus dem App-Cache beantwortet werden.
   if (url.pathname.endsWith('/version.json')) {
     event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
+
+  // Der Preset-Index muss bei manueller Aktualisierung wirklich neu aus dem Netz
+  // abgerufen werden. Ein bereits geladener Stand bleibt als Offline-Fallback erhalten.
+  if (url.pathname.endsWith('/presets/index.json')) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
     return;
   }
 

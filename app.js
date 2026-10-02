@@ -1,4 +1,4 @@
-const APP_VERSION = document.documentElement.dataset.appVersion || "V0.25.5";
+const APP_VERSION = document.documentElement.dataset.appVersion || "V0.26";
 
 
 const STORAGE_KEY = "kassenapp_v0_1_state";
@@ -922,13 +922,22 @@ function clearPresetSelection() {
   updatePresetSelectionStatus();
 }
 
-async function loadPresetIndex() {
+async function loadPresetIndex({ preserveExisting = false } = {}) {
   const select = document.getElementById("presetSelect");
   const status = document.getElementById("presetStatus");
+  const clearBtn = document.getElementById("clearPresetSelectionBtn");
+  const loadBtn = document.getElementById("loadPresetBtn");
+  const refreshBtn = document.getElementById("refreshPresetIndexBtn");
   if (!select || !status) return;
 
+  const previousPresets = preserveExisting ? [...availablePresets] : [];
+  const hadExistingPresets = previousPresets.length > 0;
+
   select.disabled = true;
-  status.textContent = "Preset-Liste wird geladen …";
+  if (clearBtn) clearBtn.disabled = true;
+  if (loadBtn) loadBtn.disabled = true;
+  if (refreshBtn) refreshBtn.disabled = true;
+  status.textContent = preserveExisting ? "Preset-Liste wird aktualisiert …" : "Preset-Liste wird geladen …";
 
   try {
     const response = await fetch("./presets/index.json", { cache: "no-store" });
@@ -944,20 +953,37 @@ async function loadPresetIndex() {
 
     presetIndexReady = true;
     renderPresetSelection();
+    if (preserveExisting) {
+      status.textContent = `${availablePresets.length} Preset${availablePresets.length === 1 ? "" : "s"} aktualisiert.`;
+    }
     updatePresetExportButton();
   } catch (error) {
     console.error("Preset-Liste konnte nicht geladen werden:", error);
-    availablePresets = [];
-    presetIndexReady = false;
-    select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
-    select.disabled = true;
-    const clearBtn = document.getElementById("clearPresetSelectionBtn");
-    const loadBtn = document.getElementById("loadPresetBtn");
-    if (clearBtn) clearBtn.disabled = true;
-    if (loadBtn) loadBtn.disabled = true;
-    status.textContent = "Preset-Liste konnte nicht geladen werden.";
+
+    if (preserveExisting && hadExistingPresets) {
+      availablePresets = previousPresets;
+      presetIndexReady = true;
+      renderPresetSelection();
+      status.textContent = "Preset-Liste konnte nicht aktualisiert werden. Die bisherige Liste bleibt verfügbar.";
+    } else {
+      availablePresets = [];
+      presetIndexReady = false;
+      select.innerHTML = '<option value="">Preset-Liste nicht verfügbar</option>';
+      select.disabled = true;
+      if (clearBtn) clearBtn.disabled = true;
+      if (loadBtn) loadBtn.disabled = true;
+      status.textContent = preserveExisting
+        ? "Preset-Liste konnte nicht aktualisiert werden."
+        : "Preset-Liste konnte nicht geladen werden.";
+    }
     updatePresetExportButton();
+  } finally {
+    if (refreshBtn) refreshBtn.disabled = false;
   }
+}
+
+function refreshPresetIndex() {
+  return loadPresetIndex({ preserveExisting: true });
 }
 
 function validatePresetProducts(data) {
@@ -1328,6 +1354,8 @@ const clearPresetSelectionBtn = document.getElementById("clearPresetSelectionBtn
 if (clearPresetSelectionBtn) clearPresetSelectionBtn.addEventListener("click", clearPresetSelection);
 const loadPresetBtn = document.getElementById("loadPresetBtn");
 if (loadPresetBtn) loadPresetBtn.addEventListener("click", loadSelectedPreset);
+const refreshPresetIndexBtn = document.getElementById("refreshPresetIndexBtn");
+if (refreshPresetIndexBtn) refreshPresetIndexBtn.addEventListener("click", refreshPresetIndex);
 loadPresetIndex();
 
 const presetNameInput = document.getElementById("presetNameInput");

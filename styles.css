@@ -3402,6 +3402,19 @@ body { min-width: 0; }
   cursor: default;
 }
 
+/* =========================================================
+   KassenApp V0.26 – Preset-Liste aktualisieren
+   ========================================================= */
+.preset-refresh-btn {
+  width: 100%;
+  min-height: 44px;
+}
+
+.preset-refresh-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
 
 /* =========================================================
    KassenApp V0.23.4 – Preset benennen

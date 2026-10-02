@@ -1,56 +1,34 @@
-# KassenApp V0.25.5
+# KassenApp V0.26
 
 ## Thema
 
-**V0.25 – einklappbare Navigation**
+**V0.26 – Presets aktualisieren**
 
-Die Hauptnavigation wurde für Desktop und Tablet platzsparender gestaltet. Desktop verwendet eine kompakte Icon-Leiste, die bei Bedarf aufklappt. Tablet verwendet dauerhaft eine reine Symbolleiste. Auf Smartphones bleibt das bestehende Burger-Menü erhalten.
+Die Preset-Auswahl in den Einstellungen kann jetzt manuell neu geladen werden, ohne die aktuelle Artikelliste zu verändern.
 
 ## Änderungen
 
-### Desktop / Laptop
+### Preset-Auswahl
 
-- Navigation standardmäßig als schmale Icon-Leiste.
-- Navigationsicons größer und horizontal mittig ausgerichtet.
-- Seiteninhalt innerhalb der verbleibenden Desktop-Fläche mittig ausgerichtet.
-- Die Inhaltsfläche nutzt den durch die kompakte Navigation gewonnenen Platz.
-- Vollständige Navigation klappt bei Hover mit Maus/Trackpad auf.
-- Tastaturfokus kann die Navigation weiterhin gezielt aufklappen.
-- Nach Auswahl von **Kasse**, **Verkäufe** oder **Einstellungen** klappt die Navigation direkt wieder ein.
-- Die aufgeklappte Navigation liegt über dem Inhalt und verschiebt die eigentliche Seite nicht.
+- Neuer Button **„Presets aktualisieren“** in den Einstellungen.
+- Der Button ruft `presets/index.json` erneut ab.
+- Das Preset-Dropdown wird anschließend aus dem neu geladenen Index aufgebaut.
+- Beim Aktualisieren wird kein Preset automatisch geladen.
+- Die aktuelle Artikelliste bleibt unverändert.
+- Bestehende Verkäufe bleiben unverändert.
+- Während des Abrufs ist der Aktualisieren-Button deaktiviert.
 
-### Tablet
+### Fehlerbehandlung
 
-- Tablet von 761 bis 1180 px verwendet dauerhaft eine kompakte Symbolleiste.
-- Kein zusätzlicher Burger- oder Aufklappschalter in der Seitenleiste.
-- Navigationsicons größer und horizontal mittig ausgerichtet.
-- Die Navigation klappt auf Tablet auch bei angeschlossener Maus oder Trackpad nicht auf.
-- Das bestehende Tablet-Kassenlayout bleibt erhalten.
+- Wenn bereits eine Preset-Liste erfolgreich geladen wurde und eine spätere Aktualisierung fehlschlägt, bleibt die bisherige Liste verfügbar.
+- Schlägt bereits das initiale Laden fehl, bleibt das bisherige Verhalten erhalten: Die Preset-Auswahl wird als nicht verfügbar angezeigt.
 
-### Smartphone
+### PWA / Offline
 
-- Das bestehende Burger-Menü bis 760 px bleibt unverändert erhalten.
-- Smartphone Hoch- und Querformat behalten ihre bisherigen Layout- und Navigationsregeln.
-
-### Navigationsicons
-
-Die bisherigen Text-/Unicode-Symbole wurden durch einheitliche Inline-SVG-Icons ersetzt:
-
-- **Kasse:** Warenkorb
-- **Verkäufe:** Verlaufspfeil mit Uhr
-- **Einstellungen:** klassisches Zahnrad
-
-Die SVGs verwenden `currentColor` und übernehmen damit die vorhandenen Aktiv-, Hover- und Inaktivfarben der Navigation.
-
-Zusätzlich besitzen die Navigationsbuttons explizite `aria-label`-Beschriftungen für die kompakte Icon-Darstellung.
-
-## Fehlerbehebungen
-
-- Desktop: Die Navigation blieb nach einem Seitenwechsel durch den gesetzten Fokus geöffnet. Sie klappt nun direkt nach der Auswahl wieder ein.
-- Desktop: Die Inhaltsfläche nutzt den durch die schmale Navigation frei gewordenen Platz besser aus.
-- Desktop: Icons der eingeklappten Navigation wurden sauber horizontal zentriert.
-- Tablet: Der zwischenzeitlich eingeführte zusätzliche Burger-/Aufklappmechanismus wurde wieder entfernt.
-- Einstellungen: Das Zahnrad-SVG wurde durch ein klarer erkennbares klassisches Zahnrad ersetzt.
+- `presets/index.json` wird im Service Worker gezielt **network-first** behandelt.
+- Dadurch liefert **„Presets aktualisieren“** bei bestehender Netzwerkverbindung tatsächlich den aktuellen Index und nicht zuerst einen älteren Runtime-Cache-Stand.
+- Ein zuvor erfolgreich geladener Preset-Index bleibt als Offline-Fallback im Cache nutzbar.
+- Das übrige Runtime-Caching bleibt unverändert.
 
 ## Nicht verändert
 
@@ -58,11 +36,14 @@ Keine fachlichen Änderungen an:
 
 - Verkaufslogik
 - Warenkorb-Logik
-- Artikeln und Artikelverwaltung
-- Presets
-- Persistenz
+- Artikelverwaltung
+- Preset-Dateiformat
+- Laden eines ausgewählten Presets
+- Preset-Export
+- Persistenz / `localStorage`
 - Zahlung
 - Backup / Restore
+- Navigation und responsive Grundstruktur
 
 ## Geänderte Dateien
 
@@ -81,98 +62,72 @@ Keine.
 
 Keine.
 
-## Durchgeführte Tests
-
-### Desktop / Laptop
-
-- Eingeklappte Icon-Leiste auf Breite, Icon-Größe und Zentrierung geprüft.
-- Hover-Aufklappen mit Maus/Trackpad geprüft.
-- Direktes Einklappen nach Auswahl von Kasse, Verkäufe und Einstellungen geprüft.
-- Tastaturfokus und Aufklappen für Tastaturbedienung geprüft.
-- Mittige Ausrichtung der Seitenfläche geprüft.
-- Darstellung von Kasse, Verkäufen und Einstellungen geprüft.
-- Verhalten auf breiten Desktop-Fenstern und knapp oberhalb des Desktop-Breakpoints geprüft.
-
-### Tablet Hochformat
-
-- Permanente Symbolleiste ohne zusätzlichen Burger-Schalter geprüft.
-- Größe und horizontale Zentrierung der Icons geprüft.
-- Wechsel zwischen Kasse, Verkäufe und Einstellungen geprüft.
-- Touch-Bedienung und Scrollverhalten geprüft.
-
-### Tablet Querformat
-
-- Permanente Symbolleiste ohne zusätzlichen Burger-Schalter geprüft.
-- Dreispalten-Kassenlayout geprüft.
-- Artikel, Warenkorb und Bezahlung geprüft.
-- Schnellwahl und Tastenfeld geprüft.
-- Interne Scrollbereiche und Touch-Bedienung geprüft.
-- Verhalten mit Maus/Trackpad geprüft; Tablet-Navigation klappt dabei nicht auf.
-
-### Smartphone Hochformat
-
-- Bestehende Mobile-Topbar mit Burger-Menü geprüft.
-- Menü öffnen und schließen geprüft.
-- Wechsel zwischen allen drei Ansichten geprüft.
-- Keine Desktop-/Tablet-Symbolleiste sichtbar.
-
-### Smartphone Querformat
-
-- Bestehender vertikaler Kassenaufbau geprüft.
-- Burger-Menü geprüft.
-- Seiten-Scrollen sowie Artikel, Warenkorb und Bezahlung geprüft.
-- Keine Tablet-/Desktop-Navigation sichtbar.
-
-### Navigation / SVG-Icons
-
-- Warenkorb-, Verlauf-/Uhr- und Zahnrad-Icon auf Desktop, Tablet und Smartphone geprüft.
-- Aktiv-, Hover- und Inaktivzustände geprüft.
-- Zentrierung und Größenwirkung der Icons geprüft.
-- Zahnrad nach der letzten Anpassung auf klare Erkennbarkeit geprüft.
-
-### Technische Prüfungen
+## Durchgeführte technische Prüfungen
 
 - JavaScript-Syntax von `app.js` geprüft.
 - JavaScript-Syntax von `service-worker.js` geprüft.
-- CSS-Struktur / Klammerung geprüft.
-- Versionsstellen auf V0.25.5 geprüft.
-- PWA-/Cache-Wechsel auf V0.25.5 geprüft.
-- Offline-Neustart nach vorherigem Online-Laden geprüft.
-- Update-Mechanismus auf Regressionen geprüft.
+- Versionsstellen der für V0.26 vorgesehenen Dateien geprüft.
+- Geprüft, dass die Aktualisierungsfunktion `state.products` und `state.sales` nicht verändert.
+- Geprüft, dass der Preset-Index bei erfolgreicher Aktualisierung das Dropdown neu aufbaut.
+- Geprüft, dass bei fehlgeschlagener manueller Aktualisierung eine zuvor geladene Preset-Liste im Arbeitsspeicher erhalten bleibt.
+- Service-Worker-Pfad für `presets/index.json` auf Network-first mit Cache-Fallback geprüft.
+
+## Noch durchzuführende manuelle Tests
+
+### Presets
+
+- App online öffnen und initiale Preset-Liste prüfen.
+- `presets/index.json` im Test-Repository verändern und **„Presets aktualisieren“** ausführen.
+- Prüfen, dass neue bzw. entfernte Presets direkt im Dropdown erscheinen.
+- Vor und nach dem Aktualisieren die aktuelle Artikelliste vergleichen; sie darf sich nicht verändern.
+- Bestehende Verkäufe vor und nach der Aktualisierung prüfen.
+- Preset auswählen und laden; bestehende Ladefunktion auf Regression prüfen.
+- Preset-Export auf Regression prüfen.
+
+### Fehler / Offline
+
+- Nach erfolgreichem Laden Netzwerk trennen und **„Presets aktualisieren“** testen.
+- Prüfen, dass ein bereits gecachter Preset-Index weiterhin verfügbar bleibt.
+- Fehlerfall mit nicht erreichbarer bzw. ungültiger `presets/index.json` prüfen.
+- Prüfen, dass eine bereits vorhandene Preset-Liste bei fehlgeschlagener manueller Aktualisierung erhalten bleibt.
+
+### Geräte / Layout
+
+- Desktop/Laptop.
+- Tablet Hochformat.
+- Tablet Querformat.
+- Smartphone Hochformat.
+- Smartphone Querformat.
+- Insbesondere Breite, Bedienbarkeit und Anordnung des neuen Buttons prüfen.
+
+### PWA / Update
+
+- Update von V0.25.5 auf V0.26 prüfen.
+- Cache-Wechsel auf `kassenapp-v0-26` prüfen.
+- Offline-Neustart nach vorherigem Online-Laden prüfen.
 
 ## Versionsstand
 
-Aktueller Versionsstand: **V0.25.5**
+Aktueller Entwicklungsstand: **V0.26**
 
 Relevante Versionsstellen:
 
-- `index.html`: `V0.25.5`
-- `styles.css?v=0.25.5`
-- `app.js?v=0.25.5`
-- `app.js` Versionsfallback: `V0.25.5`
-- `service-worker.js`: Cache `kassenapp-v0-25-5`
-- `version.json`: `0.25.5`
-- `README.md`: `V0.25.5`
+- `index.html`: `V0.26`
+- `styles.css?v=0.26`
+- `app.js?v=0.26`
+- `app.js` Versionsfallback: `V0.26`
+- `service-worker.js`: Cache `kassenapp-v0-26`
+- Service-Worker-App-Shell: Assets mit `0.26`
+- `version.json`: `0.26`
+- `README.md`: `V0.26`
 
 ## Bekannte technische Schulden
 
-Die bereits vor V0.25 dokumentierten alten `V0.22.4.1`-Referenzen bleiben bewusst unverändert:
+Die bereits vor V0.26 dokumentierten alten `V0.22.4.1`-Referenzen bleiben bewusst unverändert:
 
 - Service-Worker-Registrierungs-Querystring
-- `CURRENT_VERSION`-Fallback
+- `CURRENT_VERSION`-Fallback in `index.html`
 
-Diese Punkte gehören nicht zum Navigationsthema von V0.25 und sollen separat bereinigt werden.
+Diese Stellen gehören nicht zum Thema **„Presets aktualisieren“** und werden in V0.26 nicht nebenbei bereinigt.
 
-Außerdem bleibt `styles.css` historisch gewachsen und enthält mehrere aufeinanderfolgende Override- und Media-Query-Blöcke. V0.25 reduziert diese bestehende technische Schuld nicht grundlegend.
-
-## Ergebnis
-
-V0.25.5 schließt das Thema **einklappbare Navigation** ab.
-
-Endgültiges Navigationsverhalten:
-
-- **Desktop:** kompakte Icon-Leiste, Aufklappen per Hover bzw. Tastaturfokus.
-- **Tablet:** permanente reine Icon-Leiste ohne Burger-/Aufklappschalter.
-- **Smartphone:** bestehendes Burger-Menü.
-
-Die Navigation verwendet einheitliche SVG-Icons für Kasse, Verkäufe und Einstellungen.
+Außerdem bleibt `styles.css` historisch gewachsen und enthält mehrere aufeinanderfolgende Override- und Media-Query-Blöcke.
