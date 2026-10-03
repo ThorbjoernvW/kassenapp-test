@@ -6,7 +6,7 @@
     {
       "name": "Gulasch",
       "category": "food",
-      "price": 7.5,
+      "price": 8,
       "icon": "",
       "active": true,
       "order": 1,
@@ -15,7 +15,7 @@
     {
       "name": "Vegetrisches Gulasch",
       "category": "food",
-      "price": 7.5,
+      "price": 8,
       "icon": "",
       "active": true,
       "order": 2,
@@ -24,7 +24,7 @@
     {
       "name": "Nachschlag",
       "category": "food",
-      "price": 3.5,
+      "price": 4,
       "icon": "",
       "active": true,
       "order": 3,
