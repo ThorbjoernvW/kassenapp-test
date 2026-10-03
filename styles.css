@@ -4132,6 +4132,32 @@ body { min-width: 0; }
   }
 }
 
+/* =========================================================
+   KassenApp V0.27 – Tablet-Navigation im Kassen-Querformat
+   Die Smartphone-Querformat-Sonderregel (geringe Viewport-Hoehe)
+   darf im bestehenden Tablet-Querformat 900–1366 px nicht die
+   permanente linke Icon-Leiste durch den Burger rechts ersetzen.
+   ========================================================= */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1366px) and (pointer: coarse) {
+  body:has(#cashView.active) {
+    padding-left: var(--sidebar-w) !important;
+  }
+
+  body:has(#cashView.active) .mobile-topbar,
+  body:has(#cashView.active) .mobile-menu-btn,
+  body:has(#cashView.active) .sidebar-backdrop {
+    display: none !important;
+  }
+
+  body:has(#cashView.active) .app-sidebar {
+    inset: 0 auto 0 0;
+    width: var(--sidebar-w);
+    height: auto;
+    max-height: none;
+    z-index: 50;
+  }
+}
+
 
 
 /* =========================================================
